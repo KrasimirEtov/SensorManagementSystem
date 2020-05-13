@@ -1,4 +1,5 @@
-﻿using SensorManagementSystem.Models.Enums;
+﻿using System.Collections.Generic;
+using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Models.Entities
 {
@@ -8,6 +9,14 @@ namespace SensorManagementSystem.Models.Entities
 	public class SensorPropertyEntity : BaseEntity
 	{
 		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SensorPropertyEntity()
+		{
+			Sensors = new HashSet<SensorEntity>();
+		}
+
+		/// <summary>
 		/// Type of the sensor
 		/// </summary>
 		public SensorType Type { get; set; }
@@ -16,5 +25,10 @@ namespace SensorManagementSystem.Models.Entities
 		/// Measure unit of the sensor
 		/// </summary>
 		public string MeasureUnit { get; set; }
+
+		/// <summary>
+		/// Sensor entities
+		/// </summary>
+		public virtual ICollection<SensorEntity> Sensors { get; set; }
 	}
 }

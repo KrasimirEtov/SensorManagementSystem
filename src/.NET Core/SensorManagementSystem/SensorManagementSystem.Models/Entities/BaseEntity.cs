@@ -1,13 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SensorManagementSystem.Models.Contract;
 
 namespace SensorManagementSystem.Models.Entities
 {
 	public abstract class BaseEntity : IAuditable, IDeletable
 	{
-		// TODOKRASI: Add this to fluent api
-		//[Key]
-		//[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
 		public bool IsDeleted { get; set; }

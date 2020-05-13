@@ -21,6 +21,39 @@ namespace SensorManagementSystem.Data
 
 		}
 
+		public DbSet<SensorEntity> Sensors { get; set; }
+
+		public DbSet<SensorPropertyEntity> SensorProperties { get; set; }
+
+		public DbSet<UserSensorEntity> UserSensors { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			builder.Entity<UserEntity>()
+				.HasMany(u => u.Sensors)
+				.WithOne(us => us.User)
+				.HasForeignKey(us => us.UserId);
+
+			builder.Entity<SensorEntity>()
+				.HasMany(us => us.UserSensors)
+				.WithOne(s => s.Sensor)
+				.HasForeignKey(s => s.SensorId);
+
+			builder.Entity<SensorPropertyEntity>()
+				.HasMany(s => s.Sensors)
+				.WithOne(sp => sp.SensorProperty)
+				.HasForeignKey(sp => sp.SensorPropertyId);
+
+			builder.Entity<UserSensorEntity>()
+				.OwnsOne(us => us.Coordinates, c =>
+				{
+					c.Property(p => p.Latitude).HasColumnType("Latitude");
+					c.Property(p => p.Longitude).HasColumnType("Longitude");
+				});
+
+			base.OnModelCreating(builder);
+		}
+
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
 			ApplyAuditInfoRules();

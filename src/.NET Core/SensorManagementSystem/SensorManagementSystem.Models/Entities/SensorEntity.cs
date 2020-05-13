@@ -1,4 +1,7 @@
-﻿namespace SensorManagementSystem.Models.Entities
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace SensorManagementSystem.Models.Entities
 {
 	/// <summary>
 	/// Sensor entity
@@ -6,24 +9,12 @@
 	public class SensorEntity : BaseEntity
 	{
 		/// <summary>
-		/// Sensor's description
+		/// Default constructor
 		/// </summary>
-		public string Description { get; set; }
-
-		/// <summary>
-		/// Minimum value that sensor provides
-		/// </summary>
-		public decimal MinRangeValue { get; set; }
-
-		/// <summary>
-		/// Maximum value that sensor provides
-		/// </summary>
-		public decimal MaxRangeValue { get; set; }
-
-		/// <summary>
-		/// Polling interval in seconds
-		/// </summary>
-		public int PollingInterval { get; set; }
+		public SensorEntity()
+		{
+			UserSensors = new HashSet<UserSensorEntity>();
+		}
 
 		/// <summary>
 		/// Sensor property ID. Foreign key
@@ -34,5 +25,34 @@
 		/// Navigation property for SensorProperty entity
 		/// </summary>
 		public SensorPropertyEntity SensorProperty { get; set; }
+
+		/// <summary>
+		/// Sensor's description
+		/// </summary>	
+		[Required]
+		[MaxLength(255)]
+		public string Description { get; set; }
+
+		/// <summary>
+		/// Minimum value that sensor provides
+		/// </summary>
+		public decimal? MinRangeValue { get; set; }
+
+		/// <summary>
+		/// Maximum value that sensor provides
+		/// </summary>
+		public decimal? MaxRangeValue { get; set; }
+
+		/// <summary>
+		/// Polling interval in seconds
+		/// </summary>
+		[Required]
+		[Range(0, int.MaxValue, ErrorMessage = "Polling interval must be a positive value!")]
+		public int PollingInterval { get; set; }
+
+		/// <summary>
+		/// User sensor entities
+		/// </summary>
+		public virtual ICollection<UserSensorEntity> UserSensors { get; set; }
 	}
 }
