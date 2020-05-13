@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,11 +8,6 @@ namespace SensorManagementSystem.Api.Controllers
 	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase
 	{
-		private static readonly string[] Summaries = new[]
-		{
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-		};
-
 		private readonly ILogger<WeatherForecastController> _logger;
 
 		public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -24,16 +16,11 @@ namespace SensorManagementSystem.Api.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<WeatherForecast> Get()
+		public string Get()
 		{
-			var rng = new Random();
-			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-			{
-				Date = DateTime.Now.AddDays(index),
-				TemperatureC = rng.Next(-20, 55),
-				Summary = Summaries[rng.Next(Summaries.Length)]
-			})
-			.ToArray();
+			_logger.LogInformation("log from controller test");
+			throw new Exception("test bace");
+			//return "test";
 		}
 	}
 }
