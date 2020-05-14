@@ -59,9 +59,7 @@ namespace SensorManagementSystem.Data.Migrations
                     Type = table.Column<int>(nullable: false),
                     MeasureUnit = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: true),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,9 +184,7 @@ namespace SensorManagementSystem.Data.Migrations
                     MaxRangeValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PollingInterval = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,9 +217,7 @@ namespace SensorManagementSystem.Data.Migrations
                     LastUpdatedOn = table.Column<DateTime>(nullable: true),
                     Value = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: true),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -58,7 +58,6 @@ namespace SensorManagementSystem.Data
 		public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
 			ApplyAuditInfoRules();
-			ApplyDeletionRules();
 
 			return base.SaveChangesAsync(cancellationToken);
 		}
@@ -76,21 +75,6 @@ namespace SensorManagementSystem.Data
 			}
 
 			base.OnConfiguring(optionsBuilder);
-		}
-
-		private void ApplyDeletionRules()
-		{
-			var entitiesForDeletion = this.ChangeTracker.Entries()
-				.Where(e => e.State == EntityState.Deleted && e.Entity is IDeletable);
-
-			foreach (var entry in entitiesForDeletion)
-			{
-				var entity = (IDeletable)entry.Entity;
-
-				entity.DeletedOn = DateTime.UtcNow;
-				entity.IsDeleted = true;
-				entry.State = EntityState.Modified;
-			}
 		}
 
 		private void ApplyAuditInfoRules()

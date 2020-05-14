@@ -159,16 +159,10 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<decimal?>("MaxRangeValue")
                         .HasColumnType("decimal(18,2)");
@@ -201,12 +195,6 @@ namespace SensorManagementSystem.Data.Migrations
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("MeasureUnit")
                         .HasColumnType("nvarchar(max)");
@@ -309,17 +297,11 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<bool?>("IsAlarmOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsPublic")

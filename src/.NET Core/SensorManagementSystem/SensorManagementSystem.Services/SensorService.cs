@@ -32,25 +32,16 @@ namespace SensorManagementSystem.Services
 
 		public async Task<SensorDTO> GetByIdAsync(int id)
 		{
-			var sensor = await this.dbContext.Sensors
+			var sensorEntity = await this.dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.FirstOrDefaultAsync(x => x.Id == id);
 
-			return MapToDTO(sensor);
+			return MapToDTO(sensorEntity);
 		}
 
 		public async Task CreateAsync(SensorDTO sensorDTO)
 		{
 			var sensorEntity = MapToEntity(sensorDTO);
-
-			var sensorProperty = await this.dbContext.SensorProperties
-				.FirstOrDefaultAsync(x => x.Type == sensorDTO.SensorProperty.Type);
-
-			if (sensorProperty != null)
-			{
-				sensorEntity.SensorProperty = sensorProperty;
-				sensorEntity.SensorPropertyId = sensorProperty.Id;
-			}
 
 			await this.dbContext.Sensors
 				.AddAsync(sensorEntity);
@@ -71,19 +62,18 @@ namespace SensorManagementSystem.Services
 			}
 
 			var sensorProperty = await this.dbContext.SensorProperties
-				.FirstOrDefaultAsync(x => x.Type == sensorDTO.SensorProperty.Type);
+				.FirstOrDefaultAsync(x => x.Id == sensorDTO.SensorPropertyId);
 
 			if (sensorProperty == null)
 			{
-				throw new Exception($"SensorPropertyEntity with Type: {sensorDTO.SensorProperty.Type} was not found in the database!");
+				throw new Exception($"SensorPropertyEntity with Id: {sensorDTO.SensorPropertyId} was not found in the database!");
 			}
 
 			sensorEntity.Description = sensorDTO.Description;
 			sensorEntity.MaxRangeValue = sensorDTO.MaxRangeValue;
 			sensorEntity.MinRangeValue = sensorDTO.MinRangeValue;
 			sensorEntity.PollingInterval = sensorDTO.PollingInterval;
-			sensorEntity.SensorPropertyId = sensorProperty.Id;
-			sensorEntity.SensorProperty = sensorProperty;
+			sensorEntity.SensorPropertyId = sensorDTO.SensorPropertyId;
 
 			this.dbContext.Sensors
 				.Update(sensorEntity);
@@ -93,8 +83,17 @@ namespace SensorManagementSystem.Services
 
 		public async Task DeleteAsync(int id)
 		{
-			await this.dbContext.Database
-				.ExecuteSqlRawAsync("DELETE FROM Sensors WHERE Id = {0}", id);
+			var sensorEntity = await this.dbContext.Sensors
+				.FirstOrDefaultAsync(x => x.Id == id);
+
+			if (sensorEntity == null)
+			{
+				throw new Exception($"SensorEntity with Id: {id} was not found in the database!");
+			}
+
+			this.dbContext.Remove(sensorEntity);
+
+			await this.dbContext.SaveChangesAsync();
 		}
 
 		private IEnumerable<SensorDTO> MapToDTO(IEnumerable<SensorEntity> sensorEntities)

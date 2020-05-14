@@ -10,7 +10,7 @@ using SensorManagementSystem.Data;
 namespace SensorManagementSystem.Data.Migrations
 {
     [DbContext(typeof(SensorManagementSystemDbContext))]
-    [Migration("20200514152802_InitialMigration")]
+    [Migration("20200514221108_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,16 +161,10 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<decimal?>("MaxRangeValue")
                         .HasColumnType("decimal(18,2)");
@@ -203,12 +197,6 @@ namespace SensorManagementSystem.Data.Migrations
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("MeasureUnit")
                         .HasColumnType("nvarchar(max)");
@@ -311,17 +299,11 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<bool?>("IsAlarmOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsPublic")
