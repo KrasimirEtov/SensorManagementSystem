@@ -1,12 +1,17 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SensorManagementSystem.Common.Extensions;
 using SensorManagementSystem.Data;
+using SensorManagementSystem.Models.AutoMapper;
+using SensorManagementSystem.Services;
+using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.Api
 {
@@ -31,6 +36,8 @@ namespace SensorManagementSystem.Api
 					};
 					options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
 					options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+					options.SerializerSettings.Converters.Add(new StringEnumConverter());
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 				});
 
 			services.AddDbContext<SensorManagementSystemDbContext>(options =>
@@ -39,6 +46,10 @@ namespace SensorManagementSystem.Api
 			});
 
 			services.AddOptions();
+
+			services.AddAutoMapper(typeof(MappingProfile));
+
+			services.AddTransient<ISensorService, SensorService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

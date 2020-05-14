@@ -18,9 +18,9 @@ namespace SensorManagementSystem.Api.Controllers
 		[HttpGet]
 		public string Get()
 		{
-			_logger.LogInformation("log from controller test");
-			throw new Exception("test bace");
-			//return "test";
+			//_logger.LogInformation("log from controller test");
+			//throw new Exception("test bace");
+			return "test";
 		}
 	}
 }

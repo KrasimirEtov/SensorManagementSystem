@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using SensorManagementSystem.Models.Contract;
@@ -18,16 +17,6 @@ namespace SensorManagementSystem.Models.Entities
 		{
 			Sensors = new HashSet<UserSensorEntity>();
 		}
-
-		/// <summary>
-		/// User first name
-		/// </summary>
-		public string FirstName { get; set; }
-
-		/// <summary>
-		/// User last name
-		/// </summary>
-		public string LastName { get; set; }
 
 		/// <summary>
 		/// Registration date

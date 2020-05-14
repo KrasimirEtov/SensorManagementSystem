@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Models.Entities
@@ -19,6 +21,7 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Type of the sensor
 		/// </summary>
+		//[JsonConverter(typeof(StringEnumConverter), true)]
 		public SensorType Type { get; set; }
 
 		/// <summary>

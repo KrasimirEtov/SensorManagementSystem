@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SensorManagementSystem.Models.Contract;
 using SensorManagementSystem.Models.Entities;
 
@@ -29,6 +31,7 @@ namespace SensorManagementSystem.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
+			// TODO: Manually edit columns of migration and make longitude, latitude not nullable
 			builder.Entity<UserEntity>()
 				.HasMany(u => u.Sensors)
 				.WithOne(us => us.User)
@@ -44,12 +47,10 @@ namespace SensorManagementSystem.Data
 				.WithOne(sp => sp.SensorProperty)
 				.HasForeignKey(sp => sp.SensorPropertyId);
 
-			builder.Entity<UserSensorEntity>()
-				.OwnsOne(us => us.Coordinates, c =>
-				{
-					c.Property(p => p.Latitude).HasColumnType("Latitude");
-					c.Property(p => p.Longitude).HasColumnType("Longitude");
-				});
+			builder.Entity<SensorPropertyEntity>()
+				.HasIndex(x => x.Type)
+				.IsUnique(true)
+				.IsClustered(false);
 
 			base.OnModelCreating(builder);
 		}
@@ -60,6 +61,21 @@ namespace SensorManagementSystem.Data
 			ApplyDeletionRules();
 
 			return base.SaveChangesAsync(cancellationToken);
+		}
+
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			if (!optionsBuilder.IsConfigured)
+			{
+				IConfigurationRoot configuration = new ConfigurationBuilder()
+					.SetBasePath(Directory.GetCurrentDirectory())
+					.AddJsonFile("appsettings.json")
+					.Build();
+				string connectionString = configuration.GetConnectionString("SensorManagementSystem");
+				optionsBuilder.UseSqlServer(connectionString);
+			}
+
+			base.OnConfiguring(optionsBuilder);
 		}
 
 		private void ApplyDeletionRules()

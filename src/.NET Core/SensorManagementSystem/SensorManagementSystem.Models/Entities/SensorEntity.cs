@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SensorManagementSystem.Models.Entities
 {
@@ -36,11 +37,13 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Minimum value that sensor provides
 		/// </summary>
+		[Column(TypeName = "decimal(18,2)")]
 		public decimal? MinRangeValue { get; set; }
 
 		/// <summary>
 		/// Maximum value that sensor provides
 		/// </summary>
+		[Column(TypeName = "decimal(18,2)")]
 		public decimal? MaxRangeValue { get; set; }
 
 		/// <summary>

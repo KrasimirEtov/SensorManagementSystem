@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace SensorManagementSystem.Models.Entities
@@ -45,11 +46,13 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Minimum value that user choosed for the sensor
 		/// </summary>
+		[Column(TypeName = "decimal(18,2)")]
 		public decimal? MinRangeValue { get; set; }
 
 		/// <summary>
 		/// Maximum value that user choosed for the sensor
 		/// </summary>
+		[Column(TypeName = "decimal(18,2)")]
 		public decimal? MaxRangeValue { get; set; }
 
 		/// <summary>
@@ -71,10 +74,18 @@ namespace SensorManagementSystem.Models.Entities
 		public bool? IsAlarmOn { get; set; }
 
 		/// <summary>
-		/// Coordinates of the sensor to appear on the map
+		/// Longitude
+		/// </summary
+		[Required]
+		[Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180!")]
+		public double Longitude { get; set; }
+
+		/// <summary>
+		/// Latitude
 		/// </summary>
 		[Required]
-		public Coordinates Coordinates { get; set; }
+		[Range(-90, 90, ErrorMessage = "Longitude must be between -90 and 90!")]
+		public double Latitude { get; set; }
 
 		/// <summary>
 		/// Sensor's latest update date
@@ -85,15 +96,5 @@ namespace SensorManagementSystem.Models.Entities
 		/// Latest value from the sensor's api
 		/// </summary>
 		public string Value { get; set; }
-	}
-
-	[Owned]
-	public class Coordinates
-	{
-		[Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180!")]
-		public double Longitude { get; set; }
-
-		[Range(-90, 90, ErrorMessage = "Longitude must be between -90 and 90!")]
-		public double Latitude { get; set; }
 	}
 }
