@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using SensorManagementSystem.Models.Contract;
 
 namespace SensorManagementSystem.Models.DTOs
 {
-	public class SensorDTO
+	public class SensorDTO : IAuditable
 	{
 		public int Id { get; set; }
 
@@ -12,9 +13,9 @@ namespace SensorManagementSystem.Models.DTOs
 		[MaxLength(255)]
 		public string Description { get; set; }
 
-		public decimal? MinRangeValue { get; set; }
+		public double? MinRangeValue { get; set; }
 
-		public decimal? MaxRangeValue { get; set; }
+		public double? MaxRangeValue { get; set; }
 
 		[Range(0, int.MaxValue, ErrorMessage = "Polling interval must be a positive value!")]
 		public int PollingInterval { get; set; }

@@ -19,6 +19,11 @@ namespace SensorManagementSystem.Models.AutoMapper
 				.ForMember(dest => dest.Sensors, opt => opt.Ignore());
 
 			CreateMap<SensorPropertyEntity, SensorPropertyDTO>();
+
+			// SensorDataDTO <--> SensorEntity
+			CreateMap<SensorEntity, SensorDataDTO>()
+				.ForMember(dest => dest.SensorType, opt => opt.MapFrom(src => src.SensorProperty.Type))
+				.ForMember(dest => dest.Value, opt => opt.Ignore());
 		}
 	}
 }

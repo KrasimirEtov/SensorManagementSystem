@@ -51,6 +51,7 @@ namespace SensorManagementSystem.Api
 
 			services.AddTransient<ISensorService, SensorService>();
 			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
+			services.AddTransient<ISensorDataService, SensorDataService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

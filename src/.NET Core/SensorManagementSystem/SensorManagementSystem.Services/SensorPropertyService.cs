@@ -110,9 +110,9 @@ namespace SensorManagementSystem.Services
 		{
 			List<SensorPropertyDTO> sensorPropertyDTOs = new List<SensorPropertyDTO>();
 
-			foreach (var sensorEntity in sensorPropertyEntities)
+			foreach (var sensorPropertyEntity in sensorPropertyEntities)
 			{
-				sensorPropertyDTOs.Add(mapper.Map<SensorPropertyDTO>(sensorEntity));
+				sensorPropertyDTOs.Add(mapper.Map<SensorPropertyDTO>(sensorPropertyEntity));
 			}
 
 			return sensorPropertyDTOs;

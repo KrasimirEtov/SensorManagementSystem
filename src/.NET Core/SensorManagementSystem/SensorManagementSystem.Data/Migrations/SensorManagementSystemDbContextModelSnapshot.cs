@@ -164,11 +164,11 @@ namespace SensorManagementSystem.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<decimal?>("MaxRangeValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("MaxRangeValue")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("MinRangeValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("MinRangeValue")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -316,11 +316,11 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
-                    b.Property<decimal?>("MaxRangeValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("MaxRangeValue")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("MinRangeValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("MinRangeValue")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

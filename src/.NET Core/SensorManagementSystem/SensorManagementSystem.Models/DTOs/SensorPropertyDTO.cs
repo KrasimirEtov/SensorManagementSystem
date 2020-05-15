@@ -1,9 +1,10 @@
 ﻿using System;
+using SensorManagementSystem.Models.Contract;
 using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Models.DTOs
 {
-	public class SensorPropertyDTO
+	public class SensorPropertyDTO : IAuditable
 	{
 		public int Id { get; set; }
 

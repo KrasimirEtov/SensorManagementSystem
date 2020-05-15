@@ -46,14 +46,12 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Minimum value that user choosed for the sensor
 		/// </summary>
-		[Column(TypeName = "decimal(18,2)")]
-		public decimal? MinRangeValue { get; set; }
+		public double? MinRangeValue { get; set; }
 
 		/// <summary>
 		/// Maximum value that user choosed for the sensor
 		/// </summary>
-		[Column(TypeName = "decimal(18,2)")]
-		public decimal? MaxRangeValue { get; set; }
+		public double? MaxRangeValue { get; set; }
 
 		/// <summary>
 		/// Polling interval in seconds that user choosed for the sensor
