@@ -23,6 +23,7 @@ namespace SensorManagementSystem.Services
 			this.mapper = mapper;
 			this.random = new Random();
 		}
+
 		public async Task<IEnumerable<SensorDataDTO>> GetAllAsync()
 		{
 			var sensors = await this.dbContext.Sensors
@@ -55,9 +56,12 @@ namespace SensorManagementSystem.Services
 		{
 			List<SensorDataDTO> sensorDataDTOs = new List<SensorDataDTO>();
 
-			foreach (var sensorEntity in sensorEntities)
+			if (sensorEntities != null)
 			{
-				sensorDataDTOs.Add(mapper.Map<SensorDataDTO>(sensorEntity));
+				foreach (var sensorEntity in sensorEntities)
+				{
+					sensorDataDTOs.Add(mapper.Map<SensorDataDTO>(sensorEntity));
+				}
 			}
 
 			return sensorDataDTOs;

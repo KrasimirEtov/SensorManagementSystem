@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using SensorManagementSystem.App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SensorManagementSystem.Data;
+using SensorManagementSystem.Models.Entities;
+using SensorManagementSystem.Services;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
+using SensorManagementSystem.Models.AutoMapper;
+using AutoMapper;
 
 namespace SensorManagementSystem.App
 {
@@ -27,13 +27,40 @@ namespace SensorManagementSystem.App
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(
-					Configuration.GetConnectionString("DefaultConnection")));
-			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-				.AddEntityFrameworkStores<ApplicationDbContext>();
-			services.AddControllersWithViews();
+			services.AddDbContext<SensorManagementSystemDbContext>(options =>
+			{
+				options.UseSqlServer(Configuration.GetConnectionString("SensorManagementSystem"));
+			});
+
+			services.AddIdentity<UserEntity, RoleEntity>(options =>
+			{
+				options.Password.RequireDigit = false;
+				options.Password.RequiredLength = 3;
+				options.Password.RequireLowercase = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+			})
+				.AddEntityFrameworkStores<SensorManagementSystemDbContext>()
+				.AddDefaultTokenProviders();
+
+			services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+				{
+					options.SerializerSettings.ContractResolver = new DefaultContractResolver
+					{
+						NamingStrategy = new CamelCaseNamingStrategy()
+					};
+					options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+					options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+					options.SerializerSettings.Converters.Add(new StringEnumConverter());
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+				});
+			services.AddOptions();
+			services.AddAutoMapper(typeof(MappingProfile));
 			services.AddRazorPages();
+			services.AddSignalR();
+
+			services.AddHostedService<SensorDataFetchHostedService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

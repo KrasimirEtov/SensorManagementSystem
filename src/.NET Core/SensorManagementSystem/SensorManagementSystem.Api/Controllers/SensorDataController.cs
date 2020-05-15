@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using SensorManagementSystem.Services.Contract;
 
@@ -24,8 +26,15 @@ namespace SensorManagementSystem.Api.Controllers
         {
             var sensorDataDTOs = await this.sensorDataService
                 .GetAllAsync();
-            
-            return Ok(sensorDataDTOs);
+
+            if (sensorDataDTOs.Any())
+            {
+                return Ok(sensorDataDTOs);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
