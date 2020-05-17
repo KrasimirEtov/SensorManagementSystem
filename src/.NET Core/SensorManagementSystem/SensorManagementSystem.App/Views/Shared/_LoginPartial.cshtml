@@ -2,25 +2,154 @@
 @inject SignInManager<UserEntity> SignInManager
 @inject UserManager<UserEntity> UserManager
 
-<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+	<div class="header-button-item has-noti js-item-menu">
+		<i class="zmdi zmdi-notifications"></i>
+		<div class="notifi-dropdown js-dropdown">
+			<div class="notifi__title">
+				<p>You have 3 Notifications</p>
+			</div>
+			<div class="notifi__item">
+				<div class="bg-c1 img-cir img-40">
+					<i class="zmdi zmdi-email-open"></i>
+				</div>
+				<div class="content">
+					<p>You got a email notification</p>
+					<span class="date">April 12, 2018 06:50</span>
+				</div>
+			</div>
+			<div class="notifi__item">
+				<div class="bg-c2 img-cir img-40">
+					<i class="zmdi zmdi-account-box"></i>
+				</div>
+				<div class="content">
+					<p>Your account has been blocked</p>
+					<span class="date">April 12, 2018 06:50</span>
+				</div>
+			</div>
+			<div class="notifi__item">
+				<div class="bg-c3 img-cir img-40">
+					<i class="zmdi zmdi-file-text"></i>
+				</div>
+				<div class="content">
+					<p>You got a new file</p>
+					<span class="date">April 12, 2018 06:50</span>
+				</div>
+			</div>
+			<div class="notifi__footer">
+				<a href="#">All notifications</a>
+			</div>
+		</div>
+	</div>
+	<div class="header-button-item js-item-menu">
+		<i class="zmdi zmdi-settings"></i>
+		<div class="setting-dropdown js-dropdown">
+			<div class="account-dropdown__body">
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-account"></i>Account
+					</a>
+				</div>
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-settings"></i>Setting
+					</a>
+				</div>
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-money-box"></i>Billing
+					</a>
+				</div>
+			</div>
+			<div class="account-dropdown__body">
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-globe"></i>Language
+					</a>
+				</div>
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-pin"></i>Location
+					</a>
+				</div>
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-email"></i>Email
+					</a>
+				</div>
+				<div class="account-dropdown__item">
+					<a href="#">
+						<i class="zmdi zmdi-notifications"></i>Notifications
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="account-wrap">
+		<div class="account-item account-item--style2 clearfix js-item-menu">
+			<div class="image">
+				<img src="~/lib/cool-admin/images/icon/avatar-01.jpg" alt="John Doe" />
+			</div>
+			<div class="content">
+				<a class="js-acc-btn" href="#">john doe</a>
+			</div>
+			<div class="account-dropdown js-dropdown">
+				<div class="info clearfix">
+					<div class="image">
+						<a href="#">
+							<img src="~/lib/cool-admin/images/icon/avatar-01.jpg" alt="John Doe" />
+						</a>
+					</div>
+					<div class="content">
+						<h5 class="name">
+							<a href="#">john doe</a>
+						</h5>
+						<span class="email">johndoe@example.com</span>
+					</div>
+				</div>
+				<div class="account-dropdown__body">
+					<div class="account-dropdown__item">
+						<a href="#">
+							<i class="zmdi zmdi-account"></i>Account
+						</a>
+					</div>
+					<div class="account-dropdown__item">
+						<a href="#">
+							<i class="zmdi zmdi-settings"></i>Setting
+						</a>
+					</div>
+					<div class="account-dropdown__item">
+						<a href="#">
+							<i class="zmdi zmdi-money-box"></i>Billing
+						</a>
+					</div>
+				</div>
+				<div class="account-dropdown__footer">
+					<a href="#">
+						<i class="zmdi zmdi-power"></i>Logout
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+	<div class="header__navbar">
+		<ul class="list-unstyled">
+			<li>
+				<a asp-area="Identity" asp-page="/Account/Register">
+					<i class="fas fa-user-plus"></i>
+					<span class="bot-line"></span>Register
+				</a>
+			</li>
+			<li>
+				<a asp-area="Identity" asp-page="/Account/Login">
+					<i class="fas fa-user"></i>
+					<span class="bot-line"></span>Login
+				</a>
+			</li>
+		</ul>
+	</div>
 }
-</ul>

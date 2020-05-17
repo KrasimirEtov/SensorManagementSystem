@@ -86,13 +86,13 @@ namespace SensorManagementSystem.Models.Entities
 		public double Latitude { get; set; }
 
 		/// <summary>
-		/// Sensor's latest update date
-		/// </summary>
-		public DateTime? LastUpdatedOn { get; set; }
-
-		/// <summary>
 		/// Latest value from the sensor's api
 		/// </summary>
 		public string Value { get; set; }
+
+		/// <summary>
+		/// Sensor's latest update date
+		/// </summary>
+		public DateTime? UpdatedOn { get; set; }
 	}
 }

@@ -307,9 +307,6 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
@@ -335,6 +332,9 @@ namespace SensorManagementSystem.Data.Migrations
 
                     b.Property<int>("SensorId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

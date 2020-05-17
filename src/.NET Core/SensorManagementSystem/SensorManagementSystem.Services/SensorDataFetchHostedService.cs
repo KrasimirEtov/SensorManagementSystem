@@ -59,7 +59,7 @@ namespace SensorManagementSystem.Services
 
 						if (stopWatch.IsRunning && stopWatch.Elapsed > TimeSpan.FromSeconds(minPollingInterval))
 						{
-							await NotifyHub(userSensorEntities, sensorDataDTOs);
+							NotifyHub(userSensorEntities, sensorDataDTOs);
 							stopWatch.Restart();
 						}
 					}
@@ -120,7 +120,7 @@ namespace SensorManagementSystem.Services
 							&& x.PollingInterval == userSensorEntity.Sensor.PollingInterval);
 
 						userSensorEntity.Value = matchingSensorDataDTO.Value;
-						userSensorEntity.LastUpdatedOn = DateTime.UtcNow;
+						userSensorEntity.UpdatedOn = DateTime.UtcNow;
 					}
 
 					dbContext.UserSensors
@@ -133,7 +133,7 @@ namespace SensorManagementSystem.Services
 			}
 		}
 
-		private async Task NotifyHub(List<UserSensorEntity> userSensorEntities, List<SensorDataDTO> sensorDataDTOs)
+		private void NotifyHub(List<UserSensorEntity> userSensorEntities, List<SensorDataDTO> sensorDataDTOs)
 		{
 			foreach (var userSensorEntity in userSensorEntities)
 			{

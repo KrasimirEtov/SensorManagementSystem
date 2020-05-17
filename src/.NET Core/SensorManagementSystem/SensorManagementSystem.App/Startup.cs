@@ -54,10 +54,13 @@ namespace SensorManagementSystem.App
 					options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
 					options.SerializerSettings.Converters.Add(new StringEnumConverter());
 					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-				});
+				})
+				.AddRazorRuntimeCompilation();
+
 			services.AddOptions();
 			services.AddAutoMapper(typeof(MappingProfile));
-			services.AddRazorPages();
+			services.AddRazorPages()
+				.AddRazorRuntimeCompilation();
 			services.AddSignalR();
 
 			services.AddHostedService<SensorDataFetchHostedService>();
