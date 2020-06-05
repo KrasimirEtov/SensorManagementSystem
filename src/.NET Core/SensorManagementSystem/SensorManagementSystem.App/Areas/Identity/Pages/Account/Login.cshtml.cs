@@ -17,8 +17,7 @@ namespace SensorManagementSystem.App.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<UserEntity> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<UserEntity> userManager)
+            ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -36,10 +35,13 @@ namespace SensorManagementSystem.App.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

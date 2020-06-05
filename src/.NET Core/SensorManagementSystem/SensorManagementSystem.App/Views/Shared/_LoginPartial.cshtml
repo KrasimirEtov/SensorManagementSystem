@@ -126,7 +126,9 @@
 					</div>
 				</div>
 				<div class="account-dropdown__footer">
-					<a href="#">
+					<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+					</form>
+					<a href="#" id="logout-link">
 						<i class="zmdi zmdi-power"></i>Logout
 					</a>
 				</div>
