@@ -2034,7 +2034,7 @@ section {
 }
 
 .notifi-dropdown {
-    left: -117px;
+    left: -135px;
     top: 49px;
 }
 
@@ -2820,12 +2820,11 @@ section {
 }
 
 .header__tool .notifi-dropdown {
-    left: -68px;
     top: 53px;
 }
 
 .header__tool .notifi-dropdown::before {
-    left: 70px;
+    left: 135px;
 }
 
 .header__tool .header-button-item {
