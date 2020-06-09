@@ -10,20 +10,20 @@ namespace SensorManagementSystem.Api.Controllers
     [ApiController]
     public class SensorController : ControllerBase
     {
-        private readonly ILogger<SensorController> logger;
-        private readonly ISensorService sensorService;
+        private readonly ILogger<SensorController> _logger;
+        private readonly ISensorService _sensorService;
 
         public SensorController(ILogger<SensorController> logger, ISensorService sensorService)
         {
-            this.logger = logger;
-            this.sensorService = sensorService;
+            this._logger = logger;
+            this._sensorService = sensorService;
         }
 
         [Route("all")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var allSensors = await this.sensorService.GetAllAsync();
+            var allSensors = await this._sensorService.GetAllAsync();
 
             return Ok(allSensors);
         }
@@ -32,7 +32,7 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            var sensor = await this.sensorService.GetByIdAsync(id);
+            var sensor = await this._sensorService.GetByIdAsync(id);
 
             return Ok(sensor);
         }
@@ -41,7 +41,7 @@ namespace SensorManagementSystem.Api.Controllers
         public async Task<IActionResult> Post([FromBody]SensorDTO payload)
         {
             // TODO: Add validation
-            await this.sensorService.CreateAsync(payload);
+            await this._sensorService.CreateAsync(payload);
 
             return Ok();
         }
@@ -50,7 +50,7 @@ namespace SensorManagementSystem.Api.Controllers
         public async Task<IActionResult> Put([FromBody]SensorDTO payload)
         {
             // TODO: Add validation
-            await this.sensorService.UpdateAsync(payload);
+            await this._sensorService.UpdateAsync(payload);
 
             return Ok();
         }
@@ -59,7 +59,7 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await this.sensorService.DeleteAsync(id);
+            await this._sensorService.DeleteAsync(id);
 
             return Ok();
         }

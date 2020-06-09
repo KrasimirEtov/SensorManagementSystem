@@ -20,23 +20,23 @@ namespace SensorManagementSystem.Services
 {
 	public class SensorDataFetchHostedService : BackgroundService
 	{
-		private readonly ILogger<SensorDataFetchHostedService> logger;
-		private readonly IServiceScopeFactory scopeFactory;
-		private Stopwatch stopWatch;
-		private static HttpClient httpClient = new HttpClient();
+		private readonly ILogger<SensorDataFetchHostedService> _logger;
+		private readonly IServiceScopeFactory _scopeFactory;
+		private Stopwatch _stopWatch;
+		private static HttpClient _httpClient = new HttpClient();
 
 		public SensorDataFetchHostedService(ILogger<SensorDataFetchHostedService> logger, IServiceScopeFactory scopeFactory)
 		{
-			this.logger = logger;
-			this.scopeFactory = scopeFactory;
-			this.stopWatch = new Stopwatch();
+			this._logger = logger;
+			this._scopeFactory = scopeFactory;
+			this._stopWatch = new Stopwatch();
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
-			this.logger.LogInformation("Sensor data fetch service is starting.");
+			this._logger.LogInformation("Sensor data fetch service is starting.");
 			
-			stopWatch.Start();
+			_stopWatch.Start();
 
 			while (!stoppingToken.IsCancellationRequested)
 			{
@@ -57,23 +57,23 @@ namespace SensorManagementSystem.Services
 					{
 						int minPollingInterval = userSensorEntities.Min(x => x.PollingInterval);
 
-						if (stopWatch.IsRunning && stopWatch.Elapsed > TimeSpan.FromSeconds(minPollingInterval))
+						if (_stopWatch.IsRunning && _stopWatch.Elapsed > TimeSpan.FromSeconds(minPollingInterval))
 						{
 							NotifyHub(userSensorEntities, sensorDataDTOs);
-							stopWatch.Restart();
+							_stopWatch.Restart();
 						}
 					}
 				}
 				catch (Exception ex)
 				{
-					this.logger.LogError(ex, "Error occured in Sensor data fetch service");
+					this._logger.LogError(ex, "Error occured in Sensor data fetch service");
 				}
 			}
 		}
 
 		public override async Task StopAsync(CancellationToken cancellationToken)
 		{
-			this.logger.LogInformation("Sensor data fetch service is stopping.");
+			this._logger.LogInformation("Sensor data fetch service is stopping.");
 
 			await base.StopAsync(cancellationToken);
 		}
@@ -82,7 +82,7 @@ namespace SensorManagementSystem.Services
 		{
 			List<SensorDataDTO> sensorDataDTOs = new List<SensorDataDTO>();
 
-			var response = await httpClient.GetAsync("https://localhost:5001/api/sensordata/all");
+			var response = await _httpClient.GetAsync("https://localhost:5001/api/sensordata/all");
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -102,7 +102,7 @@ namespace SensorManagementSystem.Services
 
 		private async Task<List<UserSensorEntity>> SaveSensorDataAsync(List<SensorDataDTO> sensorDataDTOs)
 		{
-			using (var scope = this.scopeFactory.CreateScope())
+			using (var scope = this._scopeFactory.CreateScope())
 			{
 				var dbContext = scope.ServiceProvider.GetRequiredService<SensorManagementSystemDbContext>();
 

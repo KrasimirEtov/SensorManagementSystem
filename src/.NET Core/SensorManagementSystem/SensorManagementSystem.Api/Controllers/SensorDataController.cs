@@ -11,20 +11,20 @@ namespace SensorManagementSystem.Api.Controllers
     [ApiController]
     public class SensorDataController : ControllerBase
     {
-        private readonly ILogger<SensorDataController> logger;
-        private readonly ISensorDataService sensorDataService;
+        private readonly ILogger<SensorDataController> _logger;
+        private readonly ISensorDataService _sensorDataService;
 
         public SensorDataController(ILogger<SensorDataController> logger, ISensorDataService sensorDataService)
         {
-            this.logger = logger;
-            this.sensorDataService = sensorDataService;
+            this._logger = logger;
+            this._sensorDataService = sensorDataService;
         }
 
         [Route("all")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var sensorDataDTOs = await this.sensorDataService
+            var sensorDataDTOs = await this._sensorDataService
                 .GetAllAsync();
 
             if (sensorDataDTOs.Any())

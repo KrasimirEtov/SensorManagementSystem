@@ -13,20 +13,20 @@ namespace SensorManagementSystem.Services
 {
 	public class SensorDataService : ISensorDataService
 	{
-		private readonly SensorManagementSystemDbContext dbContext;
-		private readonly IMapper mapper;
-		private readonly Random random;
+		private readonly SensorManagementSystemDbContext _dbContext;
+		private readonly IMapper _mapper;
+		private readonly Random _random;
 
 		public SensorDataService(SensorManagementSystemDbContext dbContext, IMapper mapper)
 		{
-			this.dbContext = dbContext;
-			this.mapper = mapper;
-			this.random = new Random();
+			this._dbContext = dbContext;
+			this._mapper = mapper;
+			this._random = new Random();
 		}
 
 		public async Task<IEnumerable<SensorDataDTO>> GetAllAsync()
 		{
-			var sensors = await this.dbContext.Sensors
+			var sensors = await this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.ToListAsync();
 
@@ -48,8 +48,8 @@ namespace SensorManagementSystem.Services
 		public string GenerateValue(SensorType sensorType, double? minRange = null, double? maxRange = null)
 		{
 			return sensorType != SensorType.Switch
-				? (random.NextDouble() * (maxRange - minRange) + minRange).ToString()
-				: (random.Next() > (int.MaxValue / 2)).ToString();
+				? (_random.NextDouble() * (maxRange - minRange) + minRange).ToString()
+				: (_random.Next() > (int.MaxValue / 2)).ToString();
 		}
 
 		private List<SensorDataDTO> MapToDTO(IEnumerable<SensorEntity> sensorEntities)
@@ -60,7 +60,7 @@ namespace SensorManagementSystem.Services
 			{
 				foreach (var sensorEntity in sensorEntities)
 				{
-					sensorDataDTOs.Add(mapper.Map<SensorDataDTO>(sensorEntity));
+					sensorDataDTOs.Add(_mapper.Map<SensorDataDTO>(sensorEntity));
 				}
 			}
 

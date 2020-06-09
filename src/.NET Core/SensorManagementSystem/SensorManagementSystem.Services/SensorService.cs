@@ -12,18 +12,18 @@ namespace SensorManagementSystem.Services
 {
 	public class SensorService : ISensorService
 	{
-		private readonly SensorManagementSystemDbContext dbContext;
-		private readonly IMapper mapper;
+		private readonly SensorManagementSystemDbContext _dbContext;
+		private readonly IMapper _mapper;
 
 		public SensorService(SensorManagementSystemDbContext dbContext, IMapper mapper)
 		{
-			this.dbContext = dbContext;
-			this.mapper = mapper;
+			this._dbContext = dbContext;
+			this._mapper = mapper;
 		}
 
 		public async Task<IEnumerable<SensorDTO>> GetAllAsync()
 		{
-			var sensorEntities = await this.dbContext.Sensors
+			var sensorEntities = await this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.ToListAsync();
 
@@ -32,7 +32,7 @@ namespace SensorManagementSystem.Services
 
 		public async Task<SensorDTO> GetByIdAsync(int id)
 		{
-			var sensorEntity = await this.dbContext.Sensors
+			var sensorEntity = await this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -43,15 +43,15 @@ namespace SensorManagementSystem.Services
 		{
 			var sensorEntity = MapToEntity(sensorDTO);
 
-			await this.dbContext.Sensors
+			await this._dbContext.Sensors
 				.AddAsync(sensorEntity);
 
-			await this.dbContext.SaveChangesAsync();
+			await this._dbContext.SaveChangesAsync();
 		}
 
 		public async Task UpdateAsync(SensorDTO sensorDTO)
 		{
-			var sensorEntity = await this.dbContext.Sensors
+			var sensorEntity = await this._dbContext.Sensors
 				.Include(x => x.UserSensors)
 				.Include(x => x.SensorProperty)
 				.FirstOrDefaultAsync(x => x.Id == sensorDTO.Id);
@@ -61,7 +61,7 @@ namespace SensorManagementSystem.Services
 				throw new Exception($"SensorEntity with Id: {sensorDTO.Id} was not found in the database!");
 			}
 
-			var sensorProperty = await this.dbContext.SensorProperties
+			var sensorProperty = await this._dbContext.SensorProperties
 				.FirstOrDefaultAsync(x => x.Id == sensorDTO.SensorPropertyId);
 
 			if (sensorProperty == null)
@@ -75,15 +75,15 @@ namespace SensorManagementSystem.Services
 			sensorEntity.PollingInterval = sensorDTO.PollingInterval;
 			sensorEntity.SensorPropertyId = sensorDTO.SensorPropertyId;
 
-			this.dbContext.Sensors
+			this._dbContext.Sensors
 				.Update(sensorEntity);
 
-			await this.dbContext.SaveChangesAsync();
+			await this._dbContext.SaveChangesAsync();
 		}
 
 		public async Task DeleteAsync(int id)
 		{
-			var sensorEntity = await this.dbContext.Sensors
+			var sensorEntity = await this._dbContext.Sensors
 				.FirstOrDefaultAsync(x => x.Id == id);
 
 			if (sensorEntity == null)
@@ -91,9 +91,9 @@ namespace SensorManagementSystem.Services
 				throw new Exception($"SensorEntity with Id: {id} was not found in the database!");
 			}
 
-			this.dbContext.Remove(sensorEntity);
+			this._dbContext.Remove(sensorEntity);
 
-			await this.dbContext.SaveChangesAsync();
+			await this._dbContext.SaveChangesAsync();
 		}
 
 		private IEnumerable<SensorDTO> MapToDTO(IEnumerable<SensorEntity> sensorEntities)
@@ -102,7 +102,7 @@ namespace SensorManagementSystem.Services
 
 			foreach (var sensorEntity in sensorEntities)
 			{
-				sensorDTOs.Add(mapper.Map<SensorDTO>(sensorEntity));
+				sensorDTOs.Add(_mapper.Map<SensorDTO>(sensorEntity));
 			}
 
 			return sensorDTOs;
@@ -110,14 +110,14 @@ namespace SensorManagementSystem.Services
 
 		private SensorDTO MapToDTO(SensorEntity sensorEntity)
 		{
-			SensorDTO sensorDTO = mapper.Map<SensorDTO>(sensorEntity);
+			SensorDTO sensorDTO = _mapper.Map<SensorDTO>(sensorEntity);
 
 			return sensorDTO;
 		}
 
 		private SensorEntity MapToEntity(SensorDTO sensorDTO)
 		{
-			return mapper.Map<SensorEntity>(sensorDTO);
+			return _mapper.Map<SensorEntity>(sensorDTO);
 		}
 	}
 }
