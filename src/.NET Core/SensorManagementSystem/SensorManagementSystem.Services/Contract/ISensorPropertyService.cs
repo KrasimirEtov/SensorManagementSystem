@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SensorManagementSystem.Models.DTOs;
-using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Services.Contract
 {
@@ -11,7 +10,7 @@ namespace SensorManagementSystem.Services.Contract
 
 		Task<SensorPropertyDTO> GetByIdAsync(int id);
 
-		Task<IEnumerable<SensorType>> GetSensorTypesAsync(bool useFilter = false);
+		Task<IEnumerable<string>> GetSensorMeasureTypesAsync();
 
 		Task CreateAsync(SensorPropertyDTO sensorPropertyDTO);
 

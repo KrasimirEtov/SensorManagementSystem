@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Models.Entities
 {
@@ -21,13 +18,17 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Type of the sensor
 		/// </summary>
-		//[JsonConverter(typeof(StringEnumConverter), true)]
-		public SensorType Type { get; set; }
+		public string MeasureType { get; set; }
 
 		/// <summary>
 		/// Measure unit of the sensor
 		/// </summary>
 		public string MeasureUnit { get; set; }
+
+		/// <summary>
+		/// Is sensor a switch or not
+		/// </summary>
+		public bool IsSwitch { get; set; }
 
 		/// <summary>
 		/// Sensor entities

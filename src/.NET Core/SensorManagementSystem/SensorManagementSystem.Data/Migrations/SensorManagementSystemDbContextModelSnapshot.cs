@@ -196,19 +196,23 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsSwitch")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MeasureType")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("MeasureUnit")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Type")
+                    b.HasIndex("MeasureType")
                         .IsUnique()
+                        .HasFilter("[MeasureType] IS NOT NULL")
                         .HasAnnotation("SqlServer:Clustered", false);
 
                     b.ToTable("SensorProperties");

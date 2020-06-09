@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SensorManagementSystem.Models.Contract;
 using SensorManagementSystem.Models.Entities;
+using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Data
 {
@@ -48,7 +49,7 @@ namespace SensorManagementSystem.Data
 				.HasForeignKey(sp => sp.SensorPropertyId);
 
 			builder.Entity<SensorPropertyEntity>()
-				.HasIndex(x => x.Type)
+				.HasIndex(x => x.MeasureType)
 				.IsUnique(true)
 				.IsClustered(false);
 

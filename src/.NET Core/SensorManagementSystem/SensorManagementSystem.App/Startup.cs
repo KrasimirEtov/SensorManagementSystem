@@ -12,6 +12,9 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using SensorManagementSystem.Models.AutoMapper;
 using AutoMapper;
+using SensorManagementSystem.Common;
+using SensorManagementSystem.Data.Seed;
+using System;
 
 namespace SensorManagementSystem.App
 {
@@ -43,6 +46,15 @@ namespace SensorManagementSystem.App
 				.AddEntityFrameworkStores<SensorManagementSystemDbContext>()
 				.AddDefaultTokenProviders();
 
+			services.AddAuthorizationCore(options =>
+			{
+				options.AddPolicy(Constants.AdminPolicyName, policy =>
+				{
+					policy.RequireAuthenticatedUser();
+					policy.RequireRole(Constants.AdminRoleName);
+				});
+			});
+
 			services.AddControllersWithViews()
 				.AddNewtonsoftJson(options =>
 				{
@@ -64,10 +76,12 @@ namespace SensorManagementSystem.App
 			services.AddSignalR();
 
 			services.AddHostedService<SensorDataFetchHostedService>();
+
+			services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDatabaseSeeder databaseSeeder)
 		{
 			if (env.IsDevelopment())
 			{
@@ -88,8 +102,16 @@ namespace SensorManagementSystem.App
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+			databaseSeeder.SeedAdmin().Wait(TimeSpan.FromSeconds(5));
+			databaseSeeder.SeedRoles().Wait(TimeSpan.FromSeconds(5));
+			databaseSeeder.SeedSensorProperies().Wait(TimeSpan.FromSeconds(5));
+
 			app.UseEndpoints(endpoints =>
 			{
+				endpoints.MapControllerRoute(
+					name: "areas",
+					pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+					);
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");

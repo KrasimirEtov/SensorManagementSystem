@@ -22,7 +22,8 @@ namespace SensorManagementSystem.Models.AutoMapper
 
 			// SensorDataDTO <--> SensorEntity
 			CreateMap<SensorEntity, SensorDataDTO>()
-				.ForMember(dest => dest.SensorType, opt => opt.MapFrom(src => src.SensorProperty.Type))
+				.ForMember(dest => dest.MeasureType, opt => opt.MapFrom(src => src.SensorProperty.MeasureType))
+				.ForMember(dest => dest.IsSwitch, opt => opt.MapFrom(src => src.SensorProperty.IsSwitch))
 				.ForMember(dest => dest.Value, opt => opt.Ignore());
 		}
 	}

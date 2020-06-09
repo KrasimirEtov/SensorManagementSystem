@@ -39,15 +39,15 @@ namespace SensorManagementSystem.Services
 		{
 			foreach (var sensorDataDTO in sensorDataDTOs)
 			{
-				sensorDataDTO.Value = GenerateValue(sensorDataDTO.SensorType, sensorDataDTO.MinRangeValue, sensorDataDTO.MaxRangeValue);
+				sensorDataDTO.Value = GenerateValue(sensorDataDTO.IsSwitch, sensorDataDTO.MinRangeValue, sensorDataDTO.MaxRangeValue);
 			}
 
 			return sensorDataDTOs;
 		}
 
-		public string GenerateValue(SensorType sensorType, double? minRange = null, double? maxRange = null)
+		private string GenerateValue(bool isSwitch, double? minRange = null, double? maxRange = null)
 		{
-			return sensorType != SensorType.Switch
+			return isSwitch
 				? (_random.NextDouble() * (maxRange - minRange) + minRange).ToString()
 				: (_random.Next() > (int.MaxValue / 2)).ToString();
 		}

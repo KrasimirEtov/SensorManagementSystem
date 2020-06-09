@@ -20,19 +20,37 @@
 				{
 					<li class="has-sub">
 						<a class="js-arrow" href="#">
-							<i class="fas fa-tachometer-alt"></i>Dashboard
+							<i class="fas fa-shopping-cart"></i>Sensors Store
 						</a>
 					</li>
 					<li class="has-sub">
 						<a class="js-arrow" href="#">
-							<i class="fas fa-desktop"></i>UI Elements
+							<i class="fas fa-tachometer-alt"></i>My Sensors
 						</a>
-						<ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-							<li>
-								<a href="button.html">Button</a>
-							</li>
-						</ul>
 					</li>
+					<li class="has-sub">
+						<a class="js-arrow" href="#">
+							<i class="fas fa-user"></i>About
+						</a>
+					</li>
+					@if (User.IsInRole(Constants.AdminRoleName))
+					{
+						<li class="has-sub">
+							<a class="js-arrow" href="#">
+								<i class="fas fa-wrench"></i>Admin
+							</a>
+							<ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+								<li>
+									<a asp-area="@Constants.AdminAreaName" asp-controller="SensorStore" asp-action="Manage">
+										Manage Store
+									</a>
+								</li>
+								<li>
+									<a href="button.html">Manage Users</a>
+								</li>
+							</ul>
+						</li>
+					}
 				}
 				else
 				{

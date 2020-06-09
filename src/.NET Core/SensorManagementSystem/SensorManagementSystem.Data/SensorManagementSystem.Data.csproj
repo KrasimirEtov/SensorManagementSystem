@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SensorManagementSystem.Common\SensorManagementSystem.Common.csproj" />
     <ProjectReference Include="..\SensorManagementSystem.Models\SensorManagementSystem.Models.csproj" />
   </ItemGroup>
 

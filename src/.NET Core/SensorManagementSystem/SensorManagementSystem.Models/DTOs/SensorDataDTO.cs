@@ -1,10 +1,10 @@
-﻿using SensorManagementSystem.Models.Enums;
-
-namespace SensorManagementSystem.Models.DTOs
+﻿namespace SensorManagementSystem.Models.DTOs
 {
 	public class SensorDataDTO
 	{
-		public SensorType SensorType { get; set; }
+		public string MeasureType { get; set; }
+
+		public bool IsSwitch { get; set; }
 
 		public int PollingInterval { get; set; }
 

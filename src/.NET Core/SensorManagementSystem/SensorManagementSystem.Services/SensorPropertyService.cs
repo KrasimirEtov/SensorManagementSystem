@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using SensorManagementSystem.Data;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.Entities;
-using SensorManagementSystem.Models.Enums;
 using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.Services
@@ -39,18 +38,11 @@ namespace SensorManagementSystem.Services
 			return MapToDTO(sensorPropertyEntity);
 		}
 
-		public async Task<IEnumerable<SensorType>> GetSensorTypesAsync(bool useFilter = false)
+		public async Task<IEnumerable<string>> GetSensorMeasureTypesAsync()
 		{
-			var sensorTypes = (IEnumerable<SensorType>)Enum.GetValues(typeof(SensorType));
-
-			if (useFilter)
-			{
-				var usedSensorTypes = await this._dbContext.SensorProperties
-				.Select(x => x.Type)
-				.ToListAsync();
-
-				sensorTypes = sensorTypes.Except(usedSensorTypes);
-			}
+			var sensorTypes = await this._dbContext.SensorProperties
+			.Select(x => x.MeasureType)
+			.ToListAsync();
 
 			return sensorTypes;
 		}
@@ -77,7 +69,8 @@ namespace SensorManagementSystem.Services
 			}
 
 			sensorPropertyEntity.MeasureUnit = sensorPropertyDTO.MeasureUnit;
-			sensorPropertyEntity.Type = sensorPropertyDTO.Type;
+			sensorPropertyEntity.MeasureType = sensorPropertyDTO.MeasureType;
+			sensorPropertyEntity.IsSwitch = sensorPropertyDTO.IsSwitch;
 
 			this._dbContext.SensorProperties
 				.Update(sensorPropertyEntity);

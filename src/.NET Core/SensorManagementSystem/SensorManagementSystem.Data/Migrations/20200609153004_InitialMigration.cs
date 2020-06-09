@@ -56,8 +56,9 @@ namespace SensorManagementSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<int>(nullable: false),
+                    MeasureType = table.Column<string>(nullable: true),
                     MeasureUnit = table.Column<string>(nullable: true),
+                    IsSwitch = table.Column<bool>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
@@ -180,9 +181,9 @@ namespace SensorManagementSystem.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SensorPropertyId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(maxLength: 255, nullable: false),
+                    PollingInterval = table.Column<int>(nullable: false),
                     MinRangeValue = table.Column<double>(nullable: true),
                     MaxRangeValue = table.Column<double>(nullable: true),
-                    PollingInterval = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
@@ -276,10 +277,11 @@ namespace SensorManagementSystem.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SensorProperties_Type",
+                name: "IX_SensorProperties_MeasureType",
                 table: "SensorProperties",
-                column: "Type",
-                unique: true)
+                column: "MeasureType",
+                unique: true,
+                filter: "[MeasureType] IS NOT NULL")
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(

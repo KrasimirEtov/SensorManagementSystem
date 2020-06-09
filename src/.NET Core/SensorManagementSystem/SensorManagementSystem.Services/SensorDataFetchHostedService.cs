@@ -35,7 +35,7 @@ namespace SensorManagementSystem.Services
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
 			this._logger.LogInformation("Sensor data fetch service is starting.");
-			
+
 			_stopWatch.Start();
 
 			while (!stoppingToken.IsCancellationRequested)
@@ -116,8 +116,8 @@ namespace SensorManagementSystem.Services
 					foreach (var userSensorEntity in userSensorEntities)
 					{
 						var matchingSensorDataDTO = sensorDataDTOs
-							.FirstOrDefault(x => x.SensorType == userSensorEntity.Sensor.SensorProperty.Type
-							&& x.PollingInterval == userSensorEntity.Sensor.PollingInterval);
+							.FirstOrDefault(x => x.MeasureType == userSensorEntity.Sensor.SensorProperty.MeasureType
+							&& x.PollingInterval == userSensorEntity.Sensor.PollingInterval && x.IsSwitch == userSensorEntity.Sensor.SensorProperty.IsSwitch);
 
 						userSensorEntity.Value = matchingSensorDataDTO.Value;
 						userSensorEntity.UpdatedOn = DateTime.UtcNow;
@@ -138,11 +138,11 @@ namespace SensorManagementSystem.Services
 			foreach (var userSensorEntity in userSensorEntities)
 			{
 				var matchingSensorDataDTO = sensorDataDTOs
-						.FirstOrDefault(x => x.SensorType == userSensorEntity.Sensor.SensorProperty.Type && x.PollingInterval == userSensorEntity.Sensor.PollingInterval);
+						.FirstOrDefault(x => x.MeasureType == userSensorEntity.Sensor.SensorProperty.MeasureType && x.PollingInterval == userSensorEntity.Sensor.PollingInterval && x.IsSwitch == userSensorEntity.Sensor.SensorProperty.IsSwitch);
 
 				if (userSensorEntity.IsAlarmOn.HasValue && userSensorEntity.IsAlarmOn.Value)
 				{
-					if (userSensorEntity.Sensor.SensorProperty.Type != SensorType.Switch)
+					if (!userSensorEntity.Sensor.SensorProperty.IsSwitch)
 					{
 						double latestValue = double.Parse(matchingSensorDataDTO.Value);
 

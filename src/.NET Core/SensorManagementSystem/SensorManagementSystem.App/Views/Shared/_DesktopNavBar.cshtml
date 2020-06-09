@@ -4,39 +4,41 @@
 		<ul class="list-unstyled">
 			<li class="has-sub">
 				<a href="#">
-					<i class="fas fa-tachometer-alt"></i>Dashboard
+					<i class="fas fa-shopping-cart"></i>Sensors Store
 					<span class="bot-line"></span>
 				</a>
 			</li>
 			<li>
 				<a href="#">
-					<i class="fas fa-shopping-basket"></i>
-					<span class="bot-line"></span>eCommerce
+					<i class="fas fa-tachometer-alt"></i>
+					<span class="bot-line"></span>My Sensors
 				</a>
 			</li>
 			<li>
 				<a href="table.html">
-					<i class="fas fa-trophy"></i>
-					<span class="bot-line"></span>Features
+					<i class="fas fa-user"></i>
+					<span class="bot-line"></span>About
 				</a>
 			</li>
-			<li class="has-sub">
-				<a href="#">
-					<i class="fas fa-copy"></i>
-					<span class="bot-line"></span>Pages
-				</a>
-				<ul class="header3-sub-list list-unstyled">
-					<li>
-						<a href="login.html">Login</a>
-					</li>
-					<li>
-						<a href="register.html">Register</a>
-					</li>
-					<li>
-						<a href="forget-pass.html">Forget Password</a>
-					</li>
-				</ul>
-			</li>
+			@if (User.IsInRole(Constants.AdminRoleName))
+			{
+				<li class="has-sub">
+					<a href="#">
+						<i class="fas fa-wrench"></i>
+						<span class="bot-line"></span>Admin
+					</a>
+					<ul class="header3-sub-list list-unstyled">
+						<li>
+							<a asp-area="@Constants.AdminAreaName" asp-controller="SensorStore" asp-action="Manage">
+								Manage Store
+							</a>
+						</li>
+						<li>
+							<a href="register.html">Manage Users</a>
+						</li>
+					</ul>
+				</li>
+			}
 		</ul>
 	}
 </div>

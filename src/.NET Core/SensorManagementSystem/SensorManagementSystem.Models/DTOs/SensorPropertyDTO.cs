@@ -1,6 +1,5 @@
 ﻿using System;
 using SensorManagementSystem.Models.Contract;
-using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Models.DTOs
 {
@@ -8,9 +7,11 @@ namespace SensorManagementSystem.Models.DTOs
 	{
 		public int Id { get; set; }
 
-		public SensorType Type { get; set; }
+		public string MeasureType { get; set; }
 
 		public string MeasureUnit { get; set; }
+
+		public bool IsSwitch { get; set; }
 
 		public DateTime? CreatedOn { get; set; }
 

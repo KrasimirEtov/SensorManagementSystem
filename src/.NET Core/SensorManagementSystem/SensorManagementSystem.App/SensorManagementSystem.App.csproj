@@ -35,4 +35,8 @@
     <ProjectReference Include="..\SensorManagementSystem.Services\SensorManagementSystem.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>

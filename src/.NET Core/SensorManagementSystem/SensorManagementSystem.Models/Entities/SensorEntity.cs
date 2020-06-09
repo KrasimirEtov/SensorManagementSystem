@@ -35,6 +35,13 @@ namespace SensorManagementSystem.Models.Entities
 		public string Description { get; set; }
 
 		/// <summary>
+		/// Polling interval in seconds
+		/// </summary>
+		[Required]
+		[Range(0, int.MaxValue, ErrorMessage = "Polling interval must be a positive value!")]
+		public int PollingInterval { get; set; }
+
+		/// <summary>
 		/// Minimum value that sensor provides
 		/// </summary>
 		public double? MinRangeValue { get; set; }
@@ -43,13 +50,6 @@ namespace SensorManagementSystem.Models.Entities
 		/// Maximum value that sensor provides
 		/// </summary>
 		public double? MaxRangeValue { get; set; }
-
-		/// <summary>
-		/// Polling interval in seconds
-		/// </summary>
-		[Required]
-		[Range(0, int.MaxValue, ErrorMessage = "Polling interval must be a positive value!")]
-		public int PollingInterval { get; set; }
 
 		/// <summary>
 		/// User sensor entities

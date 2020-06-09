@@ -10,7 +10,7 @@ using SensorManagementSystem.Data;
 namespace SensorManagementSystem.Data.Migrations
 {
     [DbContext(typeof(SensorManagementSystemDbContext))]
-    [Migration("20200515193850_InitialMigration")]
+    [Migration("20200609153004_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,19 +198,23 @@ namespace SensorManagementSystem.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsSwitch")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MeasureType")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("MeasureUnit")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Type")
+                    b.HasIndex("MeasureType")
                         .IsUnique()
+                        .HasFilter("[MeasureType] IS NOT NULL")
                         .HasAnnotation("SqlServer:Clustered", false);
 
                     b.ToTable("SensorProperties");

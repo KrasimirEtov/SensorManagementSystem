@@ -23,25 +23,25 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var allSensors = await this._sensorPropertyService.GetAllAsync();
+            var allSensorProperties = await this._sensorPropertyService.GetAllAsync();
 
-            return Ok(allSensors);
+            return Ok(allSensorProperties);
         }
 
         [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            var sensor = await this._sensorPropertyService.GetByIdAsync(id);
+            var sensorProperty = await this._sensorPropertyService.GetByIdAsync(id);
 
-            return Ok(sensor);
+            return Ok(sensorProperty);
         }
 
-        [Route("sensortypes")]
+        [Route("sensormeasuretypes")]
         [HttpGet]
-        public async Task<IActionResult> GetSensorTypes([FromQuery]bool useFilter = false)
+        public async Task<IActionResult> GetSensorMeasureTypes()
         {
-            var sensorTypes = await this._sensorPropertyService.GetSensorTypesAsync(useFilter);
+            var sensorTypes = await this._sensorPropertyService.GetSensorMeasureTypesAsync();
 
             return Ok(sensorTypes);
         }
