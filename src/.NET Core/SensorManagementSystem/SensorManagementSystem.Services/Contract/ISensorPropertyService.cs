@@ -6,9 +6,9 @@ namespace SensorManagementSystem.Services.Contract
 {
 	public interface ISensorPropertyService
 	{
-		Task<IEnumerable<SensorPropertyDTO>> GetAllAsync();
+		Task<IEnumerable<T>> GetAllAsync<T>();
 
-		Task<SensorPropertyDTO> GetByIdAsync(int id);
+		Task<T> GetByIdAsync<T>(int id);
 
 		Task<IEnumerable<string>> GetSensorMeasureTypesAsync();
 

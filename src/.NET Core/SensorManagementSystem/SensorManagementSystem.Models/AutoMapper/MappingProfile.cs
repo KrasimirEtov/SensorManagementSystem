@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.Entities;
+using SensorManagementSystem.Models.ViewModels;
 
 namespace SensorManagementSystem.Models.AutoMapper
 {
@@ -25,6 +26,16 @@ namespace SensorManagementSystem.Models.AutoMapper
 				.ForMember(dest => dest.MeasureType, opt => opt.MapFrom(src => src.SensorProperty.MeasureType))
 				.ForMember(dest => dest.IsSwitch, opt => opt.MapFrom(src => src.SensorProperty.IsSwitch))
 				.ForMember(dest => dest.Value, opt => opt.Ignore());
+
+			// SensorEntity <--> SensorViewModel
+			CreateMap<SensorEntity, SensorViewModel>();				
+			CreateMap<SensorViewModel, SensorEntity>()
+				.ForMember(dest => dest.UserSensors, opt => opt.Ignore());
+
+			// SensorPropertyEntity <--> SensorPropertyViewModel
+			CreateMap<SensorPropertyEntity, SensorPropertyViewModel>();
+			CreateMap<SensorPropertyViewModel, SensorPropertyEntity>()
+				.ForMember(dest => dest.Sensors, opt => opt.Ignore());
 		}
 	}
 }

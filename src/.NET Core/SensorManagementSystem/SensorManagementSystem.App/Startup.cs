@@ -17,6 +17,7 @@ using SensorManagementSystem.Data.Seed;
 using System;
 using SensorManagementSystem.Common.WebClients.Contract;
 using SensorManagementSystem.Common.WebClients;
+using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.App
 {
@@ -86,6 +87,8 @@ namespace SensorManagementSystem.App
 
 			services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddTransient<IHttpWebClient, HttpWebClient>();
+			services.AddTransient<ISensorService, SensorService>();
+			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -117,15 +120,12 @@ namespace SensorManagementSystem.App
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapAreaControllerRoute(
-					name: "default",
+					name: "My" + Constants.AdminAreaName,
 					areaName: Constants.AdminAreaName,
-					pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+					pattern: Constants.AdminAreaName + "/{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
-				//endpoints.MapControllerRoute(
-				//	name: "areas",
-				//	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapRazorPages();
 			});
 		}

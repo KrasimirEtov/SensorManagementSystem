@@ -6,9 +6,9 @@ namespace SensorManagementSystem.Services.Contract
 {
 	public interface ISensorService
 	{
-		Task<IEnumerable<SensorDTO>> GetAllAsync();
+		Task<IEnumerable<T>> GetAllAsync<T>();
 
-		Task<SensorDTO> GetByIdAsync(int id);
+		Task<T> GetByIdAsync<T>(int id);
 
 		Task CreateAsync(SensorDTO sensorDTO);
 

@@ -22,20 +22,20 @@ namespace SensorManagementSystem.Services
 			this._mapper = mapper;
 		}
 
-		public async Task<IEnumerable<SensorPropertyDTO>> GetAllAsync()
+		public async Task<IEnumerable<T>> GetAllAsync<T>()
 		{
 			var sensorPropertyEntities = await this._dbContext.SensorProperties
 				.ToListAsync();
 
-			return MapToDTO(sensorPropertyEntities);
+			return MapToDTO<T>(sensorPropertyEntities);
 		}
 
-		public async Task<SensorPropertyDTO> GetByIdAsync(int id)
+		public async Task<T> GetByIdAsync<T>(int id)
 		{
 			var sensorPropertyEntity = await this._dbContext.SensorProperties
 				.FirstOrDefaultAsync(x => x.Id == id);
 
-			return MapToDTO(sensorPropertyEntity);
+			return MapToDTO<T>(sensorPropertyEntity);
 		}
 
 		public async Task<IEnumerable<string>> GetSensorMeasureTypesAsync()
@@ -99,26 +99,26 @@ namespace SensorManagementSystem.Services
 			await this._dbContext.SaveChangesAsync();
 		}
 
-		private IEnumerable<SensorPropertyDTO> MapToDTO(IEnumerable<SensorPropertyEntity> sensorPropertyEntities)
+		private IEnumerable<T> MapToDTO<T>(IEnumerable<SensorPropertyEntity> sensorPropertyEntities)
 		{
-			List<SensorPropertyDTO> sensorPropertyDTOs = new List<SensorPropertyDTO>();
+			List<T> sensorPropertyDTOs = new List<T>();
 
 			foreach (var sensorPropertyEntity in sensorPropertyEntities)
 			{
-				sensorPropertyDTOs.Add(_mapper.Map<SensorPropertyDTO>(sensorPropertyEntity));
+				sensorPropertyDTOs.Add(_mapper.Map<T>(sensorPropertyEntity));
 			}
 
 			return sensorPropertyDTOs;
 		}
 
-		private SensorPropertyDTO MapToDTO(SensorPropertyEntity sensorPropertyEntity)
+		private T MapToDTO<T>(SensorPropertyEntity sensorPropertyEntity)
 		{
-			SensorPropertyDTO sensorPropertyDTO = _mapper.Map<SensorPropertyDTO>(sensorPropertyEntity);
+			T sensorPropertyDTO = _mapper.Map<T>(sensorPropertyEntity);
 
 			return sensorPropertyDTO;
 		}
 
-		private SensorPropertyEntity MapToEntity(SensorPropertyDTO sensorPropertyDTO)
+		private SensorPropertyEntity MapToEntity<T>(T sensorPropertyDTO)
 		{
 			return _mapper.Map<SensorPropertyEntity>(sensorPropertyDTO);
 		}

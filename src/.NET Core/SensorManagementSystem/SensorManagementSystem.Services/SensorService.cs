@@ -21,22 +21,22 @@ namespace SensorManagementSystem.Services
 			this._mapper = mapper;
 		}
 
-		public async Task<IEnumerable<SensorDTO>> GetAllAsync()
+		public async Task<IEnumerable<T>> GetAllAsync<T>()
 		{
 			var sensorEntities = await this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.ToListAsync();
 
-			return MapToDTO(sensorEntities);
+			return MapToDTO<T>(sensorEntities);
 		}
 
-		public async Task<SensorDTO> GetByIdAsync(int id)
+		public async Task<T> GetByIdAsync<T>(int id)
 		{
 			var sensorEntity = await this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
 				.FirstOrDefaultAsync(x => x.Id == id);
 
-			return MapToDTO(sensorEntity);
+			return MapToDTO<T>(sensorEntity);
 		}
 
 		public async Task CreateAsync(SensorDTO sensorDTO)
@@ -96,26 +96,26 @@ namespace SensorManagementSystem.Services
 			await this._dbContext.SaveChangesAsync();
 		}
 
-		private IEnumerable<SensorDTO> MapToDTO(IEnumerable<SensorEntity> sensorEntities)
+		private IEnumerable<T> MapToDTO<T>(IEnumerable<SensorEntity> sensorEntities)
 		{
-			List<SensorDTO> sensorDTOs = new List<SensorDTO>();
+			List<T> sensorDTOs = new List<T>();
 
 			foreach (var sensorEntity in sensorEntities)
 			{
-				sensorDTOs.Add(_mapper.Map<SensorDTO>(sensorEntity));
+				sensorDTOs.Add(_mapper.Map<T>(sensorEntity));
 			}
 
 			return sensorDTOs;
 		}
 
-		private SensorDTO MapToDTO(SensorEntity sensorEntity)
+		private T MapToDTO<T>(SensorEntity sensorEntity)
 		{
-			SensorDTO sensorDTO = _mapper.Map<SensorDTO>(sensorEntity);
+			T sensorDTO = _mapper.Map<T>(sensorEntity);
 
 			return sensorDTO;
 		}
 
-		private SensorEntity MapToEntity(SensorDTO sensorDTO)
+		private SensorEntity MapToEntity<T>(T sensorDTO)
 		{
 			return _mapper.Map<SensorEntity>(sensorDTO);
 		}

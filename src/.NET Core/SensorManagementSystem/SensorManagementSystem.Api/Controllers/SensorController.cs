@@ -23,7 +23,7 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var allSensors = await this._sensorService.GetAllAsync();
+            var allSensors = await this._sensorService.GetAllAsync<SensorDTO>();
 
             return Ok(allSensors);
         }
@@ -32,7 +32,7 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            var sensor = await this._sensorService.GetByIdAsync(id);
+            var sensor = await this._sensorService.GetByIdAsync< SensorDTO>(id);
 
             return Ok(sensor);
         }

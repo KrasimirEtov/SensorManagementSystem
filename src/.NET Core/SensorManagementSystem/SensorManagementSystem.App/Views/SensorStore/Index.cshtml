@@ -1,0 +1,15 @@
+﻿@model List<SensorViewModel>
+
+@if (!Model.Any())
+{
+
+}
+else
+{
+	<section class="statistic statistic2">
+		@foreach (var item in Model)
+		{
+		<h1>@item.Description</h1>
+		}
+	</section>
+}
