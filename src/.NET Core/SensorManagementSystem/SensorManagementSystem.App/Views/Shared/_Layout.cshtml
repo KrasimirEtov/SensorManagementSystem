@@ -40,14 +40,18 @@
 		<partial name="_MobileHeader" />
 		<!-- END HEADER MOBILE -->
 		<!-- ASP.NET Core Body-->
-		@RenderBody()
+		<div class="container">
+			@RenderBody()
+		</div>
 		<!-- END ASP.NET Core Body-->
 	</div>
 	<br />
 
-	<footer>
-		<p>Copyright © @DateTime.UtcNow.Year Sensor Management System.</p>
-	</footer>
+	<div class="copyright">
+		<footer>
+			<p>Copyright © @DateTime.UtcNow.Year Sensor Management System.</p>
+		</footer>
+	</div>
 
 	<!-- Jquery JS-->
 	<script src="~/lib/cool-admin/vendor/jquery-3.2.1.min.js"></script>
