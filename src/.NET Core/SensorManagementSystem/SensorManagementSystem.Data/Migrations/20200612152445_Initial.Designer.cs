@@ -10,14 +10,14 @@ using SensorManagementSystem.Data;
 namespace SensorManagementSystem.Data.Migrations
 {
     [DbContext(typeof(SensorManagementSystemDbContext))]
-    [Migration("20200609153004_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200612152445_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -205,16 +205,16 @@ namespace SensorManagementSystem.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MeasureUnit")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MeasureType")
+                    b.HasIndex("MeasureType", "MeasureUnit")
                         .IsUnique()
-                        .HasFilter("[MeasureType] IS NOT NULL")
+                        .HasFilter("[MeasureType] IS NOT NULL AND [MeasureUnit] IS NOT NULL")
                         .HasAnnotation("SqlServer:Clustered", false);
 
                     b.ToTable("SensorProperties");
@@ -413,7 +413,7 @@ namespace SensorManagementSystem.Data.Migrations
                     b.HasOne("SensorManagementSystem.Models.Entities.SensorPropertyEntity", "SensorProperty")
                         .WithMany("Sensors")
                         .HasForeignKey("SensorPropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -422,13 +422,13 @@ namespace SensorManagementSystem.Data.Migrations
                     b.HasOne("SensorManagementSystem.Models.Entities.SensorEntity", "Sensor")
                         .WithMany("UserSensors")
                         .HasForeignKey("SensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SensorManagementSystem.Models.Entities.UserEntity", "User")
                         .WithMany("Sensors")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -6,5 +6,6 @@
 		public const string AdminPolicyName = "Admin";
 		public const string AdminRoleName = "Administrator";
 		public const string UserRoleName = "User";
+		public const string SensorApiClientName = "SensorApi";
 	}
 }

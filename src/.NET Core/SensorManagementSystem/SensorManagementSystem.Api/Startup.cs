@@ -43,7 +43,7 @@ namespace SensorManagementSystem.Api
 			services.AddDbContext<SensorManagementSystemDbContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("SensorManagementSystem"));
-			});
+			}, contextLifetime: ServiceLifetime.Transient);
 
 			services.AddOptions();
 

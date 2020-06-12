@@ -15,6 +15,8 @@ using AutoMapper;
 using SensorManagementSystem.Common;
 using SensorManagementSystem.Data.Seed;
 using System;
+using SensorManagementSystem.Common.WebClients.Contract;
+using SensorManagementSystem.Common.WebClients;
 
 namespace SensorManagementSystem.App
 {
@@ -33,7 +35,7 @@ namespace SensorManagementSystem.App
 			services.AddDbContext<SensorManagementSystemDbContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("SensorManagementSystem"));
-			});
+			}, contextLifetime: ServiceLifetime.Transient);
 
 			services.AddIdentity<UserEntity, RoleEntity>(options =>
 			{
@@ -75,9 +77,15 @@ namespace SensorManagementSystem.App
 				.AddRazorRuntimeCompilation();
 			services.AddSignalR();
 
+			services.AddHttpClient(Constants.SensorApiClientName, options =>
+			{
+				options.BaseAddress = new Uri("https://localhost:5001");
+			});
+
 			services.AddHostedService<SensorDataFetchHostedService>();
 
 			services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+			services.AddTransient<IHttpWebClient, HttpWebClient>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,9 +110,9 @@ namespace SensorManagementSystem.App
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			databaseSeeder.SeedAdmin().Wait(TimeSpan.FromSeconds(5));
-			databaseSeeder.SeedRoles().Wait(TimeSpan.FromSeconds(5));
-			databaseSeeder.SeedSensorProperies().Wait(TimeSpan.FromSeconds(5));
+			databaseSeeder.SeedAdmin().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.SeedRoles().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.SeedSensorProperies().Wait(TimeSpan.FromSeconds(10));
 
 			app.UseEndpoints(endpoints =>
 			{

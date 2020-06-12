@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SensorManagementSystem.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -194,8 +194,7 @@ namespace SensorManagementSystem.Data.Migrations
                         name: "FK_Sensors_SensorProperties_SensorPropertyId",
                         column: x => x.SensorPropertyId,
                         principalTable: "SensorProperties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -227,14 +226,12 @@ namespace SensorManagementSystem.Data.Migrations
                         name: "FK_UserSensors_Sensors_SensorId",
                         column: x => x.SensorId,
                         principalTable: "Sensors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserSensors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -277,11 +274,11 @@ namespace SensorManagementSystem.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SensorProperties_MeasureType",
+                name: "IX_SensorProperties_MeasureType_MeasureUnit",
                 table: "SensorProperties",
-                column: "MeasureType",
+                columns: new[] { "MeasureType", "MeasureUnit" },
                 unique: true,
-                filter: "[MeasureType] IS NOT NULL")
+                filter: "[MeasureType] IS NOT NULL AND [MeasureUnit] IS NOT NULL")
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(

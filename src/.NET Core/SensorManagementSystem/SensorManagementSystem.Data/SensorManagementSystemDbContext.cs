@@ -36,12 +36,19 @@ namespace SensorManagementSystem.Data
 			builder.Entity<UserEntity>()
 				.HasMany(u => u.Sensors)
 				.WithOne(us => us.User)
-				.HasForeignKey(us => us.UserId);
+				.HasForeignKey(us => us.UserId)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder.Entity<SensorEntity>()
 				.HasMany(us => us.UserSensors)
 				.WithOne(s => s.Sensor)
-				.HasForeignKey(s => s.SensorId);
+				.HasForeignKey(s => s.SensorId)
+				.OnDelete(DeleteBehavior.NoAction);
+
+			builder.Entity<SensorEntity>()
+				.HasOne(sp => sp.SensorProperty)
+				.WithMany(sp => sp.Sensors)
+				.OnDelete(DeleteBehavior.NoAction);
 
 			builder.Entity<SensorPropertyEntity>()
 				.HasMany(s => s.Sensors)
@@ -49,7 +56,7 @@ namespace SensorManagementSystem.Data
 				.HasForeignKey(sp => sp.SensorPropertyId);
 
 			builder.Entity<SensorPropertyEntity>()
-				.HasIndex(x => x.MeasureType)
+				.HasIndex(x => new { x.MeasureType, x.MeasureUnit })
 				.IsUnique(true)
 				.IsClustered(false);
 
