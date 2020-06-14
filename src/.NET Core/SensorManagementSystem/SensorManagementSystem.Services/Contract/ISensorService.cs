@@ -6,7 +6,7 @@ namespace SensorManagementSystem.Services.Contract
 {
 	public interface ISensorService
 	{
-		Task<IEnumerable<T>> GetAllAsync<T>();
+		Task<IEnumerable<T>> GetAllAsync<T>(string measureTypeFilter = null);
 
 		Task<T> GetByIdAsync<T>(int id);
 

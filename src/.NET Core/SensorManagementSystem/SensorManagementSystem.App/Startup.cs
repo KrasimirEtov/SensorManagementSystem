@@ -89,6 +89,7 @@ namespace SensorManagementSystem.App
 			services.AddTransient<IHttpWebClient, HttpWebClient>();
 			services.AddTransient<ISensorService, SensorService>();
 			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
+			services.AddSingleton<ICachingService, MemoryCacheService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

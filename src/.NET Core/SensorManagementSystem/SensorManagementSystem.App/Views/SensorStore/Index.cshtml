@@ -1,15 +1,130 @@
-﻿@model List<SensorViewModel>
+﻿@model SensorStoreViewModel
 
-@if (!Model.Any())
+@if (!Model.Sensors.Any())
 {
-
+	<h2>No sensors</h2>
 }
 else
 {
-	<section class="statistic statistic2">
-		@foreach (var item in Model)
-		{
-		<h1>@item.Description</h1>
-		}
-	</section>
+	<div class="section__content section__content--p30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<!-- DATA TABLE -->
+					<h3 class="title-5 m-b-35">data table</h3>
+					<div class="table-data__tool">
+						<div class="table-data__tool-left">
+							<div class="rs-select2--light rs-select2--md">
+								<span>&nbsp;Filter by Sensor Measure Type</span>
+								<select class="js-select2" name="property" asp-for="MeasureTypeId" asp-items="Model.MeasureTypes">
+									<option value="null">-- All --</option>
+								</select>
+								<div class="dropDownSelect2"></div>
+							</div>
+							<div class="rs-select2--light rs-select2--md">
+								<span>&nbsp;Filter by Sensor Measure Type</span>
+								<select class="js-select2" name="property" asp-for="MeasureTypeId" asp-items="Model.MeasureTypes">
+									<option value="null">-- All --</option>
+								</select>
+								<div class="dropDownSelect2"></div>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive table-responsive-data2">
+						<table class="table table-data2">
+							<thead>
+								<tr>
+									<th>
+										<label class="au-checkbox">
+											<input type="checkbox">
+											<span class="au-checkmark"></span>
+										</label>
+									</th>
+									<th class="text-center">name</th>
+									<th class="text-center">email</th>
+									<th class="text-center">description</th>
+									<th class="text-center">date</th>
+									<th class="text-center">status</th>
+									<th class="text-center">price</th>
+									<th class="text-center"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="tr-shadow">
+									<td>
+										<label class="au-checkbox">
+											<input type="checkbox">
+											<span class="au-checkmark"></span>
+										</label>
+									</td>
+									<td class="text-center">Lori Lynch</td>
+									<td class="text-center">
+										<span class="block-email">lori@example.com</span>
+									</td>
+									<td class="desc text-center">Samsung S8 Black</td>
+									<td>2018-09-27 02:12</td>
+									<td>
+										<span class="status--process">Processed</span>
+									</td>
+									<td>$679.00</td>
+									<td>
+										<div class="table-data-feature">
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+												<i class="zmdi zmdi-mail-send"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+												<i class="zmdi zmdi-edit"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+												<i class="zmdi zmdi-delete"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="More">
+												<i class="zmdi zmdi-more"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr class="spacer"></tr>
+								<tr class="tr-shadow">
+									<td>
+										<label class="au-checkbox">
+											<input type="checkbox">
+											<span class="au-checkmark"></span>
+										</label>
+									</td>
+									<td>Lori Lynch</td>
+									<td>
+										<span class="block-email">john@example.com</span>
+									</td>
+									<td class="desc text-center">iPhone X 64Gb Grey</td>
+									<td>2018-09-29 05:57</td>
+									<td>
+										<span class="status--process">Processed</span>
+									</td>
+									<td>$999.00</td>
+									<td>
+										<div class="table-data-feature">
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+												<i class="zmdi zmdi-mail-send"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+												<i class="zmdi zmdi-edit"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+												<i class="zmdi zmdi-delete"></i>
+											</button>
+											<button class="item" data-toggle="tooltip" data-placement="top" title="More">
+												<i class="zmdi zmdi-more"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- END DATA TABLE -->
+				</div>
+			</div>
+		</div>
+	</div>
 }

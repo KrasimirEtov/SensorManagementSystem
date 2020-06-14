@@ -19,7 +19,7 @@
 				@if (User.Identity.IsAuthenticated)
 				{
 					<li class="has-sub">
-						<a class="js-arrow" href="#">
+						<a class="js-arrow" asp-area="" asp-controller="SensorStore" asp-action="Index">
 							<i class="fas fa-shopping-cart"></i>Sensors Store
 						</a>
 					</li>

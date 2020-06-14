@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +22,20 @@ namespace SensorManagementSystem.Services
 			this._mapper = mapper;
 		}
 
-		public async Task<IEnumerable<T>> GetAllAsync<T>()
+		public async Task<IEnumerable<T>> GetAllAsync<T>(string measureTypeFilter = null)
 		{
-			var sensorEntities = await this._dbContext.Sensors
+			var sensorEntities = this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
-				.ToListAsync();
+				.AsQueryable();
 
-			return MapToDTO<T>(sensorEntities);
+			if (measureTypeFilter != null)
+			{
+				sensorEntities
+					.Where(x => x.SensorProperty.MeasureType == measureTypeFilter);
+			}
+
+
+			return MapToDTO<T>(await sensorEntities.ToListAsync());
 		}
 
 		public async Task<T> GetByIdAsync<T>(int id)

@@ -7,5 +7,6 @@
 		public const string AdminRoleName = "Administrator";
 		public const string UserRoleName = "User";
 		public const string SensorApiClientName = "SensorApi";
+		public const string MeasureTypesCacheKey = "MeasureTypes";
 	}
 }
