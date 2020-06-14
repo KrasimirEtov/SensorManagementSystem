@@ -316,6 +316,10 @@ section {
     background: #f7f7f7;
 }
 
+.pointer-cursor {
+    cursor:pointer;
+}
+
 .main-content {
     padding-top: 30px;
     min-height: 70vh;
@@ -4139,6 +4143,10 @@ section {
 
 .dot--red {
     background: #fa4251;
+}
+
+.white-color {
+    color: white;
 }
 
 .chart-note-wrap {
