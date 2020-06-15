@@ -13,6 +13,7 @@ namespace SensorManagementSystem.App.Controllers
 {
 	public class SensorStoreController : Controller
 	{
+		private const int PageSize = 2;
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
 		private readonly ICachingService _cachingService;
@@ -34,15 +35,15 @@ namespace SensorManagementSystem.App.Controllers
 			var model = new SensorStoreViewModel
 			{
 				MeasureTypes = new SelectList(measureTypes, "Id", "MeasureType"),
-				Sensors = allSensors
+				Sensors = PaginatedList<SensorViewModel>.Create(allSensors, 1, PageSize)
 			};
 
 			return View(model);
 		}
 
-		public async Task<IActionResult> ReloadSensorsTable(string measureType = null)
+		public async Task<IActionResult> ReloadSensorsTable(int? pageNumber, string measureType = null)
 		{
-			var sensors = await _sensorService.GetAllAsync<SensorViewModel>(measureType);
+			var sensors = await _sensorService.GetAllFilteredAsync<SensorViewModel>(pageNumber ?? 1, PageSize, measureType);
 
 			return PartialView("_SensorsTable", sensors);
 		}

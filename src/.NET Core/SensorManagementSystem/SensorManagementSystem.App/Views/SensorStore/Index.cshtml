@@ -32,11 +32,16 @@ else
 					<div id="sensorsTable">
 						<partial name="_SensorsTable" model="@Model.Sensors" />
 					</div>
+					@{
+						var prevDisabled = !Model.Sensors.HasPreviousPage ? "disabled" : string.Empty;
+						var nextDisabled = !Model.Sensors.HasNextPage ? "disabled" : string.Empty;
+						// string measureTypeFilter = null;
+					}
 					<div class="table-data__tool-right">
-						<a class="btn btn-primary btn-sm @(Model.Sensors.Count() <= 4 ? "disabled" : string.Empty)" data-toggle="tooltip" data-placement="top" title="Use">
+						<a class="btn btn-primary btn-sm @prevDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Previious page">
 							<div class="white-color">Previous</div>
 						</a>
-						<a class="btn btn-primary btn-sm @(Model.Sensors.Count() <= 4 ? "disabled" : string.Empty)" data-toggle="tooltip" data-placement="top" title="Use">
+						<a id="nextPageBtn" class="btn btn-primary btn-sm @nextDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Next page">
 							<div class="white-color">Next</div>
 						</a>
 					</div>
@@ -45,4 +50,22 @@ else
 			</div>
 		</div>
 	</div>
+}
+@section Scripts
+{
+	<script>
+		$().ready(function () {
+			$("#nextPageBtn").click(function () {
+				$.ajax({
+					type: "GET",
+					url: '@Url.Action("ReloadSensorsTable", "SensorStore")',
+					dataType: "html",
+					success: function (response) {
+						console.log("nqma nikoi bace");
+						$("#sensorsTable").html(response);
+					}
+				});
+			})
+		});
+	</script>
 }
