@@ -6,50 +6,22 @@
 }
 else
 {
-	<div class="section__content section__content--p30">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<!-- DATA TABLE -->
-					<div class="table-data__tool">
-						<div class="table-data__tool-left">
-							<div class="rs-select2--light rs-select2--md">
-								<span>&nbsp;Filter by Sensor Measure Type</span>
-								<select class="js-select2" name="property" asp-for="MeasureTypeId" asp-items="Model.MeasureTypes">
-									<option value="null">-- All --</option>
-								</select>
-								<div class="dropDownSelect2"></div>
-							</div>
-							<div class="rs-select2--light rs-select2--md">
-								<span>&nbsp;Filter by Sensor Measure Type</span>
-								<select class="js-select2" name="property" asp-for="MeasureTypeId" asp-items="Model.MeasureTypes">
-									<option value="null">-- All --</option>
-								</select>
-								<div class="dropDownSelect2"></div>
-							</div>
-						</div>
-					</div>
-					<div id="sensorsTable">
-						<partial name="_SensorsTable" model="@Model.Sensors" />
-					</div>
-					@{
-						var prevDisabled = !Model.Sensors.HasPreviousPage ? "disabled" : string.Empty;
-						var nextDisabled = !Model.Sensors.HasNextPage ? "disabled" : string.Empty;
-						// string measureTypeFilter = null;
-					}
-					<div class="table-data__tool-right">
-						<a class="btn btn-primary btn-sm @prevDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Previious page">
-							<div class="white-color">Previous</div>
-						</a>
-						<a id="nextPageBtn" class="btn btn-primary btn-sm @nextDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Next page">
-							<div class="white-color">Next</div>
-						</a>
-					</div>
-					<!-- END DATA TABLE -->
-				</div>
-			</div>
-		</div>
+	<div id="sensor-cards">
+		<partial name="_SensorsTable" model="@Model.Sensors" />
 	</div>
+
+	var prevDisabled = !Model.Sensors.HasPreviousPage ? "disabled" : string.Empty;
+	var nextDisabled = !Model.Sensors.HasNextPage ? "disabled" : string.Empty;
+	// string measureTypeFilter = null;
+
+	@*<div class="table-data__tool-right">
+		<a class="btn btn-primary btn-sm @prevDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Previious page">
+			<div class="white-color">Previous</div>
+		</a>
+		<a id="nextPageBtn" class="btn btn-primary btn-sm @nextDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Next page">
+			<div class="white-color">Next</div>
+		</a>
+	</div>*@
 }
 @section Scripts
 {
@@ -61,8 +33,7 @@ else
 					url: '@Url.Action("ReloadSensorsTable", "SensorStore")',
 					dataType: "html",
 					success: function (response) {
-						console.log("nqma nikoi bace");
-						$("#sensorsTable").html(response);
+						$("#sensor-cards").html(response);
 					}
 				});
 			})

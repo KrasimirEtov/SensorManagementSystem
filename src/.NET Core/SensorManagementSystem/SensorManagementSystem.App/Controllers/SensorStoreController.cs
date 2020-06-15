@@ -13,7 +13,7 @@ namespace SensorManagementSystem.App.Controllers
 {
 	public class SensorStoreController : Controller
 	{
-		private const int PageSize = 2;
+		private const int PageSize = 4;
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
 		private readonly ICachingService _cachingService;

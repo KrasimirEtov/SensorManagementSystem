@@ -1,82 +1,72 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Required meta tags-->
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="au theme template">
-	<meta name="author" content="Hau Nguyen">
-	<meta name="keywords" content="au theme template">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 	<!-- Title Page-->
-	<title>@ViewData["Title"] - SensorManagementSystem.App</title>
+	<title>@ViewData["Title"] - Sensor Management System</title>
 
-	<!-- Fontfaces CSS-->
-	<link href="~/lib/cool-admin/css/font-face.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
-	<!-- Bootstrap CSS-->
-	<link href="~/lib/cool-admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-	<!-- Vendor CSS-->
-	<link href="~/lib/cool-admin/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/wow/animate.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/slick/slick.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-	<link href="~/lib/cool-admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-	<script src="~/lib/cool-admin/vendor/jquery-3.2.1.min.js"></script>
-	<script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
-	<!-- Main CSS-->
-	<link href="~/lib/cool-admin/css/theme.css" rel="stylesheet" media="all">
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/dist/css/adminlte.min.css">
+	<!-- Google Font: Source Sans Pro -->
+	<link href="~/lib/AdminLTE/SansProFont.css" rel="stylesheet">
+	<link href="~/lib/AdminLTE/my-custom-css.css" rel="stylesheet">
 </head>
-<body class="animsition">
-	<div class="page-wrapper">
-		<!-- HEADER DESKTOP-->
-		<partial name="_DesktopHeader" />
-		<!-- END HEADER DESKTOP-->
-		<!-- HEADER MOBILE-->
-		<partial name="_MobileHeader" />
-		<!-- END HEADER MOBILE -->
-		<!-- ASP.NET Core Body-->
-		<div class="main-content">
-			@RenderBody()
+<body class="hold-transition layout-top-nav">
+	<div class="wrapper">
+		<!-- Nav bar START -->
+		<partial name="_NavBar" />
+		<!-- Nav bar END -->
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container">
+					<div class="row mb-2">
+
+					</div><!-- /.row -->
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+			<!-- Main content -->
+			<div class="content">
+				<div class="container">
+					@RenderBody()
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content -->
+			<a id="back-to-top" href="#" class="btn btn-outline-primary back-to-top" role="button" aria-label="Scroll to top">
+				<i class="fas fa-chevron-up"></i>
+			</a>
 		</div>
-		<!-- END ASP.NET Core Body-->
-	</div>
-	<br />
-
-	@*<div class="copyright">
-		<footer>
-			<p>Copyright © @DateTime.UtcNow.Year Sensor Management System.</p>
+		<!-- /.content-wrapper -->
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="float-right d-none d-sm-inline">
+				All rights reserved
+			</div>
+			<!-- Default to the left -->
+			<strong>Sensor Management System - @DateTime.UtcNow.Year</strong>
 		</footer>
-	</div>*@
-
-	<!-- Jquery JS-->
-	@*<script src="~/lib/cool-admin/vendor/jquery-3.2.1.min.js"></script>
-	<script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>*@
-	<!-- Bootstrap JS-->
-	<script src="~/lib/cool-admin/vendor/bootstrap-4.1/popper.min.js"></script>
-	<script src="~/lib/cool-admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-	<!-- Vendor JS       -->
-	<script src="~/lib/cool-admin/vendor/slick/slick.min.js">
-	</script>
-	<script src="~/lib/cool-admin/vendor/wow/wow.min.js"></script>
-	@*<script src="~/lib/cool-admin/vendor/animsition/animsition.min.js"></script>*@
-	<script src="~/lib/cool-admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-	</script>
-	<script src="~/lib/cool-admin/vendor/counter-up/jquery.waypoints.min.js"></script>
-	<script src="~/lib/cool-admin/vendor/counter-up/jquery.counterup.min.js"></script>
-	<script src="~/lib/cool-admin/vendor/circle-progress/circle-progress.min.js"></script>
-	<script src="~/lib/cool-admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-	<script src="~/lib/cool-admin/vendor/chartjs/Chart.bundle.min.js"></script>
-	<script src="~/lib/cool-admin/vendor/select2/select2.min.js"></script>
-
-	<!-- Main JS-->
-	<script src="~/lib/cool-admin/js/main.js"></script>
-	<script src="~/lib/cool-admin/js/my-custom-scripts.js"></script>
+	</div>
+	<!-- ./wrapper -->
+	<!-- REQUIRED SCRIPTS -->
+	<!-- jQuery -->
+	<script src="~/lib/AdminLTE/plugins/jquery/jquery.min.js"></script>
+	<script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
+	<!-- jquery-validation -->
+	<script src="~/lib/AdminLTE/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="~/lib/AdminLTE/plugins/jquery-validation/additional-methods.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="~/lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="~/lib/AdminLTE/dist/js/adminlte.min.js"></script>
+	<script src="~/lib/AdminLTE/my-custom-scripts.js"></script>
 	@RenderSection("Scripts", required: false)
 </body>
 </html>

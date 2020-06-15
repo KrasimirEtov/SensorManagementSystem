@@ -1,0 +1,104 @@
+﻿<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+	<div class="container">
+		<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
+			<span class="brand-text font-weight-light">Sensor Management System</span>
+		</a>
+
+		<button class="navbar-toggler order-1" type="button" data-toggle="collapse"
+				data-target="#navbarCollapse" aria-controls="navbarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse order-3" id="navbarCollapse">
+			@if (User.Identity.IsAuthenticated)
+			{
+				<ul class="navbar-nav">
+
+					<li class="nav-item">
+						<a asp-area="" asp-controller="SensorStore" asp-action="Index" class="nav-link">
+							Store
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">My Sensors</a>
+					</li>
+
+					@if (User.IsInRole(Constants.AdminRoleName))
+					{
+						<li class="nav-item dropdown">
+							<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+							   aria-expanded="false" class="nav-link dropdown-toggle">
+								Admin
+							</a>
+							<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+								<li>
+									<a class="dropdown-item" asp-area="@Constants.AdminAreaName"
+									   asp-controller="SensorStore" asp-action="Manage">
+										Manage Store
+									</a>
+								</li>
+							</ul>
+						</li>
+					}
+				</ul>
+				<!-- Right navbar links -->
+				<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+					<!-- Messages Dropdown Menu -->
+					@*<li class="nav-item">
+							<a href="#" class="nav-link">My Sensors</a>
+						</li>*@
+					<li class="nav-item dropdown">
+						<a class="nav-link" data-toggle="dropdown" href="#">
+							<i class="fas fa-comments"></i>
+							<span class="badge badge-danger navbar-badge">3</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						</div>
+					</li>
+					<!-- Notifications Dropdown Menu -->
+					<li class="nav-item dropdown">
+						<a class="nav-link" data-toggle="dropdown" href="#">
+							<i class="far fa-bell"></i>
+							<span class="badge badge-warning navbar-badge">15</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+							<i class="fas fa-th-large"></i>
+						</a>
+					</li>
+				</ul>
+			}
+			else
+			{
+				<ul class="order-1 order-md-3 navbar-nav ml-auto">
+					<li class="nav-item">
+						<a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
+					</li>
+					<li class="nav-item">
+						<a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a>
+					</li>
+				</ul>
+			}
+		</div>
+	</div>
+</nav>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+	<!-- Control sidebar content goes here -->
+	<div class="p-3">
+		<h5>Manage Account</h5>
+		<p>Sidebar content</p>
+		<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+		</form>
+		<a href="#" id="logout-link">
+			<b>Logout</b>
+		</a>
+	</div>
+</aside>
+<!-- /.control-sidebar -->

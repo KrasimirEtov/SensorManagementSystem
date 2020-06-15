@@ -1,53 +1,76 @@
 ﻿@model PaginatedList<SensorViewModel>
-<div class="table-responsive table-responsive-data2">
-	<table class="table table-data2">
-		<thead>
-			<tr>
-				<th class="text-center">Measure Type</th>
-				<th class="text-center">Measure Unit</th>
-				<th class="text-center">Description</th>
-				<th class="text-center">Polling Interval</th>
-				<th class="text-center">Is Switch</th>
-				<th class="text-center">Min Range Value</th>
-				<th class="text-center">Max Range Value</th>
-				<th class="text-center">Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
+
+@for (int i = 0; i < Model.Count; i += 3)
+{
+	<div class="row">
+		@{
+			int rowLimit = i + 3;
+			for (int j = i; j < (Model.Count < rowLimit ? Model.Count : rowLimit); j++)
 			{
-				<tr class="tr-shadow">
-					<td class="text-center">@item.SensorProperty.MeasureType</td>
-					<td class="text-center">
-						<span class="block-email">@item.SensorProperty.MeasureUnit</span>
-					</td>
-					<td class="text-center">@item.Description</td>
-					<td class="text-center">@item.PollingInterval</td>
-					<td class="text-center">
-						<span>@item.SensorProperty.IsSwitch</span>
-					</td>
-					<td class="text-center">@item.MinRangeValue</td>
-					<td class="text-center">@item.MaxRangeValue</td>
-					<td class="text-center">
-						<div class="table-data-feature">
-							<a class="item button pointer-cursor" data-toggle="tooltip" data-placement="top" title="Use">
-								<i class="fas fa-plus"></i>
-							</a>
-							@if (User.IsInRole(Constants.AdminRoleName))
-							{
-								<a class="item button pointer-cursor" data-toggle="tooltip" data-placement="top" title="Edit">
-									<i class="zmdi zmdi-edit"></i>
-								</a>
-								<a class="item button pointer-cursor" data-toggle="tooltip" data-placement="top" title="Delete">
-									<i class="zmdi zmdi-delete"></i>
-								</a>
-							}
+				<div class="col-md-4">
+					<!-- Widget: user widget style 1 -->
+					<div class="card card-widget widget-user">
+						<!-- Add the bg color to the header using any of the bg-* classes -->
+						<div class="widget-user-header bg-info">
+							<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
+							<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
 						</div>
-					</td>
-				</tr>
-				<tr class="spacer"></tr>
+						<div class="widget-user-image">
+							<img class="img-circle elevation-2" src="~/lib/AdminLTE/dist/img/user1-128x128.jpg" alt="User Avatar">
+						</div>
+						<div class="card-footer">
+							<div class="card card-outline card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Description</h3>
+
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool" data-card-widget="collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+									</div>
+									<!-- /.card-tools -->
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+									@Model[j].Description
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<div class="row">
+								<div class="col-sm-4 border-right">
+									<div class="description-block">
+										<h5 class="description-header">@Model[j].MinRangeValue</h5>
+										<span class="description-text">Min Range</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-4 border-right">
+									<div class="description-block">
+										<h5 class="description-header">@Model[j].PollingInterval sec</h5>
+										<span class="description-text">Polling</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-4">
+									<div class="description-block">
+										<h5 class="description-header">@Model[j].MaxRangeValue</h5>
+										<span class="description-text">Max Range</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+							</div>
+							<!-- /.row -->
+						</div>
+					</div>
+					<!-- /.widget-user -->
+				</div>
 			}
-		</tbody>
-	</table>
-</div>
+		}
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+}
 
