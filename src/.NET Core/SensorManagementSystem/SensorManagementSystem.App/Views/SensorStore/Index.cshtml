@@ -5,7 +5,7 @@
 		<div class="form-group">
 			<label>Choose Sensor Measure Type:</label>
 			<select asp-for="MeasureType" asp-items="Model.MeasureTypes"
-					class="form-control select2" style="width: 100%;">
+					class="form-control select2bs4" style="width: 100%;">
 				<option value="null">-- All --</option>
 			</select>
 		</div>
@@ -41,6 +41,10 @@
 
 	<script>
 		$().ready(function () {
+			$('.select2bs4').select2({
+				theme: 'bootstrap4'
+			});
+
 			$("#MeasureType").change(function () {
 				var measureType = $("#MeasureType").val();
 				var requestUrl = '@Url.Action("ReloadSensorsTable", "SensorStore")';

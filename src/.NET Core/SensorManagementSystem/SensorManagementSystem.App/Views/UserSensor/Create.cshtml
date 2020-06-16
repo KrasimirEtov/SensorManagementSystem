@@ -1,0 +1,83 @@
+﻿@model CreateUpdateUserSensorViewModel
+
+<form asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
+	<div class="row">
+		<div class="col-md-4">
+			<label>Sensor Name</label>
+			<div class="input-group mb-3 form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+				</div>
+				<input type="text" class="form-control" placeholder="Enter sensor name...">
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<label>Sensor Measure Type</label>
+			<div class="input-group mb-3 form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+				</div>
+				<input type="text" class="form-control" value="@Model.MeasureType" placeholder="Enter sensor name..." disabled>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<label>Sensor Measure Unit</label>
+			<div class="input-group mb-3 form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+				</div>
+				<input type="text" class="form-control" value="@Model.MeasureUnit" placeholder="Enter sensor name..." disabled>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3">
+			<label>Sensor Description</label>
+			<div class="form-group">
+				<textarea class="form-control" rows="3" placeholder="Enter description..."></textarea>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<label>Sensor Min Range</label>
+			<div class="form-group">
+				<input class="form-control" data-val="true" data-val-range-min="@Model.SensorMinRangeValue" data-val-range-max="@Model.SensorMaxRangeValue" data-val-range="The field Min Range Value must be between @Model.SensorMinRangeValue and @Model.SensorMaxRangeValue." data-val-number="The field Min Range Value must be a number." />
+			</div>
+		</div>
+		<label>test</label>
+		<div class="col-md-3">
+			<label>test</label>
+			<input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+		</div>
+	</div>
+
+	@*Google Maps*@
+	<div class="col-md-12">
+		<div class="card card-primary card-outline collapsed-card">
+			<div class="card-header">
+				<h3 class="card-title">Choose sensor coordinates</h3>
+
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+				</div>
+				<!-- /.card-tools -->
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
+				google maps will appear here
+			</div>
+			<!-- /.card-body -->
+		</div>
+		<!-- /.card -->
+	</div>
+</form>
+<script>
+	$().ready(function () {
+		$("input[data-bootstrap-switch]").each(function () {
+			$(this).bootstrapSwitch('state', $(this).prop('checked'));
+		});
+	});
+</script>

@@ -25,9 +25,11 @@ else
 								<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
 								<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
 							</div>
-							<div class="widget-user-image">
-								<img class="img-circle elevation-2 cursor-pointer" onclick="createSensor(@Model[j].Id)" src="~/lib/AdminLTE/dist/img/add.jpg" alt="User Avatar">
-							</div>
+							<a asp-area="" asp-action="Create" asp-controller="UserSensor" asp-route-sensorId="@Model[j].Id">
+								<div class="widget-user-image">
+									<img class="img-circle elevation-2 cursor-pointer" src="~/lib/AdminLTE/dist/img/add.jpg" alt="User Avatar">
+								</div>
+							</a>
 							<div class="card-footer">
 								<div class="card card-outline card-primary">
 									<div class="card-header">
@@ -89,14 +91,5 @@ else
 		</div>
 		<!-- /.row -->
 	}
-	<script>
-		$().ready(function () {
-			function createSensor(sensorId) {
-				console.log('clicked');
-				$("#CreateSensorLink").click();
-			}
-		});
-
-	</script>
 }
 
