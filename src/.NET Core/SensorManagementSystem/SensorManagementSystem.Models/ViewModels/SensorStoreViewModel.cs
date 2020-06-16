@@ -4,7 +4,7 @@ namespace SensorManagementSystem.Models.ViewModels
 {
 	public class SensorStoreViewModel
 	{
-		public int MeasureTypeId { get; set; }
+		public string MeasureType { get; set; }
 
 		public SelectList MeasureTypes { get; set; }
 

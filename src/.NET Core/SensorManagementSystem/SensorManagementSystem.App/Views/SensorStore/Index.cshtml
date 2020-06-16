@@ -1,28 +1,27 @@
 ﻿@model SensorStoreViewModel
 
-@if (!Model.Sensors.Any())
-{
-	<h2>No sensors</h2>
-}
-else
-{
-	<div id="sensor-cards">
-		<partial name="_SensorsTable" model="@Model.Sensors" />
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Choose Sensor Measure Type:</label>
+			<select asp-for="MeasureType" asp-items="Model.MeasureTypes"
+					class="form-control select2" style="width: 100%;">
+				<option value="null">-- All --</option>
+			</select>
+		</div>
 	</div>
+</div>
 
+<div id="sensor-cards">
+	<partial name="_SensorsTable" model="@Model.Sensors" />
+</div>
+
+@{
 	var prevDisabled = !Model.Sensors.HasPreviousPage ? "disabled" : string.Empty;
 	var nextDisabled = !Model.Sensors.HasNextPage ? "disabled" : string.Empty;
 	// string measureTypeFilter = null;
-
-	@*<div class="table-data__tool-right">
-		<a class="btn btn-primary btn-sm @prevDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Previious page">
-			<div class="white-color">Previous</div>
-		</a>
-		<a id="nextPageBtn" class="btn btn-primary btn-sm @nextDisabled paginated-sensors" data-toggle="tooltip" data-placement="top" title="Next page">
-			<div class="white-color">Next</div>
-		</a>
-	</div>*@
 }
+
 @section Scripts
 {
 	<script>
@@ -37,6 +36,28 @@ else
 					}
 				});
 			})
+		});
+	</script>
+
+	<script>
+		$().ready(function () {
+			$("#MeasureType").change(function () {
+				var measureType = $("#MeasureType").val();
+				var requestUrl = '@Url.Action("ReloadSensorsTable", "SensorStore")';
+
+				if (measureType != 'null') {
+					requestUrl += '?measureType=' + measureType;
+				}
+
+				$.ajax({
+					type: "GET",
+					url: requestUrl,
+					dataType: "html",
+					success: function (response) {
+						$("#sensor-cards").html(response);
+					}
+				});
+			});
 		});
 	</script>
 }

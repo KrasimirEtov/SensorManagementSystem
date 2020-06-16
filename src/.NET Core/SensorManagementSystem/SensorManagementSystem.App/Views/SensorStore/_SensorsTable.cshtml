@@ -1,76 +1,102 @@
 ﻿@model PaginatedList<SensorViewModel>
-
-@for (int i = 0; i < Model.Count; i += 3)
+@if (Model.Count == 0)
 {
-	<div class="row">
-		@{
-			int rowLimit = i + 3;
-			for (int j = i; j < (Model.Count < rowLimit ? Model.Count : rowLimit); j++)
-			{
-				<div class="col-md-4">
-					<!-- Widget: user widget style 1 -->
-					<div class="card card-widget widget-user">
-						<!-- Add the bg color to the header using any of the bg-* classes -->
-						<div class="widget-user-header bg-info">
-							<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
-							<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
-						</div>
-						<div class="widget-user-image">
-							<img class="img-circle elevation-2" src="~/lib/AdminLTE/dist/img/user1-128x128.jpg" alt="User Avatar">
-						</div>
-						<div class="card-footer">
-							<div class="card card-outline card-primary">
-								<div class="card-header">
-									<h3 class="card-title">Description</h3>
-
-									<div class="card-tools">
-										<button type="button" class="btn btn-tool" data-card-widget="collapse">
-											<i class="fas fa-minus"></i>
-										</button>
-									</div>
-									<!-- /.card-tools -->
-								</div>
-								<!-- /.card-header -->
-								<div class="card-body">
-									@Model[j].Description
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<div class="row">
-								<div class="col-sm-4 border-right">
-									<div class="description-block">
-										<h5 class="description-header">@Model[j].MinRangeValue</h5>
-										<span class="description-text">Min Range</span>
-									</div>
-									<!-- /.description-block -->
-								</div>
-								<!-- /.col -->
-								<div class="col-sm-4 border-right">
-									<div class="description-block">
-										<h5 class="description-header">@Model[j].PollingInterval sec</h5>
-										<span class="description-text">Polling</span>
-									</div>
-									<!-- /.description-block -->
-								</div>
-								<!-- /.col -->
-								<div class="col-sm-4">
-									<div class="description-block">
-										<h5 class="description-header">@Model[j].MaxRangeValue</h5>
-										<span class="description-text">Max Range</span>
-									</div>
-									<!-- /.description-block -->
-								</div>
-								<!-- /.col -->
-							</div>
-							<!-- /.row -->
-						</div>
-					</div>
-					<!-- /.widget-user -->
-				</div>
-			}
-		}
-		<!-- /.col -->
+	<div class="text-center">
+		<h2>You don't have any registered sensors.</h2>
+		<br />
+		<h2 class="pb-5">Consider adding one from the mobile application!</h2>
+		<br />
 	</div>
-	<!-- /.row -->
+}
+else
+{
+	@for (int i = 0; i < Model.Count; i += 3)
+	{
+		<div class="row">
+			@{
+				int rowLimit = i + 3;
+				for (int j = i; j < (Model.Count < rowLimit ? Model.Count : rowLimit); j++)
+				{
+					<div class="col-md-4">
+						<!-- Widget: user widget style 1 -->
+						<div class="card card-widget widget-user">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-info">
+								<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
+								<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
+							</div>
+							<div class="widget-user-image">
+								<img class="img-circle elevation-2 cursor-pointer" onclick="createSensor(@Model[j].Id)" src="~/lib/AdminLTE/dist/img/add.jpg" alt="User Avatar">
+							</div>
+							<div class="card-footer">
+								<div class="card card-outline card-primary">
+									<div class="card-header">
+										<h3 class="card-title">Description</h3>
+
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+										<!-- /.card-tools -->
+									</div>
+									<!-- /.card-header -->
+									<div class="card-body">
+										@Model[j].Description
+									</div>
+									<!-- /.card-body -->
+								</div>
+								<div class="row">
+									<div class="col-sm-4 border-right">
+										@if (Model[j].MinRangeValue.HasValue)
+										{
+											<div class="description-block">
+												<h5 class="description-header">@Model[j].MinRangeValue</h5>
+												<span class="description-text">Min Range</span>
+											</div>
+										}
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+									<div class="col-sm-4 border-right">
+										<div class="description-block">
+											<h5 class="description-header">@Model[j].PollingInterval sec</h5>
+											<span class="description-text">Polling</span>
+										</div>
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+									<div class="col-sm-4">
+										@if (Model[j].MinRangeValue.HasValue)
+										{
+											<div class="description-block">
+												<h5 class="description-header">@Model[j].MaxRangeValue</h5>
+												<span class="description-text">Max Range</span>
+											</div>
+										}
+										<!-- /.description-block -->
+									</div>
+									<!-- /.col -->
+								</div>
+								<!-- /.row -->
+							</div>
+						</div>
+						<!-- /.widget-user -->
+					</div>
+				}
+			}
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	}
+	<script>
+		$().ready(function () {
+			function createSensor(sensorId) {
+				console.log('clicked');
+				$("#CreateSensorLink").click();
+			}
+		});
+
+	</script>
 }
 

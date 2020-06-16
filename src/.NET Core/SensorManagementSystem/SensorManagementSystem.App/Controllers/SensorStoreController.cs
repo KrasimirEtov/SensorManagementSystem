@@ -34,7 +34,7 @@ namespace SensorManagementSystem.App.Controllers
 
 			var model = new SensorStoreViewModel
 			{
-				MeasureTypes = new SelectList(measureTypes, "Id", "MeasureType"),
+				MeasureTypes = new SelectList(measureTypes, "MeasureType", "MeasureType"),
 				Sensors = PaginatedList<SensorViewModel>.Create(allSensors, 1, PageSize)
 			};
 
