@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Services.Contract;
 
-namespace SensorManagementSystem.Api.Controllers
+namespace SensorManagementSystem.App.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SensorController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SensorController : ControllerBase
+	{
         private readonly ILogger<SensorController> _logger;
         private readonly ISensorService _sensorService;
 
@@ -32,13 +32,13 @@ namespace SensorManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            var sensor = await this._sensorService.GetByIdAsync< SensorDTO>(id);
+            var sensor = await this._sensorService.GetByIdAsync<SensorDTO>(id);
 
             return Ok(sensor);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]SensorDTO payload)
+        public async Task<IActionResult> Post([FromBody] SensorDTO payload)
         {
             // TODO: Add validation
             await this._sensorService.CreateAsync(payload);
@@ -47,7 +47,7 @@ namespace SensorManagementSystem.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]SensorDTO payload)
+        public async Task<IActionResult> Put([FromBody] SensorDTO payload)
         {
             // TODO: Add validation
             await this._sensorService.UpdateAsync(payload);

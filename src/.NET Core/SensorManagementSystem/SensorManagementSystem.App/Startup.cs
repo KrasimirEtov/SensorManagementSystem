@@ -18,6 +18,7 @@ using System;
 using SensorManagementSystem.Common.WebClients.Contract;
 using SensorManagementSystem.Common.WebClients;
 using SensorManagementSystem.Services.Contract;
+using SensorManagementSystem.Common.Extensions;
 
 namespace SensorManagementSystem.App
 {
@@ -84,7 +85,7 @@ namespace SensorManagementSystem.App
 			});
 
 			services.AddHostedService<SensorDataFetchHostedService>();
-
+			services.AddTransient<ISensorDataService, SensorDataService>();
 			services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
 			services.AddTransient<IHttpWebClient, HttpWebClient>();
 			services.AddTransient<ISensorService, SensorService>();
@@ -110,6 +111,8 @@ namespace SensorManagementSystem.App
 			app.UseStaticFiles();
 
 			app.UseRouting();
+
+			app.UseErrorLogging();
 
 			app.UseAuthentication();
 			app.UseAuthorization();

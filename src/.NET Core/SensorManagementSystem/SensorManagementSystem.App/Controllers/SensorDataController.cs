@@ -1,16 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using SensorManagementSystem.Services.Contract;
 
-namespace SensorManagementSystem.Api.Controllers
+namespace SensorManagementSystem.App.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SensorDataController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SensorDataController : ControllerBase
+	{
         private readonly ILogger<SensorDataController> _logger;
         private readonly ISensorDataService _sensorDataService;
 

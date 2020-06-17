@@ -47,7 +47,7 @@ namespace SensorManagementSystem.Services
 
 		private string GenerateValue(bool isSwitch, double? minRange = null, double? maxRange = null)
 		{
-			return isSwitch
+			return !isSwitch
 				? (_random.NextDouble() * (maxRange - minRange) + minRange).ToString()
 				: (_random.Next() > (int.MaxValue / 2)).ToString();
 		}
