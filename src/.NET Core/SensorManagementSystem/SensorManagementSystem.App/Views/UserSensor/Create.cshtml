@@ -1,5 +1,8 @@
 ﻿@model CreateUpdateUserSensorViewModel
 
+@{
+	string descriptionSize = Model.IsSwitch ? "col-md-9" : "col-md-3";
+}
 <form asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
 	<div class="row">
 		<div class="col-md-4">
@@ -34,21 +37,53 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-3">
-			<label>Sensor Description</label>
+		<div class="col-md-9">
 			<div class="form-group">
+				<label>Sensor Description</label>
 				<textarea class="form-control" rows="3" placeholder="Enter description..."></textarea>
 			</div>
 		</div>
 		<div class="col-md-3">
-			<label>Sensor Min Range</label>
 			<div class="form-group">
-				<input class="form-control" data-val="true" data-val-range-min="@Model.SensorMinRangeValue" data-val-range-max="@Model.SensorMaxRangeValue" data-val-range="The field Min Range Value must be between @Model.SensorMinRangeValue and @Model.SensorMaxRangeValue." data-val-number="The field Min Range Value must be a number." />
+				<label>Sensor Polling Interval</label>
+				<input asp-for="CustomPollingInterval" class="form-control"
+					   min="@Model.SensorPollingInterval"
+					   value="@Model.SensorPollingInterval"
+					   data-val-range="Refresh rate must be at least @Model.CustomPollingInterval"
+					   data-val-number="Refresh rate must be a number." />
 			</div>
 		</div>
-		<label>test</label>
+	</div>
+	<div class="row">
+		@if (!Model.IsSwitch)
+		{
+			<div class="col-md-3">
+				<div class="form-group">
+					<label>Sensor Min Range</label>
+					<input asp-for="CustomMinRangeValue" class="form-control" data-val="true" data-val-range-min="@Model.SensorMinRangeValue"
+						   data-val-range-max="@Model.SensorMaxRangeValue"
+						   data-val-range="The field Min Range Value must be between
+						   @Model.SensorMinRangeValue and @Model.SensorMaxRangeValue."
+						   data-val-number="The field Min Range Value must be a number." />
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label>Sensor Max Range</label>
+					<input asp-for="CustomMaxRangeValue" class="form-control" data-val="true" data-val-range-min="@Model.SensorMinRangeValue"
+						   data-val-range-max="@Model.SensorMaxRangeValue"
+						   data-val-range="The field Max Range Value must be between
+						   @Model.SensorMinRangeValue and @Model.SensorMaxRangeValue."
+						   data-val-number="The field Max Range Value must be a number." />
+				</div>
+			</div>
+		}
 		<div class="col-md-3">
-			<label>test</label>
+			<label>Is Sensor Public</label>
+			<input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+		</div>
+		<div class="col-md-3">
+			<label>Is Sensor Alarm On</label>
 			<input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
 		</div>
 	</div>
