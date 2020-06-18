@@ -3,6 +3,7 @@
 @{
 	string descriptionSize = Model.IsSwitch ? "col-md-9" : "col-md-3";
 }
+	<div asp-validation-summary="All" class="text-danger"></div>
 <form asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
 	<input asp-for="SensorId" hidden value="@Model.SensorId" readonly />
 	<input asp-for="UserId" hidden value="@Model.UserId" readonly />
@@ -10,13 +11,15 @@
 	<input asp-for="MeasureUnit" hidden value="@Model.MeasureUnit" readonly />
 	<input asp-for="SensorMinRangeValue" hidden value="@Model.SensorMinRangeValue" readonly />
 	<input asp-for="SensorMaxRangeValue" hidden value="@Model.SensorMaxRangeValue" readonly />
+	<input asp-for="Longitude" hidden />
+	<input asp-for="Latitude" hidden />
 
 	<div class="row">
 		<div class="col-md-5">
 			<label>Sensor Name</label>
 			<div class="input-group mb-3 form-group">
 				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+					<span class="input-group-text"><i class="fas fa-file-signature"></i></span>
 				</div>
 				<input type="text" asp-for="Name" class="form-control" placeholder="Enter sensor name...">
 			</div>
@@ -26,7 +29,7 @@
 			<label>Sensor Measure Type - Measure Unit</label>
 			<div class="input-group mb-3 form-group">
 				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+					<span class="input-group-text"><i class="fas fa-indent"></i></span>
 				</div>
 				<input type="text" class="form-control" value="@Model.MeasureType - @Model.MeasureUnit" disabled>
 			</div>
@@ -52,8 +55,11 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="form-group">
-				<label>Sensor Polling Interval</label>
+			<label>Sensor Polling Interval</label>
+			<div class="input-group form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
+				</div>
 				<input asp-for="CustomPollingInterval" class="form-control"
 					   min="@Model.SensorPollingInterval"
 					   value="@Model.SensorPollingInterval"
@@ -94,13 +100,13 @@
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body">
-				google maps will appear here
+				<div id="sensor-map"></div>
 			</div>
 			<!-- /.card-body -->
 		</div>
 		<!-- /.card -->
 	</div>
-	<button id="submit-create-button" type="submit" class="btn btn-block btn-outline-success"><strong>CREATE</strong></button>
+	<button id="submit-button" type="submit" disabled class="btn btn-block btn-outline-success"><strong>CREATE</strong></button>
 </form>
 <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -108,4 +114,8 @@
 {
 	<script src="~/lib/AdminLTE/custom/bootstrap-switch-state-changer.js"></script>
 	<script src="~/lib/AdminLTE/custom/sensor-range-picker.js"></script>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
+	</script>
+	<script src="~/lib/AdminLTE/custom/create-update-map.js"></script>
 }
