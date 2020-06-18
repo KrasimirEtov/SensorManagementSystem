@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +14,14 @@ namespace SensorManagementSystem.App.Controllers
 	{
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
+		private readonly IUserSensorService _userSensorService;
 		private readonly IMapper _mapper;
 
-		public UserSensorController(ISensorService sensorService, ISensorPropertyService sensorPropertyService, IMapper mapper)
+		public UserSensorController(ISensorService sensorService, ISensorPropertyService sensorPropertyService, IUserSensorService userSensorService, IMapper mapper)
 		{
 			_sensorService = sensorService;
 			_sensorPropertyService = sensorPropertyService;
+			_userSensorService = userSensorService;
 			_mapper = mapper;
 		}
 
@@ -43,6 +42,23 @@ namespace SensorManagementSystem.App.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> Create(CreateUpdateUserSensorViewModel model)
+		{
+			if (!model.IsAlarmOn)
+			{
+				model.CustomMinRangeValue = null;
+				model.CustomMaxRangeValue = null;
+			}
+			if (!ModelState.IsValid)
+			{
+				// validate
+			}
+
+			await _userSensorService.CreateAsync(model);
+			return RedirectToAction("Index", nameof(UserSensorController));
+		}
+
 		private CreateUpdateUserSensorViewModel GetViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty, int userId)
 		{
 			return new CreateUpdateUserSensorViewModel
@@ -53,8 +69,9 @@ namespace SensorManagementSystem.App.Controllers
 				SensorMinRangeValue = sensor.MinRangeValue,
 				MeasureType = sensorProperty.MeasureType,
 				MeasureUnit = sensorProperty.MeasureUnit,
-				IsSwitch = sensorProperty.IsSwitch
-			};
+				IsSwitch = sensorProperty.IsSwitch,
+				UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+		};
 		}
 	}
 }

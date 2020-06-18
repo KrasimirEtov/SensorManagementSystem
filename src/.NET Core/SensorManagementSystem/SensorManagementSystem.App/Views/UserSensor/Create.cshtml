@@ -4,10 +4,12 @@
 	string descriptionSize = Model.IsSwitch ? "col-md-9" : "col-md-3";
 }
 <form asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
-	<input asp-for="SensorId" hidden value="@Model.SensorId" />
-	<input asp-for="UserId" hidden value="@Model.UserId" />
-	<input asp-for="MeasureType" hidden value="@Model.MeasureType" />
-	<input asp-for="MeasureUnit" hidden value="@Model.MeasureUnit" />
+	<input asp-for="SensorId" hidden value="@Model.SensorId" readonly />
+	<input asp-for="UserId" hidden value="@Model.UserId" readonly />
+	<input asp-for="MeasureType" hidden value="@Model.MeasureType" readonly />
+	<input asp-for="MeasureUnit" hidden value="@Model.MeasureUnit" readonly />
+	<input asp-for="SensorMinRangeValue" hidden value="@Model.SensorMinRangeValue" readonly />
+	<input asp-for="SensorMaxRangeValue" hidden value="@Model.SensorMaxRangeValue" readonly />
 
 	<div class="row">
 		<div class="col-md-5">
@@ -31,13 +33,13 @@
 		</div>
 		<div class="col-md-1">
 			<label>Public</label>
-			<input asp-for="IsPublic" type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+			<input asp-for="IsPublic" type="checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
 		</div>
 		@if (!Model.IsSwitch)
 		{
 			<div class="col-md-1">
 				<label>Alarm</label>
-				<input asp-for="IsAlarmOn.Value" type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+				<input asp-for="IsAlarmOn" type="checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success">
 			</div>
 		}
 	</div>
@@ -62,15 +64,17 @@
 		@if (!Model.IsSwitch)
 		{
 			<div class="col-md-3">
-				<div class="form-group">
+				<div class="form-group" id="min-range-picker" @(Model.Id != 0 ? string.Empty : "hidden")>
 					<label>Sensor Min Range</label>
-					<input asp-for="CustomMinRangeValue" class="form-control"  type="text" name="Min Range Slider" value="">
+					<input asp-for="CustomMinRangeValue" hidden disabled class="form-control">
+					<span id="min-range-validation-message" hidden style="color:red"></span>
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="form-group">
+				<div class="form-group" id="max-range-picker" @(Model.Id != 0 ? string.Empty : "hidden")>
 					<label>Sensor Max Range</label>
-					<input asp-for="CustomMaxRangeValue" class="form-control" type="text" name="Max Range Slider" value="">
+					<input asp-for="CustomMaxRangeValue" hidden disabled class="form-control">
+					<span id="max-range-validation-message" hidden style="color:red"></span>
 				</div>
 			</div>
 		}
@@ -96,36 +100,12 @@
 		</div>
 		<!-- /.card -->
 	</div>
+	<button id="submit-create-button" type="submit" class="btn btn-block btn-outline-success"><strong>CREATE</strong></button>
 </form>
-<script>
-	$().ready(function () {
-		$("input[data-bootstrap-switch]").each(function () {
-			$(this).bootstrapSwitch('state', $(this).prop('checked'));
-		});
+<div asp-validation-summary="All" class="text-danger"></div>
 
-		$('#CustomMinRangeValue').ionRangeSlider({
-			min: @Model.SensorMinRangeValue.Value,
-			max: @Model.SensorMaxRangeValue.Value,
-			type: 'single',
-			step: 0.5,
-			postfix: ' sec',
-			prettify: true,
-			hasGrid: true
-		});
-
-		$('#CustomMaxRangeValue').ionRangeSlider({
-			min: @Model.SensorMinRangeValue.Value,
-			max: @Model.SensorMaxRangeValue.Value,
-			type: 'single',
-			step: 0.5,
-			postfix: ' sec',
-			prettify: true,
-			hasGrid: true,
-			onChange: function (obj) {
-				$("#CustomMaxRangeValue").val(obj.from);
-				console.log(obj.from);
-				console.log("djoni = " + $("#CustomMaxRangeValue").val());
-			}
-		});
-	});
-</script>
+@section Scripts
+{
+	<script src="~/lib/AdminLTE/custom/bootstrap-switch-state-changer.js"></script>
+	<script src="~/lib/AdminLTE/custom/sensor-range-picker.js"></script>
+}

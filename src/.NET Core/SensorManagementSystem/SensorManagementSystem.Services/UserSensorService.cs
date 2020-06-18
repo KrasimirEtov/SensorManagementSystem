@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using SensorManagementSystem.Data;
-using SensorManagementSystem.Models.ViewModels;
+using SensorManagementSystem.Models.Entities;
 using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.Services
@@ -15,6 +15,16 @@ namespace SensorManagementSystem.Services
 		{
 			_dbContext = dbContext;
 			_mapper = mapper;
+		}
+
+		public async Task CreateAsync<T>(T model)
+		{
+			var dbEntity = _mapper.Map<UserSensorEntity>(model);
+
+			await _dbContext.UserSensors
+				.AddAsync(dbEntity);
+
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }

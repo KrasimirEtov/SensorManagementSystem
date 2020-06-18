@@ -43,7 +43,7 @@ namespace SensorManagementSystem.Models.ViewModels
 		[Required]
 		public bool IsPublic { get; set; }
 
-		public bool? IsAlarmOn { get; set; }
+		public bool IsAlarmOn { get; set; }
 
 		[Required]
 		[Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180!")]
@@ -52,9 +52,5 @@ namespace SensorManagementSystem.Models.ViewModels
 		[Required]
 		[Range(-90, 90, ErrorMessage = "Longitude must be between -90 and 90!")]
 		public double Latitude { get; set; }
-
-		public string Value { get; set; }
-
-		public DateTime? UpdatedOn { get; set; }
 	}
 }

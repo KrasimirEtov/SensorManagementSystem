@@ -90,6 +90,7 @@ namespace SensorManagementSystem.App
 			services.AddTransient<IHttpWebClient, HttpWebClient>();
 			services.AddTransient<ISensorService, SensorService>();
 			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
+			services.AddTransient<IUserSensorService, UserSensorService>();
 			services.AddSingleton<ICachingService, MemoryCacheService>();
 		}
 

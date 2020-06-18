@@ -45,7 +45,11 @@ namespace SensorManagementSystem.Models.AutoMapper
 			CreateMap<CreateUpdateUserSensorViewModel, UserSensorEntity>()
 				.ForMember(dest => dest.MaxRangeValue, opt => opt.MapFrom(src => src.CustomMaxRangeValue))
 				.ForMember(dest => dest.MinRangeValue, opt => opt.MapFrom(src => src.CustomMinRangeValue))
-				.ForMember(dest => dest.PollingInterval, opt => opt.MapFrom(src => src.CustomPollingInterval));
+				.ForMember(dest => dest.PollingInterval, opt => opt.MapFrom(src => src.CustomPollingInterval))
+				.ForMember(dest => dest.IsAlarmOn, opt => opt.ResolveUsing(src =>
+				{
+					return src.IsSwitch ? src.IsAlarmOn : (bool?)null;
+				}));
 		}
 	}
 }
