@@ -45,18 +45,18 @@ namespace SensorManagementSystem.App.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateUpdateUserSensorViewModel model)
 		{
-			if (!model.IsAlarmOn)
+			if (ModelState.IsValid)
 			{
-				model.CustomMinRangeValue = null;
-				model.CustomMaxRangeValue = null;
-			}
-			if (!ModelState.IsValid)
-			{
-				// validate
+				if (!model.IsAlarmOn)
+				{
+					model.CustomMinRangeValue = null;
+					model.CustomMaxRangeValue = null;
+				}
+
+				await _userSensorService.CreateAsync(model);
 			}
 
-			await _userSensorService.CreateAsync(model);
-			return RedirectToAction("Index", nameof(UserSensorController));
+			return RedirectToAction("Index");
 		}
 
 		private CreateUpdateUserSensorViewModel GetViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty, int userId)

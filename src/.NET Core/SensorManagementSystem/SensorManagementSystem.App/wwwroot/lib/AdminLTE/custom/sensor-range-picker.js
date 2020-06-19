@@ -1,6 +1,7 @@
 ﻿$().ready(function () {
 	var minValue = $('#SensorMinRangeValue').val();
 	var maxValue = $('#SensorMaxRangeValue').val();
+	var pollingInterval = $('#SensorPollingInterval').val();
 
 	$('#CustomMinRangeValue').ionRangeSlider({
 		skin: "round",
@@ -40,6 +41,21 @@
 		}
 	});
 
+	$('#CustomPollingInterval').ionRangeSlider({
+		skin: "round",
+		min: pollingInterval,
+		max: 300,
+		from: pollingInterval,
+		type: 'single',
+		step: 1,
+		postfix: ' sec',
+		prettify: true,
+		hasGrid: true,
+		onChange: function (obj) {
+			$("#CustomPollingInterval").val(obj.from);
+		}
+	});
+
 	function validateMinSliderValues(obj) {
 		// obj is minSlider
 		maxSlider = $("#CustomMaxRangeValue").data("ionRangeSlider");
@@ -50,17 +66,17 @@
 
 		if (obj.from > maxSlider.result.from) {
 			isValid = false;
-			validationMessage = "Value should be less than " + maxSlider.result.from;
+			validationMessage = "Min Range should be less than " + maxSlider.result.from;
 		}
 
 		if (!isValid) {
 			$("#min-range-validation-message").removeAttr("hidden");
 			$("#min-range-validation-message").text(validationMessage);
-			$("#submit-create-button").attr("disabled", true);
+			$("#submit-button").attr("disabled", true);
 		}
 		else {
 			$("#min-range-validation-message").attr("hidden", true);
-			$("#submit-create-button").removeAttr("disabled");
+			$("#submit-button").removeAttr("disabled");
 
 			if (callUpdate) {
 				maxSlider.update();
@@ -78,17 +94,17 @@
 
 		if (obj.from < minSlider.result.from) {
 			isValid = false;
-			validationMessage = "Value should be more than " + minSlider.result.from;
+			validationMessage = "Max Range should be more than " + minSlider.result.from;
 		}
 
 		if (!isValid) {
 			$("#max-range-validation-message").removeAttr("hidden");
 			$("#max-range-validation-message").text(validationMessage);
-			$("#submit-create-button").attr("disabled", true);
+			$("#submit-button").attr("disabled", true);
 		}
 		else {
 			$("#max-range-validation-message").attr("hidden", true);
-			$("#submit-create-button").removeAttr("disabled");
+			$("#submit-button").removeAttr("disabled");
 
 			if (callUpdate) {
 				minSlider.update();

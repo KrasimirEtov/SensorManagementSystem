@@ -3,35 +3,55 @@
 @{
 	string descriptionSize = Model.IsSwitch ? "col-md-9" : "col-md-3";
 }
-	<div asp-validation-summary="All" class="text-danger"></div>
-<form asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
+
+<form id="sensor-form" asp-area="" asp-controller="UserSensor" asp-action="Create" method="post">
+	<div id="validation-message-alert" hidden class="alert alert-danger alert-dismissible" asp-validation-summary="All">
+		<h5><i class="icon fas fa-ban"></i> Error!</h5>
+	</div>
 	<input asp-for="SensorId" hidden value="@Model.SensorId" readonly />
 	<input asp-for="UserId" hidden value="@Model.UserId" readonly />
 	<input asp-for="MeasureType" hidden value="@Model.MeasureType" readonly />
 	<input asp-for="MeasureUnit" hidden value="@Model.MeasureUnit" readonly />
 	<input asp-for="SensorMinRangeValue" hidden value="@Model.SensorMinRangeValue" readonly />
 	<input asp-for="SensorMaxRangeValue" hidden value="@Model.SensorMaxRangeValue" readonly />
-	<input asp-for="Longitude" hidden />
-	<input asp-for="Latitude" hidden />
+	<input asp-for="SensorPollingInterval" hidden value="@Model.SensorPollingInterval" readonly />
 
 	<div class="row">
-		<div class="col-md-5">
+		<div class="col-md-2">
 			<label>Sensor Name</label>
 			<div class="input-group mb-3 form-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-file-signature"></i></span>
 				</div>
-				<input type="text" asp-for="Name" class="form-control" placeholder="Enter sensor name...">
+				<input type="text" asp-for="Name" class="form-control" placeholder="Enter name...">
 			</div>
 		</div>
 
-		<div class="col-md-5">
+		<div class="col-md-4">
 			<label>Sensor Measure Type - Measure Unit</label>
 			<div class="input-group mb-3 form-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-indent"></i></span>
 				</div>
 				<input type="text" class="form-control" value="@Model.MeasureType - @Model.MeasureUnit" disabled>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<label asp-for="Longitude"></label>
+			<div class="input-group form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+				</div>
+				<input asp-for="Longitude" value="" class="form-control" readonly />
+			</div>
+		</div>
+		<div class="col-md-2">
+			<label asp-for="Latitude"></label>
+			<div class="input-group form-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+				</div>
+				<input asp-for="Latitude" value="" class="form-control" readonly />
 			</div>
 		</div>
 		<div class="col-md-1">
@@ -55,16 +75,9 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-			<label>Sensor Polling Interval</label>
-			<div class="input-group form-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
-				</div>
-				<input asp-for="CustomPollingInterval" class="form-control"
-					   min="@Model.SensorPollingInterval"
-					   value="@Model.SensorPollingInterval"
-					   data-val-range="Refresh rate must be at least @Model.CustomPollingInterval"
-					   data-val-number="Refresh rate must be a number." />
+			<div class="form-group" id="polling-interval-picker">
+				<label>Sensor Polling Interval</label>
+				<input asp-for="CustomPollingInterval" hidden disabled class="form-control">
 			</div>
 		</div>
 		@if (!Model.IsSwitch)
@@ -91,7 +104,6 @@
 		<div class="card card-primary card-outline collapsed-card">
 			<div class="card-header">
 				<h3 class="card-title">Choose sensor coordinates</h3>
-
 				<div class="card-tools">
 					<button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
 					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
@@ -106,9 +118,8 @@
 		</div>
 		<!-- /.card -->
 	</div>
-	<button id="submit-button" type="submit" disabled class="btn btn-block btn-outline-success"><strong>CREATE</strong></button>
+	<button id="submit-button" type="submit" class="btn btn-block btn-outline-success"><strong>CREATE</strong></button>
 </form>
-<div asp-validation-summary="All" class="text-danger"></div>
 
 @section Scripts
 {
@@ -118,4 +129,5 @@
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
 	</script>
 	<script src="~/lib/AdminLTE/custom/create-update-map.js"></script>
+	<script src="~/lib/AdminLTE/custom/sensor-submit-form-validate.js"></script>
 }

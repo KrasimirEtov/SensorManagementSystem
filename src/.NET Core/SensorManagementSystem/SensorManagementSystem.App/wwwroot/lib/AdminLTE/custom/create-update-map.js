@@ -28,7 +28,8 @@ function initMap() {
 			marker = new google.maps.Marker({
 				position: clickedLocation,
 				map: map,
-				draggable: true //make it draggable
+				draggable: true,  //make it draggable
+				animation: google.maps.Animation.BOUNCE
 			});
 			//Listen for drag events!
 			google.maps.event.addListener(marker, 'dragend', function (event) {
@@ -40,13 +41,6 @@ function initMap() {
 		}
 		//Get the marker's location.
 		markerLocation();
-	});
-
-	//prevent submiting register sensor form when pressing Enter key
-	google.maps.event.addDomListener(input, 'keydown', function (e) {
-		if (e.keyCode == 13) {
-			e.preventDefault();
-		}
 	});
 }
 

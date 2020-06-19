@@ -21,6 +21,7 @@ namespace SensorManagementSystem.Models.ViewModels
 		[StringLength(30, ErrorMessage = "Sensor name should be between 3 and 30 symbols.", MinimumLength = 3)]
 		public string Name { get; set; }
 
+		[Required]
 		[StringLength(100, ErrorMessage = "Sensor description should be between 3 and 100 symbols.", MinimumLength = 3)]
 		public string Description { get; set; }
 
@@ -40,17 +41,14 @@ namespace SensorManagementSystem.Models.ViewModels
 		[Range(0, int.MaxValue, ErrorMessage = "Polling interval must be a positive value!")]
 		public int SensorPollingInterval { get; set; }
 
-		[Required]
 		public bool IsPublic { get; set; }
 
 		public bool IsAlarmOn { get; set; }
 
-		[Required]
-		[Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180!")]
+		[Required(ErrorMessage = "Latitude is required!")]
 		public double Longitude { get; set; }
 
-		[Required]
-		[Range(-90, 90, ErrorMessage = "Longitude must be between -90 and 90!")]
+		[Required(ErrorMessage = "Longitude is required and !")]
 		public double Latitude { get; set; }
 	}
 }
