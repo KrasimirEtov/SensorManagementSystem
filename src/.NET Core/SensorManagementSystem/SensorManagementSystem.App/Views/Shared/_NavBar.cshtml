@@ -21,7 +21,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link">My Sensors</a>
+						<a asp-area="" asp-controller="UserSensor" asp-action="Index" class="nav-link">My Sensors</a>
 					</li>
 
 					@if (User.IsInRole(Constants.AdminRoleName))

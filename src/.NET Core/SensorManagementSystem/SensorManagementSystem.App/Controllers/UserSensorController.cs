@@ -1,8 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
@@ -12,6 +16,7 @@ namespace SensorManagementSystem.App.Controllers
 	[Authorize]
 	public class UserSensorController : Controller
 	{
+		private const int PageSize = 3;
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
 		private readonly IUserSensorService _userSensorService;
@@ -25,9 +30,14 @@ namespace SensorManagementSystem.App.Controllers
 			_mapper = mapper;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var userSensors = await _userSensorService.GetAllByUserId<UserSensorViewModel>(userId);
+			var measureTypes = await _sensorPropertyService.GetAllAsync<SensorPropertyViewModel>();
+			var model = GetUserSensorIndexViewModel(measureTypes, userSensors);
+
+			return View(model);
 		}
 
 		[HttpGet]
@@ -35,9 +45,8 @@ namespace SensorManagementSystem.App.Controllers
 		{
 			var sensor = await _sensorService.GetByIdAsync<SensorDTO>(sensorId);
 			var sensorProperty = await _sensorPropertyService.GetByIdAsync<SensorPropertyDTO>(sensor.SensorPropertyId);
-			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-			var model = GetViewModel(sensor, sensorProperty, userId);
+			var model = GetCreateUpdateSensorViewModel(sensor, sensorProperty);
 
 			return View(model);
 		}
@@ -72,7 +81,7 @@ namespace SensorManagementSystem.App.Controllers
 			return RedirectToAction("Index");
 		}
 
-		private CreateUpdateUserSensorViewModel GetViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty, int userId)
+		private CreateUpdateUserSensorViewModel GetCreateUpdateSensorViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty)
 		{
 			return new CreateUpdateUserSensorViewModel
 			{
@@ -85,6 +94,40 @@ namespace SensorManagementSystem.App.Controllers
 				IsSwitch = sensorProperty.IsSwitch,
 				UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
 			};
+		}
+
+		private UserSensorIndexViewModel GetUserSensorIndexViewModel(IEnumerable<SensorPropertyViewModel> sensorPropertyViewModels, IEnumerable<UserSensorViewModel> userSensorViewModels)
+		{
+			return new UserSensorIndexViewModel
+			{
+				MeasureTypes = new SelectList(sensorPropertyViewModels, "MeasureType", "MeasureType"),
+				UserSensors = PaginatedList<UserSensorTableViewModel>.Create(GetUserSensorTableViewModel(userSensorViewModels), 1, PageSize)
+			};
+		}
+
+		private IEnumerable<UserSensorTableViewModel> GetUserSensorTableViewModel(IEnumerable<UserSensorViewModel> userSensorViewModels)
+		{
+			var result = new List<UserSensorTableViewModel>();
+
+			foreach (var item in userSensorViewModels)
+			{
+				var itemToAdd = new UserSensorTableViewModel
+				{
+					IsAlarmOn = item.IsAlarmOn,
+					Description = item.Description,
+					IsPublic = item.IsPublic,
+					MaxRangeValue = item.MaxRangeValue,
+					MinRangeValue = item.MinRangeValue,
+					Name = item.Name,
+					PollingInterval = item.PollingInterval,
+					UpdatedOn = item.UpdatedOn,
+					Value = item.Value
+				};
+
+				result.Add(itemToAdd);
+			}
+
+			return result;
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SensorManagementSystem.Models.ViewModels;
 
 namespace SensorManagementSystem.Services.Contract
@@ -10,5 +11,7 @@ namespace SensorManagementSystem.Services.Contract
 		Task<T> GetAsync<T>(int id);
 
 		Task UpdateAsync(CreateUpdateUserSensorViewModel userSensorViewModel);
+
+		Task<IEnumerable<T>> GetAllByUserId<T>(int userId);
 	}
 }

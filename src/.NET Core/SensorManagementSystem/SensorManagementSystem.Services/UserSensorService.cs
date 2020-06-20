@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,17 @@ namespace SensorManagementSystem.Services
 				.AddAsync(dbEntity);
 
 			await _dbContext.SaveChangesAsync();
+		}
+
+		public async Task<IEnumerable<T>> GetAllByUserId<T>(int userId)
+		{
+			var userSensorEntities = await _dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.ThenInclude(x => x.SensorProperty)
+				.Where(x => x.UserId == userId)
+				.ToListAsync();
+
+			return MapToViewModel<T>(userSensorEntities);
 		}
 
 		public async Task<T> GetAsync<T>(int id)

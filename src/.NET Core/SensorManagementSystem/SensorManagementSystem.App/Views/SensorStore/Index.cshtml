@@ -24,6 +24,8 @@
 
 @section Scripts
 {
+	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
+
 	<script>
 		$().ready(function () {
 			$("#nextPageBtn").click(function () {
@@ -41,10 +43,6 @@
 
 	<script>
 		$().ready(function () {
-			$('.select2bs4').select2({
-				theme: 'bootstrap4'
-			});
-
 			$("#MeasureType").change(function () {
 				var measureType = $("#MeasureType").val();
 				var requestUrl = '@Url.Action("ReloadSensorsTable", "SensorStore")';

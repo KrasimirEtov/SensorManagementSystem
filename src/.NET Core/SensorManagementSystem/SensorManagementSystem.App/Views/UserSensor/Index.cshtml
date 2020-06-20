@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model UserSensorIndexViewModel
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Sensor Measure Type:</label>
+			<select asp-for="MeasureType" asp-items="Model.MeasureTypes"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Privacy status:</label>
+			<select asp-for="IsPrivate"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+				<option value="true">Private</option>
+				<option value="false">Public</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Alarm status:</label>
+			<select asp-for="IsAlarmOn"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+				<option value="true">Alarm On</option>
+				<option value="false">Alarm Off</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<label>Search by Sensor Name:</label>
+		<div class="input-group mb-3 form-group">
+			<input type="text" id="search-filter-input" class="form-control rounded-0">
+			<span class="input-group-append">
+				<button type="button" id="search-filter-button" class="btn btn-info btn-flat">Go!</button>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div id="user-sensor-cards">
+	<partial name="_UserSensorsTable" model="@Model.UserSensors" />
+</div>
+
+@section Scripts
+{
+	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
 }
