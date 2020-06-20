@@ -1,13 +1,25 @@
 ﻿$().ready(function () {
-	var minValue = $('#SensorMinRangeValue').val();
-	var maxValue = $('#SensorMaxRangeValue').val();
-	var pollingInterval = $('#SensorPollingInterval').val();
+	var sensorMinValue = $('#SensorMinRangeValue').val();
+	var sensorMaxValue = $('#SensorMaxRangeValue').val();
+	var sensorPollingInterval = $('#SensorPollingInterval').val();
+
+	var currentMinValue = $('#CustomMinRangeValue').val();
+	var currentMaxValue = $('#CustomMaxRangeValue').val();
+	var currentPollingInterval = $('#CustomPollingInterval').val();
+
+	if (currentMinValue == "" && currentMaxValue == "") {
+		currentMinValue = sensorMinValue;
+		currentMaxValue = sensorMaxValue;
+	}
+	if (currentPollingInterval == 0) {
+		currentPollingInterval = sensorPollingInterval;
+	}
 
 	$('#CustomMinRangeValue').ionRangeSlider({
 		skin: "round",
-		min: minValue,
-		max: maxValue,
-		from: minValue,
+		min: sensorMinValue,
+		max: sensorMaxValue,
+		from: currentMinValue,
 		type: 'single',
 		step: 0.5,
 		postfix: ' sec',
@@ -24,9 +36,9 @@
 
 	$('#CustomMaxRangeValue').ionRangeSlider({
 		skin: "round",
-		min: minValue,
-		max: maxValue,
-		from: maxValue,
+		min: sensorMinValue,
+		max: sensorMaxValue,
+		from: currentMaxValue,
 		type: 'single',
 		step: 0.5,
 		postfix: ' sec',
@@ -43,9 +55,9 @@
 
 	$('#CustomPollingInterval').ionRangeSlider({
 		skin: "round",
-		min: pollingInterval,
+		min: sensorPollingInterval,
 		max: 300,
-		from: pollingInterval,
+		from: currentPollingInterval,
 		type: 'single',
 		step: 1,
 		postfix: ' sec',

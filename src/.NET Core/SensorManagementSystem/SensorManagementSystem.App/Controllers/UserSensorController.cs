@@ -47,13 +47,26 @@ namespace SensorManagementSystem.App.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (!model.IsAlarmOn)
-				{
-					model.CustomMinRangeValue = null;
-					model.CustomMaxRangeValue = null;
-				}
-
 				await _userSensorService.CreateAsync(model);
+			}
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var model = await _userSensorService.GetAsync<CreateUpdateUserSensorViewModel>(id);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(CreateUpdateUserSensorViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				await _userSensorService.UpdateAsync(model);
 			}
 
 			return RedirectToAction("Index");
@@ -71,7 +84,7 @@ namespace SensorManagementSystem.App.Controllers
 				MeasureUnit = sensorProperty.MeasureUnit,
 				IsSwitch = sensorProperty.IsSwitch,
 				UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-		};
+			};
 		}
 	}
 }

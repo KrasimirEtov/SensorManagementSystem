@@ -48,7 +48,7 @@ namespace SensorManagementSystem.Models.ViewModels
 		[Required(ErrorMessage = "Latitude is required!")]
 		public double Longitude { get; set; }
 
-		[Required(ErrorMessage = "Longitude is required and !")]
+		[Required(ErrorMessage = "Longitude is required!")]
 		public double Latitude { get; set; }
 	}
 }

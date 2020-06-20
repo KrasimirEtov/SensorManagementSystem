@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SensorManagementSystem.Common;
 using SensorManagementSystem.Models.Entities;
-using SensorManagementSystem.Models.Enums;
 
 namespace SensorManagementSystem.Data.Seed
 {
@@ -19,7 +18,12 @@ namespace SensorManagementSystem.Data.Seed
 			_dbContext = dbContext;
 		}
 
-		public async Task SeedAdmin()
+		public async Task MigrateDatabaseAsync()
+		{
+			await _dbContext.Database.MigrateAsync();
+		}
+
+		public async Task SeedAdminAsync()
 		{
 			var user = new UserEntity()
 			{
@@ -60,7 +64,7 @@ namespace SensorManagementSystem.Data.Seed
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task SeedRoles()
+		public async Task SeedRolesAsync()
 		{
 			var roleStore = new RoleStore<RoleEntity, SensorManagementSystemDbContext, int>(_dbContext);
 
@@ -77,7 +81,7 @@ namespace SensorManagementSystem.Data.Seed
 			}
 		}
 
-		public async Task SeedSensorProperies()
+		public async Task SeedSensorPropertiesAsync()
 		{
 			var isTableEmpty = await _dbContext.SensorProperties.AnyAsync();
 

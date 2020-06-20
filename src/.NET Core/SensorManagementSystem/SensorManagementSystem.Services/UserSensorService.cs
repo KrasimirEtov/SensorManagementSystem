@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SensorManagementSystem.Data;
 using SensorManagementSystem.Models.Entities;
+using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.Services
@@ -19,12 +23,94 @@ namespace SensorManagementSystem.Services
 
 		public async Task CreateAsync<T>(T model)
 		{
-			var dbEntity = _mapper.Map<UserSensorEntity>(model);
+			var dbEntity = MapToEntity(model);
+
+			if (!dbEntity.IsAlarmOn.HasValue || (dbEntity.IsAlarmOn.HasValue && !dbEntity.IsAlarmOn.Value))
+			{
+				dbEntity.MinRangeValue = null;
+				dbEntity.MaxRangeValue = null;
+			}
 
 			await _dbContext.UserSensors
 				.AddAsync(dbEntity);
 
 			await _dbContext.SaveChangesAsync();
+		}
+
+		public async Task<T> GetAsync<T>(int id)
+		{
+			var userSensorEntity = await _dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.ThenInclude(x => x.SensorProperty)
+				.FirstOrDefaultAsync(x => x.Id == id);
+
+			if (userSensorEntity == null)
+			{
+				throw new Exception($"userSensorEntity with Id: {id} was not found in the database!");
+			}
+
+			return MapToViewModel<T>(userSensorEntity);
+		}
+
+		public async Task UpdateAsync(CreateUpdateUserSensorViewModel userSensorViewModel)
+		{
+			var userSensorEntity = await this._dbContext.UserSensors
+				.FirstOrDefaultAsync(x => x.Id == userSensorViewModel.Id);
+
+			if (userSensorEntity == null)
+			{
+				throw new Exception($"UserSensorEntity with Id: {userSensorEntity.Id} was not found in the database!");
+			}
+
+			userSensorEntity.Description = userSensorViewModel.Description;
+			if (!userSensorViewModel.IsSwitch)
+			{
+				userSensorEntity.IsAlarmOn = userSensorViewModel.IsAlarmOn;
+				if (!userSensorViewModel.IsAlarmOn)
+				{
+					userSensorEntity.MinRangeValue = null;
+					userSensorEntity.MaxRangeValue = null;
+				}
+				else
+				{
+					userSensorEntity.MinRangeValue = userSensorViewModel.CustomMinRangeValue;
+					userSensorEntity.MaxRangeValue = userSensorViewModel.CustomMaxRangeValue;
+				}
+			}
+			userSensorEntity.IsPublic = userSensorViewModel.IsPublic;
+			userSensorEntity.Latitude = userSensorViewModel.Latitude;
+			userSensorEntity.Longitude = userSensorViewModel.Longitude;
+			userSensorEntity.Name = userSensorViewModel.Name;
+			userSensorEntity.PollingInterval = userSensorViewModel.CustomPollingInterval;
+
+			this._dbContext.UserSensors
+				.Update(userSensorEntity);
+
+			await this._dbContext.SaveChangesAsync();
+		}
+
+		private IEnumerable<T> MapToViewModel<T>(IEnumerable<UserSensorEntity> userSensorViewModels)
+		{
+			List<T> userSensors = new List<T>();
+
+			foreach (var userSensor in userSensorViewModels)
+			{
+				userSensors.Add(_mapper.Map<T>(userSensor));
+			}
+
+			return userSensors;
+		}
+
+		private T MapToViewModel<T>(UserSensorEntity userSensorEntity)
+		{
+			T userSensor = _mapper.Map<T>(userSensorEntity);
+
+			return userSensor;
+		}
+
+		private UserSensorEntity MapToEntity<T>(T userSensorViewModel)
+		{
+			return _mapper.Map<UserSensorEntity>(userSensorViewModel);
 		}
 	}
 }

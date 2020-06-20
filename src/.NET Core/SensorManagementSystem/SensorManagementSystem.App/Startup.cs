@@ -19,6 +19,7 @@ using SensorManagementSystem.Common.WebClients.Contract;
 using SensorManagementSystem.Common.WebClients;
 using SensorManagementSystem.Services.Contract;
 using SensorManagementSystem.Common.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SensorManagementSystem.App
 {
@@ -59,7 +60,10 @@ namespace SensorManagementSystem.App
 				});
 			});
 
-			services.AddControllersWithViews()
+			services.AddControllersWithViews(options =>
+			{
+				options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+			})
 				.AddNewtonsoftJson(options =>
 				{
 					options.SerializerSettings.ContractResolver = new DefaultContractResolver
@@ -118,9 +122,10 @@ namespace SensorManagementSystem.App
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			databaseSeeder.SeedAdmin().Wait(TimeSpan.FromSeconds(10));
-			databaseSeeder.SeedRoles().Wait(TimeSpan.FromSeconds(10));
-			databaseSeeder.SeedSensorProperies().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.MigrateDatabaseAsync().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.SeedAdminAsync().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.SeedRolesAsync().Wait(TimeSpan.FromSeconds(10));
+			databaseSeeder.SeedSensorPropertiesAsync().Wait(TimeSpan.FromSeconds(10));
 
 			app.UseEndpoints(endpoints =>
 			{

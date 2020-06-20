@@ -4,10 +4,12 @@ namespace SensorManagementSystem.Data.Seed
 {
 	public interface IDatabaseSeeder
 	{
-		Task SeedAdmin();
+		Task MigrateDatabaseAsync();
 
-		Task SeedRoles();
+		Task SeedAdminAsync();
 
-		Task SeedSensorProperies();
+		Task SeedRolesAsync();
+
+		Task SeedSensorPropertiesAsync();
 	}
 }
