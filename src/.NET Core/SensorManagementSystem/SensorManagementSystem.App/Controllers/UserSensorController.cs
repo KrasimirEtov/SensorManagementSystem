@@ -107,8 +107,14 @@ namespace SensorManagementSystem.App.Controllers
 
 		private UserSensorIndexViewModel GetUserSensorIndexViewModel(IEnumerable<SensorPropertyViewModel> sensorPropertyViewModels, IEnumerable<UserSensorViewModel> userSensorViewModels)
 		{
+			int minPollingInterval = 0;
 			var userSensorTableViewModels = GetUserSensorTableViewModel(userSensorViewModels, sensorPropertyViewModels);
-			var minPollingInterval = userSensorTableViewModels.Min(x => x.PollingInterval);
+
+			if (userSensorTableViewModels.Any())
+			{
+				minPollingInterval = userSensorTableViewModels.Min(x => x.PollingInterval);
+			}
+
 			return new UserSensorIndexViewModel
 			{
 				MeasureTypes = new SelectList(sensorPropertyViewModels, "MeasureType", "MeasureType"),

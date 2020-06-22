@@ -26,11 +26,11 @@ namespace SensorManagementSystem.Services
 		{
 			var dbEntity = MapToEntity(model);
 
-			if (!dbEntity.IsAlarmOn.HasValue || (dbEntity.IsAlarmOn.HasValue && !dbEntity.IsAlarmOn.Value))
-			{
-				dbEntity.MinRangeValue = null;
-				dbEntity.MaxRangeValue = null;
-			}
+			//if (!dbEntity.IsAlarmOn.HasValue || (dbEntity.IsAlarmOn.HasValue && !dbEntity.IsAlarmOn.Value))
+			//{
+			//	dbEntity.MinRangeValue = null;
+			//	dbEntity.MaxRangeValue = null;
+			//}
 
 			await _dbContext.UserSensors
 				.AddAsync(dbEntity);

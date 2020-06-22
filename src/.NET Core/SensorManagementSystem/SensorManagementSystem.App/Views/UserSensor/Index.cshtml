@@ -118,9 +118,9 @@
 			$("#search-filter-input").change(reloadTable);
 
 			let minPollingInterval = @Model.UserSensors.MinPollingInterval;
-			setInterval(function () {
-				reloadTable();
-			}, minPollingInterval * 1000);
+			//setInterval(function () {
+			//	reloadTable();
+			//}, minPollingInterval * 1000);
 
 			$("#search-filter-input").keyup(function (event) {
 				if (event.keyCode === 13) {
