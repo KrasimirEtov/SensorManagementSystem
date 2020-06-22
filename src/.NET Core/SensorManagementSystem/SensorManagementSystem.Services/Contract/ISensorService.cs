@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SensorManagementSystem.Models.DTOs;
-using SensorManagementSystem.Models.Entities;
-using SensorManagementSystem.Models.ViewModels;
 
 namespace SensorManagementSystem.Services.Contract
 {
@@ -10,7 +8,9 @@ namespace SensorManagementSystem.Services.Contract
 	{
 		Task<IEnumerable<T>> GetAllAsync<T>();
 
-		Task<PaginatedList<T>> GetAllFilteredAsync<T>(int pageIndex, int pageSize, string measureTypeFilter = null);
+		Task<int> GetCountAsync();
+
+		Task<IEnumerable<T>> GetAllFilteredAsync<T>(string measureTypeFilter = null);
 
 		Task<T> GetByIdAsync<T>(int id);
 

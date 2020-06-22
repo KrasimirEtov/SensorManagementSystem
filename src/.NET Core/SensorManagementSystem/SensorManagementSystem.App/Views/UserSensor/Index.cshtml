@@ -13,11 +13,11 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Filter by Privacy status:</label>
-			<select asp-for="IsPrivate"
+			<select asp-for="IsPublic"
 					class="form-control select2bs4" style="width: 100%;">
 				<option value="null">-- All --</option>
-				<option value="true">Private</option>
-				<option value="false">Public</option>
+				<option value="true">Public</option>
+				<option value="false">Private</option>
 			</select>
 		</div>
 	</div>
@@ -46,8 +46,99 @@
 <div id="user-sensor-cards">
 	<partial name="_UserSensorsTable" model="@Model.UserSensors" />
 </div>
+<div class="row">
+	<button id="previous-page-button" type="button" class="btn btn-flat btn-outline-primary"
+			@(Model.UserSensors.HasPreviousPage ? string.Empty : "disabled")>
+		Previous
+	</button>
+	&nbsp;&nbsp;
+	<button id="next-page-button" type="button" class="btn btn-flat btn-outline-primary"
+			@(Model.UserSensors.HasNextPage ? string.Empty : "disabled")>
+		Next
+	</button>
+</div>
+<br />
+
 
 @section Scripts
 {
 	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
+	<script>
+		$().ready(function () {
+			const reloadTable = function () {
+				let measureType = $("#MeasureType").val();
+				let isPublic = $("#IsPublic").val();
+				let isAlarmOn = $("#IsAlarmOn").val();
+				let searchTerm = $("#search-filter-input").val();
+				var pageIndex = $("#PageIndex").val();
+				var requestUrl = '@Url.Action("ReloadUserSensorsTable", "UserSensor")';
+
+				requestUrl += '?pageIndex=' + pageIndex;
+
+				if (measureType != 'null' && measureType != undefined) {
+					requestUrl += '&measureType=' + measureType;
+				}
+				if (isPublic != 'null' && isPublic != undefined) {
+					requestUrl += '&isPublic=' + isPublic;
+				}
+				if (isAlarmOn != 'null' && isAlarmOn != undefined) {
+					requestUrl += '&isAlarmOn=' + isAlarmOn;
+				}
+				if (searchTerm != '' && searchTerm != undefined) {
+					requestUrl += '&searchTerm=' + searchTerm;
+				}
+
+				$.ajax({
+					type: "GET",
+					url: requestUrl,
+					dataType: "html",
+					success: function (response) {
+						$("#user-sensor-cards").html(response);
+						var hasPreviousPage = $("#HasPreviousPage").val().toLowerCase() === 'true';
+						var hasNextPage = $("#HasNextPage").val().toLowerCase() === 'true';
+						if (hasPreviousPage) {
+							$("#previous-page-button").removeAttr("disabled");
+						}
+						else {
+							$("#previous-page-button").attr("disabled", true);
+						}
+						if (hasNextPage) {
+							$("#next-page-button").removeAttr("disabled");
+						}
+						else {
+							$("#next-page-button").attr("disabled", true);
+						}
+					}
+				});
+			}
+
+			$("#MeasureType").change(reloadTable);
+			$("#IsPublic").change(reloadTable);
+			$("#IsAlarmOn").change(reloadTable);
+			$("#search-filter-input").change(reloadTable);
+
+			let minPollingInterval = @Model.UserSensors.MinPollingInterval;
+			setInterval(function () {
+				reloadTable();
+			}, minPollingInterval * 1000);
+
+			$("#search-filter-input").keyup(function (event) {
+				if (event.keyCode === 13) {
+					reloadTable();
+				}
+			});
+
+			$("#search-filter-button").click(reloadTable);
+			$("#previous-page-button").click(function () {
+				let pageIndex = $("#PageIndex").val();
+				$("#PageIndex").val(parseInt(pageIndex) - 1);
+				reloadTable();
+			});
+			$("#next-page-button").click(function () {
+				let pageIndex = $("#PageIndex").val();
+				$("#PageIndex").val(parseInt(pageIndex) + 1);
+				reloadTable();
+			});
+		});
+	</script>
 }

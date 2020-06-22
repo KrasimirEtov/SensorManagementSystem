@@ -16,12 +16,6 @@
 	<partial name="_SensorsTable" model="@Model.Sensors" />
 </div>
 
-@{
-	var prevDisabled = !Model.Sensors.HasPreviousPage ? "disabled" : string.Empty;
-	var nextDisabled = !Model.Sensors.HasNextPage ? "disabled" : string.Empty;
-	// string measureTypeFilter = null;
-}
-
 @section Scripts
 {
 	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>

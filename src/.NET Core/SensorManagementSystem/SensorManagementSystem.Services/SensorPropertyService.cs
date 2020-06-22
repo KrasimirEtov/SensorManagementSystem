@@ -30,6 +30,12 @@ namespace SensorManagementSystem.Services
 			return MapToDTO<T>(sensorPropertyEntities);
 		}
 
+		public async Task<int> GetCountAsync()
+		{
+			return await _dbContext.SensorProperties
+				.CountAsync();
+		}
+
 		public async Task<T> GetByIdAsync<T>(int id)
 		{
 			var sensorPropertyEntity = await this._dbContext.SensorProperties

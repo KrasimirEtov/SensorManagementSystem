@@ -8,7 +8,7 @@ namespace SensorManagementSystem.Models.ViewModels
 
 		public SelectList MeasureTypes { get; set; }
 
-		public string IsPrivate { get; set; }
+		public string IsPublic { get; set; }
 
 		public string IsAlarmOn { get; set; }
 

@@ -38,7 +38,7 @@ namespace SensorManagementSystem.Services
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<T>> GetAllByUserId<T>(int userId)
+		public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(int userId)
 		{
 			var userSensorEntities = await _dbContext.UserSensors
 				.Include(x => x.Sensor)
@@ -47,6 +47,57 @@ namespace SensorManagementSystem.Services
 				.ToListAsync();
 
 			return MapToViewModel<T>(userSensorEntities);
+		}
+
+		public async Task<PaginatedList<T>> GetAllFilteredAsync<T>(int userId, int pageIndex, int pageSize, string measureType = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
+		{
+			var userSensorEntitiesQuery = this._dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.ThenInclude(x => x.SensorProperty)
+				.Where(x => x.UserId == userId)
+				.AsQueryable();
+
+			userSensorEntitiesQuery = GetFilteredQuery(userSensorEntitiesQuery, measureType, isPublic, isAlarmOn, searchTerm);
+
+			var filteredUserSensorEntities = await userSensorEntitiesQuery.ToListAsync();
+			var minPollingInterval = filteredUserSensorEntities.Min(x => x.PollingInterval);
+			return PaginatedList<T>.Create(MapToViewModel<T>(filteredUserSensorEntities), pageIndex, pageSize, minPollingInterval);
+		}
+
+		private IQueryable<UserSensorEntity> GetFilteredQuery(IQueryable<UserSensorEntity> userSensorEntitiesQuery, string measureTypeFilter = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
+		{
+			if (!string.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm))
+			{
+				userSensorEntitiesQuery = userSensorEntitiesQuery
+					.Where(x => x.Name.Contains(searchTerm) || x.Description.Contains(searchTerm));
+			}
+
+			if (!string.IsNullOrEmpty(measureTypeFilter) || !string.IsNullOrWhiteSpace(measureTypeFilter))
+			{
+				userSensorEntitiesQuery = userSensorEntitiesQuery
+					.Where(x => x.Sensor.SensorProperty.MeasureType == measureTypeFilter);
+			}
+
+			if (isPublic.HasValue)
+			{
+				userSensorEntitiesQuery = userSensorEntitiesQuery.Where(x => x.IsPublic == isPublic.Value);
+			}
+			
+			if (isAlarmOn.HasValue)
+			{
+				userSensorEntitiesQuery = userSensorEntitiesQuery.Where(x => x.IsAlarmOn == isAlarmOn.Value);
+			}
+
+			return userSensorEntitiesQuery;
+		}
+
+		public async Task<int> GetCountAsync(bool includePrivate = false)
+		{
+			return includePrivate
+				? await _dbContext.UserSensors
+                    .CountAsync()
+				: await _dbContext.UserSensors
+                    .CountAsync(x => x.IsPublic);
 		}
 
 		public async Task<T> GetAsync<T>(int id)
@@ -99,6 +150,12 @@ namespace SensorManagementSystem.Services
 				.Update(userSensorEntity);
 
 			await this._dbContext.SaveChangesAsync();
+		}
+
+		public async Task<int> GetCountByUserIdAsync(int userId)
+		{
+			return await _dbContext.UserSensors
+					.CountAsync(x => x.UserId == userId);
 		}
 
 		private IEnumerable<T> MapToViewModel<T>(IEnumerable<UserSensorEntity> userSensorViewModels)

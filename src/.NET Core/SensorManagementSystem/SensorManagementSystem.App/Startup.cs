@@ -62,7 +62,7 @@ namespace SensorManagementSystem.App
 
 			services.AddControllersWithViews(options =>
 			{
-				options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+				//options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 			})
 				.AddNewtonsoftJson(options =>
 				{

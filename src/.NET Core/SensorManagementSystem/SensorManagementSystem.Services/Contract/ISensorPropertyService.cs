@@ -10,6 +10,8 @@ namespace SensorManagementSystem.Services.Contract
 
 		Task<T> GetByIdAsync<T>(int id);
 
+		Task<int> GetCountAsync();
+
 		Task<IEnumerable<string>> GetSensorMeasureTypesAsync();
 
 		Task CreateAsync(SensorPropertyDTO sensorPropertyDTO);

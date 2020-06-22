@@ -28,7 +28,7 @@ namespace SensorManagementSystem.Models.AutoMapper
 				.ForMember(dest => dest.Value, opt => opt.Ignore());
 
 			// SensorEntity <--> SensorViewModel
-			CreateMap<SensorEntity, SensorViewModel>();				
+			CreateMap<SensorEntity, SensorViewModel>();
 			CreateMap<SensorViewModel, SensorEntity>()
 				.ForMember(dest => dest.UserSensors, opt => opt.Ignore());
 
@@ -57,8 +57,24 @@ namespace SensorManagementSystem.Models.AutoMapper
 				}));
 
 			// UserSensorEntity <--> UserSensorViewModel
-			CreateMap<UserSensorEntity, UserSensorViewModel>();
+			CreateMap<UserSensorEntity, UserSensorViewModel>()
+				.ForMember(dest => dest.SensorPropertyId, opt => opt.MapFrom(src => src.Sensor.SensorPropertyId)).ReverseMap();
 			CreateMap<UserSensorViewModel, UserSensorEntity>();
+
+			// UserSensorEntity <-- UserSensorTableViewModel
+			CreateMap<UserSensorEntity, UserSensorTableViewModel>()
+				.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+				.ForMember(dest => dest.IsAlarmOn, opt => opt.MapFrom(src => src.IsAlarmOn))
+				.ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic))
+				.ForMember(dest => dest.MaxRangeValue, opt => opt.MapFrom(src => src.MaxRangeValue))
+				.ForMember(dest => dest.MinRangeValue, opt => opt.MapFrom(src => src.MinRangeValue))
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.PollingInterval, opt => opt.MapFrom(src => src.PollingInterval))
+				.ForMember(dest => dest.UpdatedOn, opt => opt.MapFrom(src => src.UpdatedOn))
+				.ForMember(dest => dest.Value, opt => opt.MapFrom(src => string.Format("{0:0.00}", double.Parse(src.Value))))
+				.ForMember(dest => dest.MeasureType, opt => opt.MapFrom(src => src.Sensor.SensorProperty.MeasureType))
+				.ForMember(dest => dest.MeasureUnit, opt => opt.MapFrom(src => src.Sensor.SensorProperty.MeasureUnit))
+				.ForMember(dest => dest.IsSwitch, opt => opt.MapFrom(src => src.Sensor.SensorProperty.IsSwitch));
 		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SensorManagementSystem.Models.ViewModels
 {
@@ -8,6 +10,6 @@ namespace SensorManagementSystem.Models.ViewModels
 
 		public SelectList MeasureTypes { get; set; }
 
-		public PaginatedList<SensorViewModel> Sensors { get; set; }
+		public List<SensorViewModel> Sensors { get; set; }
 	}
 }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SensorManagementSystem.Common;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
 
@@ -11,7 +10,6 @@ namespace SensorManagementSystem.App.Controllers
 {
 	public class SensorStoreController : Controller
 	{
-		private const int PageSize = 4;
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
 		private readonly ICachingService _cachingService;
@@ -33,15 +31,15 @@ namespace SensorManagementSystem.App.Controllers
 			var model = new SensorStoreViewModel
 			{
 				MeasureTypes = new SelectList(measureTypes, "MeasureType", "MeasureType"),
-				Sensors = PaginatedList<SensorViewModel>.Create(allSensors, 1, PageSize)
+				Sensors = allSensors
 			};
 
 			return View(model);
 		}
 
-		public async Task<IActionResult> ReloadSensorsTable(int? pageNumber, string measureType = null)
+		public async Task<IActionResult> ReloadSensorsTable(string measureType = null)
 		{
-			var sensors = await _sensorService.GetAllFilteredAsync<SensorViewModel>(pageNumber ?? 1, PageSize, measureType);
+			var sensors = (await _sensorService.GetAllFilteredAsync<SensorViewModel>(measureType)).ToList();
 
 			return PartialView("_SensorsTable", sensors);
 		}

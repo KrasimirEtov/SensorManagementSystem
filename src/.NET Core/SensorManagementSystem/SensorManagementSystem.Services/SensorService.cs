@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using SensorManagementSystem.Data;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.Entities;
-using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
 
 namespace SensorManagementSystem.Services
@@ -32,7 +31,13 @@ namespace SensorManagementSystem.Services
 			return MapToDTO<T>(sensorEntities);
 		}
 
-		public async Task<PaginatedList<T>> GetAllFilteredAsync<T>(int pageIndex, int pageSize, string measureTypeFilter = null)
+		public async Task<int> GetCountAsync()
+		{
+			return await _dbContext.Sensors
+				.CountAsync();
+		}
+
+		public async Task<IEnumerable<T>> GetAllFilteredAsync<T>(string measureTypeFilter = null)
 		{
 			var sensorEntities = this._dbContext.Sensors
 				.Include(x => x.SensorProperty)
@@ -45,7 +50,7 @@ namespace SensorManagementSystem.Services
 			}
 			var filteredSensorEntities = await sensorEntities.ToListAsync();
 
-			return PaginatedList<T>.Create(MapToDTO<T>(filteredSensorEntities), pageIndex, pageSize);
+			return MapToDTO<T>(filteredSensorEntities);
 		}
 
 		public async Task<T> GetByIdAsync<T>(int id)

@@ -8,6 +8,12 @@ namespace SensorManagementSystem.Models.ViewModels
 
 		public string Description { get; set; }
 
+		public string MeasureType { get; set; }
+
+		public string MeasureUnit { get; set; }
+
+		public bool IsSwitch { get; set; }
+
 		public double? MinRangeValue { get; set; }
 
 		public double? MaxRangeValue { get; set; }
