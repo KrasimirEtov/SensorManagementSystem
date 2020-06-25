@@ -13,80 +13,65 @@
 		<div class="collapse navbar-collapse order-3" id="navbarCollapse">
 			@if (User.Identity.IsAuthenticated)
 			{
-				<ul class="navbar-nav">
+			<ul class="navbar-nav">
 
-					<li class="nav-item">
-						<a asp-area="" asp-controller="SensorStore" asp-action="Index" class="nav-link">
-							Store
-						</a>
-					</li>
-					<li class="nav-item">
-						<a asp-area="" asp-controller="UserSensor" asp-action="Index" class="nav-link">My Sensors</a>
-					</li>
+				<li class="nav-item">
+					<a asp-area="" asp-controller="SensorStore" asp-action="Index" class="nav-link">
+						Store
+					</a>
+				</li>
+				<li class="nav-item">
+					<a asp-area="" asp-controller="UserSensor" asp-action="Index" class="nav-link">My Sensors</a>
+				</li>
 
-					@if (User.IsInRole(Constants.AdminRoleName))
+				@if (User.IsInRole(Constants.AdminRoleName))
 					{
-						<li class="nav-item dropdown">
-							<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
-							   aria-expanded="false" class="nav-link dropdown-toggle">
-								Admin
+				<li class="nav-item dropdown">
+					<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+					   aria-expanded="false" class="nav-link dropdown-toggle">
+						Admin
+					</a>
+					<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+						<li>
+							<a class="dropdown-item" asp-area="@Constants.AdminAreaName"
+							   asp-controller="SensorStore" asp-action="Manage">
+								Manage Store
 							</a>
-							<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-								<li>
-									<a class="dropdown-item" asp-area="@Constants.AdminAreaName"
-									   asp-controller="SensorStore" asp-action="Manage">
-										Manage Store
-									</a>
-								</li>
-							</ul>
 						</li>
+					</ul>
+				</li>
 					}
-				</ul>
-				<!-- Right navbar links -->
-				<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-					<!-- Notifications Dropdown Menu -->
-					<li class="nav-item dropdown">
-						<a class="nav-link" data-toggle="dropdown" href="#">
-							<i class="fas fa-th-large"></i>
-						</a>
-						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-							<div class="p-3">
-								<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
-								</form>
-								<a href="#" class="dropdown-item text-center" id="logout-link">
-									<b>Logout</b>
-								</a>
-							</div>
+			</ul>
+ <!-- Right navbar links -->
+			<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+				<!-- Notifications Dropdown Menu -->
+				<li class="nav-item dropdown">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="fas fa-th-large"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<div class="p-3">
+							<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+							</form>
+							<a href="#" class="dropdown-item text-center" id="logout-link">
+								<b>Logout</b>
+							</a>
 						</div>
-					</li>
-				</ul>
+					</div>
+				</li>
+			</ul>
 			}
 			else
 			{
-				<ul class="order-1 order-md-3 navbar-nav ml-auto">
-					<li class="nav-item">
-						<a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
-					</li>
-					<li class="nav-item">
-						<a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a>
-					</li>
-				</ul>
+			<ul class="order-1 order-md-3 navbar-nav ml-auto">
+				<li class="nav-item">
+					<a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
+				</li>
+				<li class="nav-item">
+					<a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a>
+				</li>
+			</ul>
 			}
 		</div>
 	</div>
 </nav>
-
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-	<!-- Control sidebar content goes here -->
-	<div class="p-3 col-sm-6">
-		<h5>Manage Account</h5>
-		<p>Sidebar content</p>
-		<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
-		</form>
-		<a href="#" id="logout-link">
-			<b>Logout</b>
-		</a>
-	</div>
-</aside>
-<!-- /.control-sidebar -->
