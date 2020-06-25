@@ -2,18 +2,85 @@
 <input asp-for="PageIndex" hidden value="@Model.PageIndex" readonly />
 <input asp-for="HasPreviousPage" hidden value="@Model.HasPreviousPage" readonly />
 <input asp-for="HasNextPage" hidden value="@Model.HasNextPage" readonly />
+<input id="SensorsCount" hidden value="@Model.Count" readonly />
 
 @if (Model.Count == 0)
 {
 	<div class="text-center">
-		<h2>You don't have any registered sensors.</h2>
 		<br />
-		<h2 class="pb-5">Consider adding one from the mobile application!</h2>
+		<h2>No sensors found matching the filtered condition</h2>
+		<br />
 		<br />
 	</div>
 }
 else
 {
+	<input asp-for="MinPollingInterval" hidden value="@Model.MinPollingInterval" readonly />
+	if (Model.Count == 1)
+	{
+		<input id="FirstSensorIsSwitch" hidden value="@Model[0].IsSwitch.ToString()" readonly />
+		<input id="FirstSensorValue" hidden value="@Model[0].Value" readonly />
+		<input id="FirstSensorPollingInterval" hidden value="@Model[0].PollingInterval" readonly />
+		<input id="FirstSensorId" hidden value="@Model[0].Id" readonly />
+		if (!Model[0].IsSwitch)
+		{
+			<input id="FirstSensorMinRange" hidden value="@Model[0].MinRangeValue" readonly />
+			<input id="FirstSensorMaxRange" hidden value="@Model[0].MaxRangeValue" readonly />
+		}
+
+	}
+	if (Model.Count == 2)
+	{
+		<input id="FirstSensorIsSwitch" hidden value="@Model[0].IsSwitch.ToString()" readonly />
+		<input id="FirstSensorValue" hidden value="@Model[0].Value" readonly />
+		<input id="FirstSensorPollingInterval" hidden value="@Model[0].PollingInterval" readonly />
+		<input id="FirstSensorId" hidden value="@Model[0].Id" readonly />
+		if (!Model[0].IsSwitch)
+		{
+			<input id="FirstSensorMinRange" hidden value="@Model[0].MinRangeValue" readonly />
+			<input id="FirstSensorMaxRange" hidden value="@Model[0].MaxRangeValue" readonly />
+		}
+		<input id="SecondSensorIsSwitch" hidden value="@Model[1].IsSwitch.ToString()" readonly />
+		<input id="SecondSensorValue" hidden value="@Model[1].Value" readonly />
+		<input id="SecondSensorPollingInterval" hidden value="@Model[1].PollingInterval" readonly />
+		<input id="SecondSensorId" hidden value="@Model[1].Id" readonly />
+		if (!Model[1].IsSwitch)
+		{
+			<input id="SecondSensorMinRange" hidden value="@Model[1].MinRangeValue" readonly />
+			<input id="SecondSensorMaxRange" hidden value="@Model[1].MaxRangeValue" readonly />
+		}
+
+	}
+	if (Model.Count == 3)
+	{
+		<input id="FirstSensorIsSwitch" hidden value="@Model[0].IsSwitch.ToString()" readonly />
+		<input id="FirstSensorValue" hidden value="@Model[0].Value" readonly />
+		<input id="FirstSensorPollingInterval" hidden value="@Model[0].PollingInterval" readonly />
+		<input id="FirstSensorId" hidden value="@Model[0].Id" readonly />
+		if (!Model[0].IsSwitch)
+		{
+			<input id="FirstSensorMinRange" hidden value="@Model[0].MinRangeValue" readonly />
+			<input id="FirstSensorMaxRange" hidden value="@Model[0].MaxRangeValue" readonly />
+		}
+		<input id="SecondSensorIsSwitch" hidden value="@Model[1].IsSwitch.ToString()" readonly />
+		<input id="SecondSensorValue" hidden value="@Model[1].Value" readonly />
+		<input id="SecondSensorPollingInterval" hidden value="@Model[1].PollingInterval" readonly />
+		<input id="SecondSensorId" hidden value="@Model[1].Id" readonly />
+		if (!Model[1].IsSwitch)
+		{
+			<input id="SecondSensorMinRange" hidden value="@Model[1].MinRangeValue" readonly />
+			<input id="SecondSensorMaxRange" hidden value="@Model[1].MaxRangeValue" readonly />
+		}
+		<input id="ThirdSensorIsSwitch" hidden value="@Model[2].IsSwitch.ToString()" readonly />
+		<input id="ThirdSensorValue" hidden value="@Model[2].Value" readonly />
+		<input id="ThirdSensorPollingInterval" hidden value="@Model[2].PollingInterval" readonly />
+		<input id="ThirdSensorId" hidden value="@Model[2].Id" readonly />
+		if (!Model[2].IsSwitch)
+		{
+			<input id="ThirdSensorMinRange" hidden value="@Model[2].MinRangeValue" readonly />
+			<input id="ThirdSensorMaxRange" hidden value="@Model[2].MaxRangeValue" readonly />
+		}
+	}
 	<div class="row">
 		@{
 			for (int i = 0; i < Model.Count; i++)
@@ -51,7 +118,7 @@ else
 								</div>
 								<!-- /.card-body -->
 							</div>
-							<div class="card card-outline card-primary">
+							<div class="card card-outline card-success">
 								<div class="card-header">
 									<h3 class="card-title">Real Live gauge view</h3>
 
@@ -64,47 +131,41 @@ else
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body">
-									INSERT GAUGE BAR HERE?
+									<h4 class="text-center">Measure type: @Model[i].MeasureUnit</h4>
 									<div id="@gaugeId"></div>
 								</div>
 								<!-- /.card-body -->
 							</div>
-							<div class="row">
-								<div class="col-sm-4 border-right">
-									@if (Model[i].MinRangeValue.HasValue)
-									{
-										<div class="description-block">
-											<h5 class="description-header">@Model[i].MinRangeValue</h5>
-											<span class="description-text">Min Range</span>
-										</div>
-									}
-									<!-- /.description-block -->
-								</div>
-								<!-- /.col -->
-								<div class="col-sm-4 border-right">
-									<div class="description-block">
-										<div class="description-block">
-											<h5 class="description-header">@Model[i].PollingInterval sec</h5>
-											<span class="description-text">Polling</span>
-										</div>
+							<div class="card card-outline card-danger collapsed-card">
+								<div class="card-header">
+									<h3 class="card-title">Actions</h3>
+
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool" data-card-widget="collapse">
+											<i class="fas fa-plus"></i>
+										</button>
 									</div>
-									<!-- /.description-block -->
+									<!-- /.card-tools -->
 								</div>
-								<!-- /.col -->
-								<div class="col-sm-4">
-									@if (Model[i].MaxRangeValue.HasValue)
-									{
-										<div class="description-block">
-											<h5 class="description-header">@Model[i].MaxRangeValue</h5>
-											<span class="description-text">Max Range</span>
-										</div>
-									}
-									<!-- /.description-block -->
+								<!-- /.card-header -->
+								<div class="card-body">
+									<a asp-area="" asp-controller="UserSensor" asp-action="Edit" asp-route-id="@Model[i].Id"
+									   class="btn btn-block btn-outline-warning">
+										Edit
+									</a>
+									<hr />
+									<form method="post"
+										  asp-area="" asp-controller="UserSensor" asp-action="Delete" asp-route-id="@Model[i].Id">
+										<button type="submit" class="btn btn-block btn-outline-danger">Delete</button>
+									</form>
 								</div>
-								<!-- /.col -->
+								<!-- /.card-body -->
 							</div>
 							<div class="row">
-								<div class="col-sm-4 border-right">
+								@{
+									string colSize = Model[i].IsAlarmOn.HasValue ? "col-sm-4" : "col-sm-6";
+								}
+								<div class="@colSize border-right">
 									<div class="description-block">
 										<h5 class="description-header">
 											@(Model[i].IsPublic ? "Public" : "Private")
@@ -114,29 +175,29 @@ else
 									<!-- /.description-block -->
 								</div>
 								<!-- /.col -->
-								<div class="col-sm-4 border-right">
+								<div class="@colSize border-right">
 									<div class="description-block">
-										<h5 class="description-header">
-											@(string.Format("{0:0.00}", Model[i].Value)) @(Model[i].IsSwitch ? string.Empty : Model[i].MeasureUnit)
-										</h5>
-										<span class="description-text">Value</span>
+										<div class="description-block">
+											<h5 class="description-header">@Model[i].PollingInterval sec</h5>
+											<span class="description-text">Polling</span>
+										</div>
 									</div>
 									<!-- /.description-block -->
 								</div>
 								<!-- /.col -->
-								<div class="col-sm-4">
-									@if (Model[i].UpdatedOn.HasValue)
-									{
+								@if (Model[i].IsAlarmOn.HasValue)
+								{
+									<div class="@colSize">
+
 										<div class="description-block">
-											<h5 class="description-header">@Model[i].UpdatedOn.Value.ToString("t")</h5>
-											<span class="description-text">Updated On</span>
+											<h5 class="description-header">@(Model[i].IsAlarmOn.Value ? "Active" : "Not Active")</h5>
+											<span class="description-text">Alarm</span>
 										</div>
-									}
-									<!-- /.description-block -->
-								</div>
+										<!-- /.description-block -->
+									</div>
+								}
 								<!-- /.col -->
 							</div>
-							<!-- /.row -->
 						</div>
 					</div>
 					<!-- /.widget-user -->
@@ -146,93 +207,4 @@ else
 		<!-- /.col -->
 	</div>
 	<!-- /.row -->
-}
-
-
-<script src="~/lib/AdminLTE/plugins//justgage/justgage.js"></script>
-<script src="~/lib/AdminLTE/plugins//justgage/raphael-2.1.4.min.js"></script>
-@if (Model.Count != 0)
-{
-<script>
-	$().ready(function () {
-
-		function getNonSwitchGaugeOptions(currentValue, minRange, maxRange) {
-			return {
-				value: currentValue,
-				min: minRange,
-				max: maxRange,
-				gaugeWidthScale: 0.3,
-				pointer: true,
-				pointerOptions: {
-					toplength: -8,
-					bottomlength: 8,
-					bottomwidth: 10,
-					color: '#EE7600',
-					stroke: '#808080',
-					stroke_width: 1,
-					stroke_linecap: 'round'
-				},
-				levelColors: [
-					"#FF0000",
-					"#00b200",
-					"#FF0000"
-				],
-				textRenderer: function (val) {
-					if (val == null) {
-						return 'fetching';
-					}
-					else if (val >= minRange && val <= maxRange) {
-						return val;
-					}
-				},
-				counter: true,
-				relativeGaugeSize: true
-			};
-		}
-
-		function getSwitchGaugeOptions(currentValue) {
-			return {
-				value: currentValue,
-				gaugeWidthScale: 0.5,
-				donut: true,
-				min: 0,
-				max: 1,
-				relativeGaugeSize: true,
-				gaugeColor: "#FF0000", // false
-				levelColors: ["#00b200"], // true
-				textRenderer: function (val) {
-
-					if (val == null) {
-						return 'fetching';
-					}
-					else if (val == 0) {
-						return 'Off';
-					} else if (val == 1) {
-						return 'On';
-					}
-				}
-			};
-		}
-
-		var firstGaugeInstance = new JustGage({
-			id: "gauge0",
-			defaults: @Model[0].IsSwitch ? getSwitchGaugeOptions(@Model[0].Value) : getNonSwitchGaugeOptions(@Model[0].Value, @Model[0].MinRangeValue, @Model[0].MaxRangeValue)
-		});
-
-		var sensorsCount = parseInt(@Model.Count);
-		if (sensorsCount === 2) {
-			var secondGaugeInstance = new JustGage({
-				id: "gauge1",
-				defaults: @Model[1].IsSwitch ? getSwitchGaugeOptions(@Model[1].Value) : getNonSwitchGaugeOptions(@Model[1].Value, @Model[1].MinRangeValue, @Model[1].MaxRangeValue)
-			});
-		}
-		debugger;
-		if (sensorsCount === 3) {
-			var thirdGaugeInstance = new JustGage({
-				id: "gauge2",
-				defaults: @Model[2].IsSwitch ? getSwitchGaugeOptions(@Model[2].Value) : getNonSwitchGaugeOptions(@Model[2].Value, @Model[2].MinRangeValue, @Model[2].MaxRangeValue)
-			});
-		}
-	});
-</script>
 }

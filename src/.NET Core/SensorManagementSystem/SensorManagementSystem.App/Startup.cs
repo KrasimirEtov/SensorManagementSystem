@@ -20,6 +20,7 @@ using SensorManagementSystem.Common.WebClients;
 using SensorManagementSystem.Services.Contract;
 using SensorManagementSystem.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Template;
 
 namespace SensorManagementSystem.App
 {

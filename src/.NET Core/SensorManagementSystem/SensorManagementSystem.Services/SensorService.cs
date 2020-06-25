@@ -66,6 +66,15 @@ namespace SensorManagementSystem.Services
 		{
 			var sensorEntity = MapToEntity(sensorDTO);
 
+			var existingEntity = await _dbContext.Sensors
+				.Include(x => x.SensorProperty)
+				.FirstOrDefaultAsync(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue);
+
+			if (existingEntity != null)
+			{
+				throw new Exception($"Sensor with Measure Type: {existingEntity.SensorProperty.MeasureType}, Polling Interval: {existingEntity.PollingInterval}, Min Range: {existingEntity.MinRangeValue} and Max Range: {existingEntity.MaxRangeValue} already exists!");
+			}
+
 			await this._dbContext.Sensors
 				.AddAsync(sensorEntity);
 
@@ -74,10 +83,21 @@ namespace SensorManagementSystem.Services
 
 		public async Task UpdateAsync(SensorDTO sensorDTO)
 		{
-			var sensorEntity = await this._dbContext.Sensors
+			var allSensors = await _dbContext.Sensors
 				.Include(x => x.UserSensors)
 				.Include(x => x.SensorProperty)
-				.FirstOrDefaultAsync(x => x.Id == sensorDTO.Id);
+				.ToListAsync();
+			
+			var existingSensor = allSensors
+				.FirstOrDefault(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue);
+
+			if (existingSensor != null)
+			{
+				throw new Exception($"Sensor with Measure Type: {existingSensor.SensorProperty.MeasureType}, Polling Interval: {existingSensor.PollingInterval}, Min Range: {existingSensor.MinRangeValue} and Max Range: {existingSensor.MaxRangeValue} already exists!");
+			}
+
+			var sensorEntity = allSensors
+				.FirstOrDefault(x => x.Id == sensorDTO.Id);
 
 			if (sensorEntity == null)
 			{

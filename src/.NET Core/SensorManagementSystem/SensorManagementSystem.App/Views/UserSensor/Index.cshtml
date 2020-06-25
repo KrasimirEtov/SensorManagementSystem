@@ -63,82 +63,8 @@
 @section Scripts
 {
 	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
-	<script>
-		$().ready(function () {
-			const reloadTable = function () {
-				let measureType = $("#MeasureType").val();
-				let isPublic = $("#IsPublic").val();
-				let isAlarmOn = $("#IsAlarmOn").val();
-				let searchTerm = $("#search-filter-input").val();
-				var pageIndex = $("#PageIndex").val();
-				var requestUrl = '@Url.Action("ReloadUserSensorsTable", "UserSensor")';
-
-				requestUrl += '?pageIndex=' + pageIndex;
-
-				if (measureType != 'null' && measureType != undefined) {
-					requestUrl += '&measureType=' + measureType;
-				}
-				if (isPublic != 'null' && isPublic != undefined) {
-					requestUrl += '&isPublic=' + isPublic;
-				}
-				if (isAlarmOn != 'null' && isAlarmOn != undefined) {
-					requestUrl += '&isAlarmOn=' + isAlarmOn;
-				}
-				if (searchTerm != '' && searchTerm != undefined) {
-					requestUrl += '&searchTerm=' + searchTerm;
-				}
-
-				$.ajax({
-					type: "GET",
-					url: requestUrl,
-					dataType: "html",
-					success: function (response) {
-						$("#user-sensor-cards").html(response);
-						var hasPreviousPage = $("#HasPreviousPage").val().toLowerCase() === 'true';
-						var hasNextPage = $("#HasNextPage").val().toLowerCase() === 'true';
-						if (hasPreviousPage) {
-							$("#previous-page-button").removeAttr("disabled");
-						}
-						else {
-							$("#previous-page-button").attr("disabled", true);
-						}
-						if (hasNextPage) {
-							$("#next-page-button").removeAttr("disabled");
-						}
-						else {
-							$("#next-page-button").attr("disabled", true);
-						}
-					}
-				});
-			}
-
-			$("#MeasureType").change(reloadTable);
-			$("#IsPublic").change(reloadTable);
-			$("#IsAlarmOn").change(reloadTable);
-			$("#search-filter-input").change(reloadTable);
-
-			let minPollingInterval = @Model.UserSensors.MinPollingInterval;
-			//setInterval(function () {
-			//	reloadTable();
-			//}, minPollingInterval * 1000);
-
-			$("#search-filter-input").keyup(function (event) {
-				if (event.keyCode === 13) {
-					reloadTable();
-				}
-			});
-
-			$("#search-filter-button").click(reloadTable);
-			$("#previous-page-button").click(function () {
-				let pageIndex = $("#PageIndex").val();
-				$("#PageIndex").val(parseInt(pageIndex) - 1);
-				reloadTable();
-			});
-			$("#next-page-button").click(function () {
-				let pageIndex = $("#PageIndex").val();
-				$("#PageIndex").val(parseInt(pageIndex) + 1);
-				reloadTable();
-			});
-		});
-	</script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-table-filter-handler.js"></script>
+	<script src="~/lib/AdminLTE/plugins//justgage/justgage.js"></script>
+	<script src="~/lib/AdminLTE/plugins//justgage/raphael-2.1.4.min.js"></script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-gauge.js"></script>
 }

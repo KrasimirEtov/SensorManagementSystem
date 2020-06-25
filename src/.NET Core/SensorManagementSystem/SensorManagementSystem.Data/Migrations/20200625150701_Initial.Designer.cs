@@ -10,7 +10,7 @@ using SensorManagementSystem.Data;
 namespace SensorManagementSystem.Data.Migrations
 {
     [DbContext(typeof(SensorManagementSystemDbContext))]
-    [Migration("20200612152445_Initial")]
+    [Migration("20200625150701_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

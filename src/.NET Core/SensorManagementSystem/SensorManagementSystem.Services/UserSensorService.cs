@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SensorManagementSystem.Data;
+using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.Entities;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
@@ -26,12 +27,6 @@ namespace SensorManagementSystem.Services
 		{
 			var dbEntity = MapToEntity(model);
 
-			//if (!dbEntity.IsAlarmOn.HasValue || (dbEntity.IsAlarmOn.HasValue && !dbEntity.IsAlarmOn.Value))
-			//{
-			//	dbEntity.MinRangeValue = null;
-			//	dbEntity.MaxRangeValue = null;
-			//}
-
 			await _dbContext.UserSensors
 				.AddAsync(dbEntity);
 
@@ -51,6 +46,8 @@ namespace SensorManagementSystem.Services
 
 		public async Task<PaginatedList<T>> GetAllFilteredAsync<T>(int userId, int pageIndex, int pageSize, string measureType = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
 		{
+			int minPollingInterval = 0;
+
 			var userSensorEntitiesQuery = this._dbContext.UserSensors
 				.Include(x => x.Sensor)
 				.ThenInclude(x => x.SensorProperty)
@@ -60,8 +57,34 @@ namespace SensorManagementSystem.Services
 			userSensorEntitiesQuery = GetFilteredQuery(userSensorEntitiesQuery, measureType, isPublic, isAlarmOn, searchTerm);
 
 			var filteredUserSensorEntities = await userSensorEntitiesQuery.ToListAsync();
-			var minPollingInterval = filteredUserSensorEntities.Min(x => x.PollingInterval);
+
+			if (filteredUserSensorEntities.Any())
+			{
+				minPollingInterval = filteredUserSensorEntities.Min(x => x.PollingInterval);
+			}
+
 			return PaginatedList<T>.Create(MapToViewModel<T>(filteredUserSensorEntities), pageIndex, pageSize, minPollingInterval);
+		}
+
+		public async Task<UserSensorGaugeData> GetGaugeDataAsync(int userSensorId)
+		{
+			var entity = await _dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.FirstOrDefaultAsync(x => x.Id == userSensorId);
+
+			return MapToViewModel<UserSensorGaugeData>(entity);
+		}
+
+		public async Task DeleteAsync(int userSensorId)
+		{
+			var entity = await _dbContext.UserSensors
+				.FirstOrDefaultAsync(x => x.Id == userSensorId);
+
+			_dbContext.UserSensors
+				.Remove(entity);
+
+			await _dbContext.SaveChangesAsync();
+
 		}
 
 		private IQueryable<UserSensorEntity> GetFilteredQuery(IQueryable<UserSensorEntity> userSensorEntitiesQuery, string measureTypeFilter = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
@@ -82,7 +105,7 @@ namespace SensorManagementSystem.Services
 			{
 				userSensorEntitiesQuery = userSensorEntitiesQuery.Where(x => x.IsPublic == isPublic.Value);
 			}
-			
+
 			if (isAlarmOn.HasValue)
 			{
 				userSensorEntitiesQuery = userSensorEntitiesQuery.Where(x => x.IsAlarmOn == isAlarmOn.Value);
@@ -95,9 +118,9 @@ namespace SensorManagementSystem.Services
 		{
 			return includePrivate
 				? await _dbContext.UserSensors
-                    .CountAsync()
+					.CountAsync()
 				: await _dbContext.UserSensors
-                    .CountAsync(x => x.IsPublic);
+					.CountAsync(x => x.IsPublic);
 		}
 
 		public async Task<T> GetAsync<T>(int id)
@@ -131,8 +154,8 @@ namespace SensorManagementSystem.Services
 				userSensorEntity.IsAlarmOn = userSensorViewModel.IsAlarmOn;
 				if (!userSensorViewModel.IsAlarmOn)
 				{
-					userSensorEntity.MinRangeValue = null;
-					userSensorEntity.MaxRangeValue = null;
+					userSensorEntity.MinRangeValue = userSensorViewModel.SensorMinRangeValue;
+					userSensorEntity.MaxRangeValue = userSensorViewModel.SensorMaxRangeValue;
 				}
 				else
 				{

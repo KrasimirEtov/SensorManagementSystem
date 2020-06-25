@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
@@ -33,14 +34,13 @@ namespace SensorManagementSystem.App.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-			var userSensors = await _userSensorService.GetAllByUserIdAsync<UserSensorViewModel>(userId);
 			var measureTypes = await _sensorPropertyService.GetAllAsync<SensorPropertyViewModel>();
-			var model = GetUserSensorIndexViewModel(measureTypes, userSensors);
+			var model = await GetUserSensorIndexViewModel(userId, measureTypes);
 
 			return View(model);
 		}
 
-		public async Task<IActionResult> ReloadUserSensorsTable([FromQuery]int pageIndex, string measureType = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
+		public async Task<IActionResult> ReloadUserSensorsTable([FromQuery] int pageIndex, string measureType = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
 		{
 			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 			var model = await _userSensorService
@@ -90,6 +90,22 @@ namespace SensorManagementSystem.App.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> GetGaugeData(int userSensorId)
+		{
+			var sensorValue = await _userSensorService.GetGaugeDataAsync(userSensorId);
+
+			return Json(sensorValue);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			await _userSensorService.DeleteAsync(id);
+
+			return RedirectToAction("Index");
+		}
+
 		private CreateUpdateUserSensorViewModel GetCreateUpdateSensorViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty)
 		{
 			return new CreateUpdateUserSensorViewModel
@@ -105,20 +121,14 @@ namespace SensorManagementSystem.App.Controllers
 			};
 		}
 
-		private UserSensorIndexViewModel GetUserSensorIndexViewModel(IEnumerable<SensorPropertyViewModel> sensorPropertyViewModels, IEnumerable<UserSensorViewModel> userSensorViewModels)
+		private async Task<UserSensorIndexViewModel> GetUserSensorIndexViewModel(int userId, IEnumerable<SensorPropertyViewModel> sensorPropertyViewModels)
 		{
-			int minPollingInterval = 0;
-			var userSensorTableViewModels = GetUserSensorTableViewModel(userSensorViewModels, sensorPropertyViewModels);
-
-			if (userSensorTableViewModels.Any())
-			{
-				minPollingInterval = userSensorTableViewModels.Min(x => x.PollingInterval);
-			}
+			var userSensorTableViewModels = await _userSensorService.GetAllFilteredAsync<UserSensorTableViewModel>(userId, DefaultPageIndex, PageSize);
 
 			return new UserSensorIndexViewModel
 			{
 				MeasureTypes = new SelectList(sensorPropertyViewModels, "MeasureType", "MeasureType"),
-				UserSensors = PaginatedList<UserSensorTableViewModel>.Create(userSensorTableViewModels, DefaultPageIndex, PageSize, minPollingInterval)
+				UserSensors = userSensorTableViewModels
 			};
 		}
 
@@ -140,11 +150,24 @@ namespace SensorManagementSystem.App.Controllers
 					Name = item.Name,
 					PollingInterval = item.PollingInterval,
 					UpdatedOn = item.UpdatedOn,
-					Value = string.Format("{0:0.00}", double.Parse(item.Value)),
 					IsSwitch = sensorProperty.IsSwitch,
 					MeasureType = sensorProperty.MeasureType,
-					MeasureUnit = sensorProperty.MeasureUnit
+					MeasureUnit = sensorProperty.MeasureUnit,
+					Id = item.Id
 				};
+
+				if (double.TryParse(item.Value, out double parsedDoubleValue))
+				{
+					itemToAdd.Value = string.Format("{0:0.00}", parsedDoubleValue);
+				}
+				else if (bool.TryParse(item.Value, out bool parsedBoolSensorValue))
+				{
+					itemToAdd.Value = parsedBoolSensorValue ? 1.ToString() : 0.ToString();
+				}
+				else
+				{
+					itemToAdd.Value = null;
+				}
 
 				result.Add(itemToAdd);
 			}
