@@ -19,8 +19,8 @@ using SensorManagementSystem.Common.WebClients.Contract;
 using SensorManagementSystem.Common.WebClients;
 using SensorManagementSystem.Services.Contract;
 using SensorManagementSystem.Common.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing.Template;
+using SensorManagementSystem.App.Hubs;
+using SensorManagementSystem.App.Hubs.Contract;
 
 namespace SensorManagementSystem.App
 {
@@ -97,6 +97,7 @@ namespace SensorManagementSystem.App
 			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
 			services.AddTransient<IUserSensorService, UserSensorService>();
 			services.AddTransient<IEmailService, EmailService>();
+			services.AddTransient<INotificationManager, NotificationManager>();
 			services.AddSingleton<ICachingService, MemoryCacheService>();
 		}
 
@@ -149,6 +150,7 @@ namespace SensorManagementSystem.App
 					pattern: "error",
 					defaults: new { controller = "Error", action = "Index" });
 				endpoints.MapRazorPages();
+				endpoints.MapHub<SensorStoreHub>("/sensorStoreHub");
 			});
 		}
 	}

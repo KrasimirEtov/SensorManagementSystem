@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using SensorManagementSystem.Common.Extensions;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.ViewModels;
@@ -35,7 +33,6 @@ namespace SensorManagementSystem.App.Controllers
 			var userId = User.GetId();
 			var measureTypes = await _sensorPropertyService.GetAllAsync<SensorPropertyViewModel>();
 			var model = await GetUserSensorIndexViewModel(userId, measureTypes);
-
 			return View(model);
 		}
 

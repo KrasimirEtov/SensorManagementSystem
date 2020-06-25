@@ -79,6 +79,12 @@
 	<script src="~/lib/AdminLTE/plugins/ion-rangeslider/js/ion.rangeSlider.js"></script>
 	<!-- Toastr -->
 	<script src="~/lib/AdminLTE/plugins/toastr/toastr.min.js"></script>
+	<!-- SignalR -->
+	@if (User.Identity.IsAuthenticated)
+	{
+		<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+		<script src="~/lib/AdminLTE/custom/sensor-store-hub.js"></script>
+	}
 	<!-- AdminLTE App -->
 	<script src="~/lib/AdminLTE/dist/js/adminlte.min.js"></script>
 	<script src="~/lib/AdminLTE/custom/my-custom-scripts.js"></script>

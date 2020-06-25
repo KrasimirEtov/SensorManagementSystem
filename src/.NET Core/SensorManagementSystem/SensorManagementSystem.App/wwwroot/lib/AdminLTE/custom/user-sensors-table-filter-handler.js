@@ -159,7 +159,7 @@
 		} else if (parseInt($("#SensorsCount").val()) === 3) {
 			firstGaugeInstance = initGaugeInstance('gauge0', initGaugeOptions($("#FirstSensorIsSwitch").val().toLowerCase(), $("#FirstSensorValue").val(), $("#FirstSensorMinRange").val(), $("#FirstSensorMaxRange").val()));
 			secondGaugeInstance = initGaugeInstance('gauge1', initGaugeOptions($("#SecondSensorIsSwitch").val().toLowerCase(), $("#SecondSensorValue").val(), $("#SecondSensorMinRange").val(), $("#SecondSensorMaxRange").val()));
-			secondGaugeInstance = initGaugeInstance('gauge2', initGaugeOptions($("#ThirdSensorIsSwitch").val().toLowerCase(), $("#ThirdSensorValue").val(), $("#ThirdSensorMinRange").val(), $("#ThirdSensorMaxRange").val()));
+			thirdGaugeInstance = initGaugeInstance('gauge2', initGaugeOptions($("#ThirdSensorIsSwitch").val().toLowerCase(), $("#ThirdSensorValue").val(), $("#ThirdSensorMinRange").val(), $("#ThirdSensorMaxRange").val()));
 			firstGaugeInstance.refresh($("#FirstSensorValue").val());
 			secondGaugeInstance.refresh($("#SecondSensorValue").val());
 			thirdGaugeInstance.refresh($("#ThirdSensorValue").val());

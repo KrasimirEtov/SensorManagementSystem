@@ -8,5 +8,6 @@
 		public const string UserRoleName = "User";
 		public const string SensorApiClientName = "SensorApi";
 		public const string MeasureTypesCacheKey = "MeasureTypes";
+		public const string AuthenticationUsersGroupName = "AuthenticatedUsers";
 	}
 }

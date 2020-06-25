@@ -68,7 +68,7 @@ namespace SensorManagementSystem.Services
 
 			var existingEntity = await _dbContext.Sensors
 				.Include(x => x.SensorProperty)
-				.FirstOrDefaultAsync(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue);
+				.FirstOrDefaultAsync(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue && x.PollingInterval == sensorDTO.PollingInterval);
 
 			if (existingEntity != null)
 			{

@@ -44,32 +44,20 @@
 				</ul>
 				<!-- Right navbar links -->
 				<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-					<!-- Messages Dropdown Menu -->
-					@*<li class="nav-item">
-							<a href="#" class="nav-link">My Sensors</a>
-						</li>*@
-					<li class="nav-item dropdown">
-						<a class="nav-link" data-toggle="dropdown" href="#">
-							<i class="fas fa-comments"></i>
-							<span class="badge badge-danger navbar-badge">3</span>
-						</a>
-						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-						</div>
-					</li>
 					<!-- Notifications Dropdown Menu -->
 					<li class="nav-item dropdown">
 						<a class="nav-link" data-toggle="dropdown" href="#">
-							<i class="far fa-bell"></i>
-							<span class="badge badge-warning navbar-badge">15</span>
-						</a>
-						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
-						</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
 							<i class="fas fa-th-large"></i>
 						</a>
+						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+							<div class="p-3">
+								<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+								</form>
+								<a href="#" class="dropdown-item text-center" id="logout-link">
+									<b>Logout</b>
+								</a>
+							</div>
+						</div>
 					</li>
 				</ul>
 			}
@@ -91,7 +79,7 @@
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
 	<!-- Control sidebar content goes here -->
-	<div class="p-3">
+	<div class="p-3 col-sm-6">
 		<h5>Manage Account</h5>
 		<p>Sidebar content</p>
 		<form id="logout-form" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">

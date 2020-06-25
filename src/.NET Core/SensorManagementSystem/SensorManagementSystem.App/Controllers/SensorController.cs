@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SensorManagementSystem.App.Hubs.Contract;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Services.Contract;
 
@@ -12,12 +13,14 @@ namespace SensorManagementSystem.App.Controllers
 	{
         private readonly ILogger<SensorController> _logger;
         private readonly ISensorService _sensorService;
+		private readonly INotificationManager _notificationManager;
 
-        public SensorController(ILogger<SensorController> logger, ISensorService sensorService)
+		public SensorController(ILogger<SensorController> logger, ISensorService sensorService, INotificationManager notificationManager)
         {
             this._logger = logger;
             this._sensorService = sensorService;
-        }
+			this._notificationManager = notificationManager;
+		}
 
         [Route("all")]
         [HttpGet]
@@ -40,8 +43,15 @@ namespace SensorManagementSystem.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SensorDTO payload)
         {
-            // TODO: Add validation
+            var result = ValidateDTO(payload);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                return BadRequest(result);
+            }
+
             await this._sensorService.CreateAsync(payload);
+            await _notificationManager.SendToAuthenticatedUsersAsync("New sensor has been added to the store!");
 
             return Ok();
         }
@@ -49,7 +59,13 @@ namespace SensorManagementSystem.App.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] SensorDTO payload)
         {
-            // TODO: Add validation
+            var result = ValidateDTO(payload);
+
+            if (!string.IsNullOrEmpty(result))
+			{
+                return BadRequest(result);
+			}
+
             await this._sensorService.UpdateAsync(payload);
 
             return Ok();
@@ -63,5 +79,28 @@ namespace SensorManagementSystem.App.Controllers
 
             return Ok();
         }
+
+        private string ValidateDTO(SensorDTO payload)
+		{
+            string errorMessage = string.Empty;
+
+            if (payload.MinRangeValue.HasValue && payload.MaxRangeValue.HasValue)
+			{
+                if (payload.MinRangeValue.Value > payload.MaxRangeValue.Value)
+				{
+                    errorMessage += "Min Range shold be less than Max Range!\n";
+				}
+                if (payload.MaxRangeValue.Value < payload.MinRangeValue.Value)
+				{
+                    errorMessage += "Max Range should be more than Min Range!\n";
+				}
+                if (payload.PollingInterval <= 0)
+				{
+                    errorMessage += "Polling Interval should be a positive value!";
+				}
+			}
+
+            return errorMessage;
+		}
     }
 }
