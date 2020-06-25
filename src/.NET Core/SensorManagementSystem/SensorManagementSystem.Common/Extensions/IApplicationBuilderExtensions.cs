@@ -9,5 +9,10 @@ namespace SensorManagementSystem.Common.Extensions
 		{
 			return builder.UseMiddleware<ErrorLoggingMiddleware>();
 		}
+
+		public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<ErrorHandlerMiddleware>();
+		}
 	}
 }

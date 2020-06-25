@@ -54,6 +54,21 @@ namespace SensorManagementSystem.Models.AutoMapper
 				.ForMember(dest => dest.IsAlarmOn, opt => opt.ResolveUsing(src =>
 				{
 					return src.IsSwitch ? (bool?)null : src.IsAlarmOn;
+				}))
+				.ForMember(dest => dest.Value, opt => opt.ResolveUsing(src =>
+				{
+					string value = string.Empty;
+
+					if (src.IsSwitch)
+					{
+						value = true.ToString();
+					}
+					else
+					{
+						value = src.CustomMinRangeValue.HasValue ? src.CustomMinRangeValue.Value.ToString() : src.SensorMinRangeValue.Value.ToString();
+					}
+
+					return value;
 				}));
 
 			// UserSensorEntity <--> UserSensorViewModel

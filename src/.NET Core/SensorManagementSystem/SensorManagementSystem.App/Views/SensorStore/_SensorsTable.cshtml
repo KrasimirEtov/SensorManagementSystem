@@ -1,95 +1,103 @@
 ﻿@model List<SensorViewModel>
 @if (Model.Count == 0)
 {
-	<div class="text-center">
-		<h2>You don't have any registered sensors.</h2>
-		<br />
-		<h2 class="pb-5">Consider adding one from the mobile application!</h2>
-		<br />
+<div class="error-page">
+	<div class="error-content">
+		<h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Sensor store is empty.</h3>
+
+		<p>
+			No sensors found in the store!
+		</p>
+		<p>
+			Consider adding some sensors from the mobile application first.
+		</p>
 	</div>
+	<!-- /.error-content -->
+</div>
+<!-- /.error-page -->
 }
 else
 {
-	@for (int i = 0; i < Model.Count; i += 3)
+@for (int i = 0; i < Model.Count; i += 3)
 	{
-		<div class="row">
-			@{
+<div class="row">
+	@{
 				int rowLimit = i + 3;
 				for (int j = i; j < (Model.Count < rowLimit ? Model.Count : rowLimit); j++)
 				{
-					<div class="col-md-4">
-						<!-- Widget: user widget style 1 -->
-						<div class="card card-widget widget-user">
-							<!-- Add the bg color to the header using any of the bg-* classes -->
-							<div class="widget-user-header bg-info">
-								<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
-								<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
-							</div>
-							<a asp-area="" asp-action="Create" asp-controller="UserSensor" asp-route-sensorId="@Model[j].Id">
-								<div class="widget-user-image">
-									<img class="img-circle elevation-2 cursor-pointer" src="~/lib/AdminLTE/dist/img/add.jpg" alt="User Avatar">
-								</div>
-							</a>
-							<div class="card-footer">
-								<div class="card card-outline card-primary">
-									<div class="card-header">
-										<h3 class="card-title">Description</h3>
-
-										<div class="card-tools">
-											<button type="button" class="btn btn-tool" data-card-widget="collapse">
-												<i class="fas fa-minus"></i>
-											</button>
-										</div>
-										<!-- /.card-tools -->
-									</div>
-									<!-- /.card-header -->
-									<div class="card-body">
-										@Model[j].Description
-									</div>
-									<!-- /.card-body -->
-								</div>
-								<div class="row">
-									<div class="col-sm-4 border-right">
-										@if (Model[j].MinRangeValue.HasValue)
-										{
-											<div class="description-block">
-												<h5 class="description-header">@Model[j].MinRangeValue</h5>
-												<span class="description-text">Min Range</span>
-											</div>
-										}
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
-									<div class="col-sm-4 border-right">
-										<div class="description-block">
-											<h5 class="description-header">@Model[j].PollingInterval sec</h5>
-											<span class="description-text">Polling</span>
-										</div>
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
-									<div class="col-sm-4">
-										@if (Model[j].MinRangeValue.HasValue)
-										{
-											<div class="description-block">
-												<h5 class="description-header">@Model[j].MaxRangeValue</h5>
-												<span class="description-text">Max Range</span>
-											</div>
-										}
-										<!-- /.description-block -->
-									</div>
-									<!-- /.col -->
-								</div>
-								<!-- /.row -->
-							</div>
-						</div>
-						<!-- /.widget-user -->
+		<div class="col-md-4">
+			<!-- Widget: user widget style 1 -->
+			<div class="card card-widget widget-user">
+				<!-- Add the bg color to the header using any of the bg-* classes -->
+				<div class="widget-user-header bg-info">
+					<h3 class="widget-user-username">@Model[j].SensorProperty.MeasureType</h3>
+					<h5 class="widget-user-desc">Measure Unit: @Model[j].SensorProperty.MeasureUnit</h5>
+				</div>
+				<a asp-area="" asp-action="Create" asp-controller="UserSensor" asp-route-sensorId="@Model[j].Id">
+					<div class="widget-user-image">
+						<img class="img-circle elevation-2 cursor-pointer" src="~/lib/AdminLTE/dist/img/add.jpg" alt="User Avatar">
 					</div>
-				}
-			}
-			<!-- /.col -->
+				</a>
+				<div class="card-footer">
+					<div class="card card-outline card-primary">
+						<div class="card-header">
+							<h3 class="card-title">Description</h3>
+
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+							<!-- /.card-tools -->
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							@Model[j].Description
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<div class="row">
+						<div class="col-sm-4 border-right">
+							@if (Model[j].MinRangeValue.HasValue)
+										{
+							<div class="description-block">
+								<h5 class="description-header">@Model[j].MinRangeValue</h5>
+								<span class="description-text">Min Range</span>
+							</div>
+										}
+							<!-- /.description-block -->
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-4 border-right">
+							<div class="description-block">
+								<h5 class="description-header">@Model[j].PollingInterval sec</h5>
+								<span class="description-text">Polling</span>
+							</div>
+							<!-- /.description-block -->
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-4">
+							@if (Model[j].MinRangeValue.HasValue)
+										{
+							<div class="description-block">
+								<h5 class="description-header">@Model[j].MaxRangeValue</h5>
+								<span class="description-text">Max Range</span>
+							</div>
+										}
+							<!-- /.description-block -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+			</div>
+			<!-- /.widget-user -->
 		</div>
-		<!-- /.row -->
+				}
+	}
+	<!-- /.col -->
+</div>
+ <!-- /.row -->
 	}
 }
 

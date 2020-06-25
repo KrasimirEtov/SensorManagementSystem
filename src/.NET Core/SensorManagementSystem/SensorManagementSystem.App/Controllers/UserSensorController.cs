@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
+using SensorManagementSystem.Common.Extensions;
 using SensorManagementSystem.Models.DTOs;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
@@ -21,19 +22,17 @@ namespace SensorManagementSystem.App.Controllers
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
 		private readonly IUserSensorService _userSensorService;
-		private readonly IMapper _mapper;
 
-		public UserSensorController(ISensorService sensorService, ISensorPropertyService sensorPropertyService, IUserSensorService userSensorService, IMapper mapper)
+		public UserSensorController(ISensorService sensorService, ISensorPropertyService sensorPropertyService, IUserSensorService userSensorService)
 		{
 			_sensorService = sensorService;
 			_sensorPropertyService = sensorPropertyService;
 			_userSensorService = userSensorService;
-			_mapper = mapper;
 		}
 
 		public async Task<IActionResult> Index()
 		{
-			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var userId = User.GetId();
 			var measureTypes = await _sensorPropertyService.GetAllAsync<SensorPropertyViewModel>();
 			var model = await GetUserSensorIndexViewModel(userId, measureTypes);
 
@@ -42,7 +41,7 @@ namespace SensorManagementSystem.App.Controllers
 
 		public async Task<IActionResult> ReloadUserSensorsTable([FromQuery] int pageIndex, string measureType = null, bool? isPublic = null, bool? isAlarmOn = null, string searchTerm = null)
 		{
-			var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var userId = User.GetId();
 			var model = await _userSensorService
 				.GetAllFilteredAsync<UserSensorTableViewModel>(userId, pageIndex, PageSize, measureType, isPublic, isAlarmOn, searchTerm);
 
@@ -53,6 +52,12 @@ namespace SensorManagementSystem.App.Controllers
 		public async Task<IActionResult> Create(int sensorId)
 		{
 			var sensor = await _sensorService.GetByIdAsync<SensorDTO>(sensorId);
+
+			if (sensor == null)
+			{
+				return RedirectToAction("PageNotFound", "Error");
+			}
+
 			var sensorProperty = await _sensorPropertyService.GetByIdAsync<SensorPropertyDTO>(sensor.SensorPropertyId);
 
 			var model = GetCreateUpdateSensorViewModel(sensor, sensorProperty);
@@ -61,6 +66,7 @@ namespace SensorManagementSystem.App.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CreateUpdateUserSensorViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -75,13 +81,27 @@ namespace SensorManagementSystem.App.Controllers
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await _userSensorService.GetAsync<CreateUpdateUserSensorViewModel>(id);
+			var userId = User.GetId();
+
+			if (model.UserId != userId)
+			{
+				return RedirectToAction("PageNotFound", "Error");
+			}
 
 			return View(model);
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(CreateUpdateUserSensorViewModel model)
 		{
+			var userId = User.GetId();
+
+			if (model.UserId != userId)
+			{
+				return RedirectToAction("PageNotFound", "Error");
+			}
+
 			if (ModelState.IsValid)
 			{
 				await _userSensorService.UpdateAsync(model);
@@ -99,8 +119,17 @@ namespace SensorManagementSystem.App.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Delete(int id)
 		{
+			var userId = User.GetId();
+			var sensorEntity = await _userSensorService.GetAsync<UserSensorViewModel>(id);
+
+			if (sensorEntity.UserId != userId)
+			{
+				return RedirectToAction("PageNotFound", "Error");
+			}
+
 			await _userSensorService.DeleteAsync(id);
 
 			return RedirectToAction("Index");

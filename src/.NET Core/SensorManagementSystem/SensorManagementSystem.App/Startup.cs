@@ -96,6 +96,7 @@ namespace SensorManagementSystem.App
 			services.AddTransient<ISensorService, SensorService>();
 			services.AddTransient<ISensorPropertyService, SensorPropertyService>();
 			services.AddTransient<IUserSensorService, UserSensorService>();
+			services.AddTransient<IEmailService, EmailService>();
 			services.AddSingleton<ICachingService, MemoryCacheService>();
 		}
 
@@ -106,10 +107,11 @@ namespace SensorManagementSystem.App
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
+				app.UseExceptionHandler("/Error/Index");
 			}
 			else
 			{
-				app.UseExceptionHandler("/Home/Error");
+				app.UseExceptionHandler("/Error/Index");
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
@@ -119,6 +121,7 @@ namespace SensorManagementSystem.App
 			app.UseRouting();
 
 			app.UseErrorLogging();
+			app.UseErrorHandler();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
@@ -137,6 +140,14 @@ namespace SensorManagementSystem.App
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute(
+					name: "PageNotFound",
+					pattern: "pagenotfound",
+					defaults: new { controller = "Error", action = "PageNotFound" });
+				endpoints.MapControllerRoute(
+					name: "Error",
+					pattern: "error",
+					defaults: new { controller = "Error", action = "Index" });
 				endpoints.MapRazorPages();
 			});
 		}

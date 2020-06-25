@@ -14,12 +14,15 @@ namespace SensorManagementSystem.App.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<UserEntity> _signInManager;
+        private readonly UserManager<UserEntity> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<UserEntity> signInManager, 
+        public LoginModel(SignInManager<UserEntity> signInManager,
+            UserManager<UserEntity> userManager,
             ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -69,6 +72,15 @@ namespace SensorManagementSystem.App.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+
+                if (existingUser != null && !existingUser.EmailConfirmed)
+                {
+                    ModelState.AddModelError("EmailToBeConfirmed", "This email is not confirmed. If it is yours, please go and activate your account from there!");
+
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);

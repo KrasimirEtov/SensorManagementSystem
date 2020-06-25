@@ -6,12 +6,20 @@
 
 @if (Model.Count == 0)
 {
-	<div class="text-center">
-		<br />
-		<h2>No sensors found matching the filtered condition</h2>
-		<br />
-		<br />
+	<div class="error-page">
+		<div class="error-content">
+			<h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! No sensors found.</h3>
+
+			<p>
+				You have no sensors matching the filter conditions!
+			</p>
+			<p>
+				Meanwhile, you may <a asp-area="" asp-controller="SensorStore" asp-action="Index">check out the Store.</a>
+			</p>
+		</div>
+		<!-- /.error-content -->
 	</div>
+	<!-- /.error-page -->
 }
 else
 {
