@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\lib\AdminLTE\plugins\markerclusterer\" />
   </ItemGroup>
 
 </Project>

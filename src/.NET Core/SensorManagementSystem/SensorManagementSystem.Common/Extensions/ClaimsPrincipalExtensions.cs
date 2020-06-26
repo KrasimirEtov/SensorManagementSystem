@@ -12,7 +12,12 @@ namespace SensorManagementSystem.Common.Extensions
                 throw new ArgumentNullException(nameof(user));
             }
 
-            var userId = int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier));
+            int userId = 0;
+            
+            if (int.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out int parsedUserId))
+			{
+                userId = parsedUserId;
+			}
 
             return userId;
         }

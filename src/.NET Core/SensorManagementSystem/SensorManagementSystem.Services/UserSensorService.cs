@@ -181,11 +181,29 @@ namespace SensorManagementSystem.Services
 					.CountAsync(x => x.UserId == userId);
 		}
 
-		private IEnumerable<T> MapToViewModel<T>(IEnumerable<UserSensorEntity> userSensorViewModels)
+		public async Task<IEnumerable<T>> GetAllPublicSensorsAsync<T>()
+		{
+			var userSensors = await _dbContext.UserSensors
+				.Where(x => x.IsPublic)
+				.ToListAsync();
+
+			return MapToViewModel<T>(userSensors);
+		}
+
+		public async Task<IEnumerable<T>> GetAllUserPrivateSensorsAsync<T>(int userId)
+		{
+			var userSensors = await _dbContext.UserSensors
+				.Where(x => !x.IsPublic && x.UserId == userId)
+				.ToListAsync();
+
+			return MapToViewModel<T>(userSensors);
+		}
+
+		private IEnumerable<T> MapToViewModel<T>(IEnumerable<UserSensorEntity> userSensorEntities)
 		{
 			List<T> userSensors = new List<T>();
 
-			foreach (var userSensor in userSensorViewModels)
+			foreach (var userSensor in userSensorEntities)
 			{
 				userSensors.Add(_mapper.Map<T>(userSensor));
 			}

@@ -160,6 +160,17 @@ namespace SensorManagementSystem.Models.AutoMapper
 
 					return result;
 				}));
+
+			// UserSensorEntity --> UserSensorMapViewModel
+			CreateMap<UserSensorEntity, UserSensorMapViewModel>()
+				.ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => src.CreatedOn.Value))
+				.ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic))
+				.ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Latitude))
+				.ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Longitude))
+				.ForMember(dest => dest.MeasureType, opt => opt.MapFrom(src => src.Sensor.SensorProperty.MeasureType))
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 		}
 	}
 }

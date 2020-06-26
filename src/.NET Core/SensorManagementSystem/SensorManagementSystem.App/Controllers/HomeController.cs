@@ -1,9 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SensorManagementSystem.Common.Extensions;
 using SensorManagementSystem.Models.Entities;
 using SensorManagementSystem.Models.ViewModels;
 using SensorManagementSystem.Services.Contract;
@@ -40,10 +42,26 @@ namespace SensorManagementSystem.App.Controllers
 				SensorsInStoreCount = sensorsInStoreCount,
 				MeasureTypesCount = measureTypesCount,
 				PublicUserSensorsCount = publicUserSensorsCount,
-				AuthenticatedUserSensorsCount = User.Identity.IsAuthenticated ? await _userSensorService.GetCountByUserIdAsync(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))) : (int?)null
+				AuthenticatedUserSensorsCount = User.Identity.IsAuthenticated ? await _userSensorService.GetCountByUserIdAsync(User.GetId()) : (int?)null
 			};
 
 			return View(model);
+		}
+
+		[HttpGet]
+		public async Task<JsonResult> GetUserSensorCoordinates()
+		{
+			var sensors = await _userSensorService.GetAllPublicSensorsAsync<UserSensorMapViewModel>();
+
+			if (this.User.Identity.IsAuthenticated)
+			{
+				var userPrivateSensors = await _userSensorService
+													.GetAllUserPrivateSensorsAsync<UserSensorMapViewModel>(User.GetId());
+
+				sensors = sensors.Concat(userPrivateSensors);
+			}
+
+			return Json(sensors);
 		}
 	}
 }

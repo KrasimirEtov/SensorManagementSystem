@@ -24,5 +24,9 @@ namespace SensorManagementSystem.Services.Contract
 		Task<UserSensorGaugeData> GetGaugeDataAsync(int userSensorId);
 
 		Task DeleteAsync(int userSensorId);
+
+		Task<IEnumerable<T>> GetAllUserPrivateSensorsAsync<T>(int userId);
+
+		Task<IEnumerable<T>> GetAllPublicSensorsAsync<T>();
 	}
 }
