@@ -184,6 +184,8 @@ namespace SensorManagementSystem.Services
 		public async Task<IEnumerable<T>> GetAllPublicSensorsAsync<T>()
 		{
 			var userSensors = await _dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.ThenInclude(x => x.SensorProperty)
 				.Where(x => x.IsPublic)
 				.ToListAsync();
 
@@ -193,6 +195,8 @@ namespace SensorManagementSystem.Services
 		public async Task<IEnumerable<T>> GetAllUserPrivateSensorsAsync<T>(int userId)
 		{
 			var userSensors = await _dbContext.UserSensors
+				.Include(x => x.Sensor)
+				.ThenInclude(x => x.SensorProperty)
 				.Where(x => !x.IsPublic && x.UserId == userId)
 				.ToListAsync();
 

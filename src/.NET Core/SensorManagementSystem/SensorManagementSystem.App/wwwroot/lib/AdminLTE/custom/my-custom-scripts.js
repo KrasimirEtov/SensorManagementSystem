@@ -20,4 +20,11 @@ $(function () {
         $("html, body").animate({ scrollTop: 0 }, "medium");
         return false;
     });
+
+    $('#scroll-to-map').on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top
+        }, 800, 'linear');
+    });
 });

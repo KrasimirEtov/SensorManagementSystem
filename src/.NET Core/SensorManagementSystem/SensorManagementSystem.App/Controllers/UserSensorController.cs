@@ -132,6 +132,15 @@ namespace SensorManagementSystem.App.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[HttpGet]
+		public async Task<JsonResult> GetUserSensorCoordinates()
+		{
+			int userId = User.GetId();
+			var sensors = await _userSensorService.GetAllByUserIdAsync<UserSensorMapViewModel>(userId);
+
+			return Json(sensors);
+		}
+
 		private CreateUpdateUserSensorViewModel GetCreateUpdateSensorViewModel(SensorDTO sensor, SensorPropertyDTO sensorProperty)
 		{
 			return new CreateUpdateUserSensorViewModel

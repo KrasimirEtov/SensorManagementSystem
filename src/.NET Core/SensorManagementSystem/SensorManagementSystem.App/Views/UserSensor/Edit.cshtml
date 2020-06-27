@@ -56,9 +56,10 @@
 				<input asp-for="Latitude" value="@Model.Latitude" class="form-control" readonly />
 			</div>
 		</div>
+		<input hidden disabled id="TempIsPublic" value="@Model.IsPublic" />
 		<div class="col-md-1">
 			<label>Public</label>
-			<input asp-for="IsPublic" value="@Model.IsPublic" type="checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+			<input asp-for="IsPublic" type="checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success">
 		</div>
 		@if (!Model.IsSwitch)
 		{

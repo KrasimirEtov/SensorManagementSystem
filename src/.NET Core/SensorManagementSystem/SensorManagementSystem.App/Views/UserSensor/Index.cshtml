@@ -46,6 +46,28 @@
 <div id="user-sensor-cards">
 	<partial name="_UserSensorsTable" model="@Model.UserSensors" />
 </div>
+
+<div class="card card-outline card-primary collapsed-card">
+	<div class="card-header">
+		<h3 class="card-title">View all sensors on map</h3>
+
+		<div class="card-tools">
+			<button type="button" class="btn btn-tool" data-card-widget="maximize">
+				<i class="fas fa-expand"></i>
+			</button>
+			<button type="button" class="btn btn-tool" data-card-widget="collapse">
+				<i class="fas fa-plus"></i>
+			</button>
+		</div>
+		<!-- /.card-tools -->
+	</div>
+	<!-- /.card-header -->
+	<div class="card-body">
+		<div id="sensor-map"></div>
+	</div>
+	<!-- /.card-body -->
+</div>
+
 <div class="row">
 	<button id="previous-page-button" type="button" class="btn btn-flat btn-outline-primary"
 			@(Model.UserSensors.HasPreviousPage ? string.Empty : "disabled")>
@@ -67,4 +89,9 @@
 	<script src="~/lib/AdminLTE/plugins//justgage/justgage.js"></script>
 	<script src="~/lib/AdminLTE/plugins//justgage/raphael-2.1.4.min.js"></script>
 	<script src="~/lib/AdminLTE/custom/user-sensors-gauge.js"></script>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
+	</script>
+	<script src="~/lib/AdminLTE/plugins/markerclusterer/markerclusterer.js"></script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-index-map.js"></script>
 }
