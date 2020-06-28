@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/home_widget.dart';
+import 'widgets/homeRoute.dart';
 
 void main() => runApp(App());
 
@@ -9,7 +9,7 @@ class App extends StatelessWidget {
    return MaterialApp(
      title: 'Sensor Management System',
      debugShowCheckedModeBanner: false,
-     home: Home(),
+     home: HomeRoute(),
    );
  }
 }

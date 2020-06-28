@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'placeholder_widget.dart';
 import 'package:sensor_management_system/widgets/sensorsList.dart';
-import 'package:sensor_management_system/widgets/sensorPropertiesList.dart';
+import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/sensorPropertiesList.dart';
 
-class Home extends StatefulWidget {
+class HomeRoute extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _HomeState();
+    return _HomeRouteState();
   }
 }
 
-class _HomeState extends State<Home> {
+class _HomeRouteState extends State<HomeRoute> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     PlaceholderWidget(Colors.red),

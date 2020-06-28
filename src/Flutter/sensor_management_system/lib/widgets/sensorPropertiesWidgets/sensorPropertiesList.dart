@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sensor_management_system/models/sensorProperty.dart';
 import 'package:sensor_management_system/services/webservice.dart';
+import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/createSensorPropertyRoute.dart';
 
 class SensorPropertiesList extends StatefulWidget {
   @override
@@ -45,7 +46,16 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
                 PopupMenuItem(
                     value: Text('Edit'),
                     child: ListTile(
-                        leading: const Icon(Icons.edit), title: Text('Edit'))),
+                      leading: const Icon(Icons.edit),
+                      title: Text('Edit'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CreateSensorPropertyRoute()));
+                      },
+                    )),
                 PopupMenuItem(
                     value: Text('Remove'),
                     child: ListTile(
