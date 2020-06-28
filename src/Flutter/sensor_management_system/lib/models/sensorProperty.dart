@@ -43,9 +43,18 @@ class SensorProperty {
         });
   }
 
-  static Resource<SensorProperty> initResourceById(String id) {
+  static Resource<SensorProperty> initResourceByIdWithoutResponse(String id) {
     return Resource.urlOnly(
         url: 'http://192.168.1.4:5003/api/sensorproperty/' + id);
+  }
+
+  static Resource<SensorProperty> initResourceByIdWithResponse(String id) {
+    return Resource(
+        url: 'http://192.168.1.4:5003/api/sensorproperty/' + id,
+        parse: (response) {
+          final result = json.decode(response.body);
+          return SensorProperty.fromJson(result);
+        });
   }
 
   static Resource<SensorProperty> initWithJsonBody(SensorProperty payload) {

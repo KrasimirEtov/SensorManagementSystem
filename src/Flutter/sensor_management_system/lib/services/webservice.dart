@@ -32,16 +32,22 @@ class WebService {
   }
 
   Future send<T>(Resource<T> resource) async {
-    print(resource.body);
     final response = await http.post(resource.url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(resource.body));
     if (response.statusCode == 200) {
-      print('post success!');
-    } else {
-      print('post failed!');
-    }
+    } else {}
+  }
+
+  Future update<T>(Resource<T> resource) async {
+    final response = await http.put(resource.url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(resource.body));
+    if (response.statusCode == 200) {
+    } else {}
   }
 }

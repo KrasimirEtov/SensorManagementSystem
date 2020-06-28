@@ -49,7 +49,6 @@ namespace SensorManagementSystem.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SensorPropertyDTO payload)
         {
-            // TODO: Add validation
             await this._sensorPropertyService.CreateAsync(payload);
 
             return Ok();
@@ -58,7 +57,6 @@ namespace SensorManagementSystem.App.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] SensorPropertyDTO payload)
         {
-            // TODO: Add validation
             await this._sensorPropertyService.UpdateAsync(payload);
 
             return Ok();

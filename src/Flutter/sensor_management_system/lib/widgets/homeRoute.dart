@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'placeholder_widget.dart';
-import 'package:sensor_management_system/widgets/sensorsList.dart';
 import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/sensorPropertiesList.dart';
+import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/createSensorPropertyRoute.dart';
 
 class HomeRoute extends StatefulWidget {
   @override
@@ -21,36 +21,35 @@ class _HomeRouteState extends State<HomeRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar (
-        title: Text('Sensor Management System')
-      ),
+      appBar: AppBar(title: Text('Sensor Management System')),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.shopping_cart),
-            title: new Text('Store')
-          ),
+              icon: new Icon(Icons.shopping_cart), title: new Text('Store')),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings_remote),
-            title: new Text('Sensors')
-          ),
+              icon: new Icon(Icons.settings_remote),
+              title: new Text('Sensors')),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
-            title: new Text('Sensor Properties')
-          )
+              icon: new Icon(Icons.settings),
+              title: new Text('Sensor Properties'))
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          //print('insert here the logic for create')
-        },
-        child: const Icon(Icons.add),
-        tooltip: 'Create'
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          onPressed: () => {
+                if (_currentIndex == 2)
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateSensorPropertyRoute()))
+                  }
+              },
+          child: const Icon(Icons.add),
+          tooltip: 'Create'),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

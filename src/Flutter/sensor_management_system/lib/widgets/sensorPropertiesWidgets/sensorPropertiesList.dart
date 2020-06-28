@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sensor_management_system/models/sensorProperty.dart';
 import 'package:sensor_management_system/services/webservice.dart';
-import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/createSensorPropertyRoute.dart';
+import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/updateSensorPropertyRoute.dart';
 
 class SensorPropertiesList extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
 
   void _deleteSensorProperty(int index) {
     WebService()
-        .delete(SensorProperty.initResourceById(_sensorProperties[index].id))
+        .delete(SensorProperty.initResourceByIdWithoutResponse(_sensorProperties[index].id))
         .whenComplete(() => {
               setState(() => {_sensorProperties.removeAt(index)})
             });
@@ -41,7 +41,6 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
           _sensorProperties[index].measureUnit),
       subtitle: Text('Created on: ' + _sensorProperties[index].createdOn),
       trailing: PopupMenuButton(
-          onSelected: (value) => {print(value)},
           itemBuilder: (context) => [
                 PopupMenuItem(
                     value: Text('Edit'),
@@ -53,7 +52,7 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    CreateSensorPropertyRoute()));
+                                    UpdateSensorPropertyRoute(id: _sensorProperties[index].id)));
                       },
                     )),
                 PopupMenuItem(
