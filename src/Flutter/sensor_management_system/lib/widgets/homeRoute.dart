@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'placeholder_widget.dart';
 import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/sensorPropertiesList.dart';
+import 'package:sensor_management_system/widgets/sensorWidgets/sensorsList.dart';
 import 'package:sensor_management_system/widgets/sensorPropertiesWidgets/createSensorPropertyRoute.dart';
+import 'package:sensor_management_system/widgets/sensorWidgets/createSensorRoute.dart';
 
 class HomeRoute extends StatefulWidget {
   @override
@@ -14,7 +16,7 @@ class _HomeRouteState extends State<HomeRoute> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     PlaceholderWidget(Colors.red),
-    PlaceholderWidget(Colors.orange),
+    SensorsList(),
     SensorPropertiesList()
   ];
 
@@ -39,7 +41,14 @@ class _HomeRouteState extends State<HomeRoute> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () => {
-                if (_currentIndex == 2)
+                if (_currentIndex == 1)
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateSensorRoute()))
+                  }
+                else if (_currentIndex == 2)
                   {
                     Navigator.push(
                         context,

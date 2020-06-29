@@ -31,7 +31,6 @@ class _CreateSensorPropertyFormState extends State<CreateSensorPropertyForm> {
   }
 
   Future _populateSensorProperties() {
-    print('test');
     return WebService().load(SensorProperty.all).then((sensorProperties) => {
           setState(() => {_sensorProperties = sensorProperties})
         });

@@ -22,24 +22,19 @@ class _SensorsListSate extends State<SensorsList> {
   }
 
   void _populateSensors() {
-   
     WebService().load(Sensor.all).then((sensors) => {
-      setState(() => {
-        _sensors = sensors
-      })
-    });
+          setState(() => {_sensors = sensors})
+        });
 
     WebService().load(SensorProperty.all).then((sensorProperties) => {
-      setState(() => {
-        _sensorProperties = sensorProperties
-      })
-    });
+          setState(() => {_sensorProperties = sensorProperties})
+        });
   }
 
   ListTile _buildItemsForListView(BuildContext context, int index) {
     return ListTile(
-      title: Text(_sensorProperties[index].measureType + _sensorProperties[index].measureUnit)
-    );
+        title: Text(_sensorProperties[index].measureType +
+            _sensorProperties[index].measureUnit));
   }
 
   @override
