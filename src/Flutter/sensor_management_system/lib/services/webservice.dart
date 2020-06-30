@@ -22,6 +22,15 @@ class WebService {
     }
   }
 
+  Future<String> fetch<T>(Resource<T> resource) async {
+    final response = await http.get(resource.url);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to load data!');
+    }
+  }
+
   Future<bool> delete<T>(Resource<T> resource) async {
     final response = await http.delete(resource.url);
     if (response.statusCode == 200) {
@@ -32,6 +41,7 @@ class WebService {
   }
 
   Future send<T>(Resource<T> resource) async {
+    print('udri' + jsonEncode(resource.body));
     final response = await http.post(resource.url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'

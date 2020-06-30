@@ -87,9 +87,9 @@ namespace SensorManagementSystem.Services
 				.Include(x => x.UserSensors)
 				.Include(x => x.SensorProperty)
 				.ToListAsync();
-			
+
 			var existingSensor = allSensors
-				.FirstOrDefault(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue);
+				.FirstOrDefault(x => x.SensorPropertyId == sensorDTO.SensorPropertyId && x.MinRangeValue == sensorDTO.MinRangeValue && x.MaxRangeValue == sensorDTO.MaxRangeValue && x.Id != sensorDTO.Id);
 
 			if (existingSensor != null)
 			{
@@ -132,6 +132,11 @@ namespace SensorManagementSystem.Services
 			if (sensorEntity == null)
 			{
 				throw new Exception($"SensorEntity with Id: {id} was not found in the database!");
+			}
+
+			if (sensorEntity.UserSensors.Count > 0)
+			{
+				throw new Exception($"SensorEntity with Id: {id} has assigned User Sensors!");
 			}
 
 			this._dbContext.Remove(sensorEntity);

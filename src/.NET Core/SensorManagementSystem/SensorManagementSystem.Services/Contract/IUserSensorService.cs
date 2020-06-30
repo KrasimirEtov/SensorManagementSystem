@@ -28,5 +28,7 @@ namespace SensorManagementSystem.Services.Contract
 		Task<IEnumerable<T>> GetAllUserPrivateSensorsAsync<T>(int userId);
 
 		Task<IEnumerable<T>> GetAllPublicSensorsAsync<T>();
+
+		Task<int> GetCountBySensorId(int sensorId);
 	}
 }

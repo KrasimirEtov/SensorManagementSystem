@@ -123,6 +123,12 @@ namespace SensorManagementSystem.Services
 					.CountAsync(x => x.IsPublic);
 		}
 
+		public async Task<int> GetCountBySensorId(int sensorId)
+		{
+			return await _dbContext.UserSensors
+				.CountAsync(x => x.SensorId == sensorId);
+		}
+
 		public async Task<T> GetAsync<T>(int id)
 		{
 			var userSensorEntity = await _dbContext.UserSensors

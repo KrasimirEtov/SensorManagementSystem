@@ -28,14 +28,16 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
 
   void _deleteSensorProperty(int index) {
     WebService()
-        .delete(SensorProperty.initResourceByIdWithoutResponse(_sensorProperties[index].id))
+        .delete(SensorProperty.initResourceByIdWithoutResponse(
+            _sensorProperties[index].id))
         .whenComplete(() => {
               setState(() => {_sensorProperties.removeAt(index)})
             });
   }
 
-  ListTile _buildItemsForListView(BuildContext context, int index) {
-    return ListTile(
+  Card _buildItemsForListView(BuildContext context, int index) {
+    return Card(
+        child: ListTile(
       title: Text(_sensorProperties[index].measureType +
           ' - ' +
           _sensorProperties[index].measureUnit),
@@ -51,8 +53,8 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    UpdateSensorPropertyRoute(id: _sensorProperties[index].id)));
+                                builder: (context) => UpdateSensorPropertyRoute(
+                                    id: _sensorProperties[index].id)));
                       },
                     )),
                 PopupMenuItem(
@@ -65,7 +67,7 @@ class _SensorPropertiesListSate extends State<SensorPropertiesList> {
                       },
                     ))
               ]),
-    );
+    ));
   }
 
   @override

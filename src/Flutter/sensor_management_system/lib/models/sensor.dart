@@ -65,6 +65,15 @@ class Sensor {
         });
   }
 
+  static Resource<dynamic> initResourceByIdWithIntResponse(String id) {
+    return Resource(
+        url: 'http://192.168.1.4:5003/api/sensor/usedCount/' + id,
+        parse: (response) {
+          final result = json.decode(response.body);
+          return result;
+        });
+  }
+
   static Resource<Sensor> initWithJsonBody(Sensor payload) {
     return Resource.withJsonBody(
         'http://192.168.1.4:5003/api/sensor/', payload.toJson());

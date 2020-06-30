@@ -15,7 +15,6 @@ class HomeRoute extends StatefulWidget {
 class _HomeRouteState extends State<HomeRoute> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    PlaceholderWidget(Colors.red),
     SensorsList(),
     SensorPropertiesList()
   ];
@@ -30,8 +29,6 @@ class _HomeRouteState extends State<HomeRoute> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-              icon: new Icon(Icons.shopping_cart), title: new Text('Store')),
-          BottomNavigationBarItem(
               icon: new Icon(Icons.settings_remote),
               title: new Text('Sensors')),
           BottomNavigationBarItem(
@@ -41,14 +38,14 @@ class _HomeRouteState extends State<HomeRoute> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () => {
-                if (_currentIndex == 1)
+                if (_currentIndex == 0)
                   {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CreateSensorRoute()))
                   }
-                else if (_currentIndex == 2)
+                else if (_currentIndex == 1)
                   {
                     Navigator.push(
                         context,
@@ -58,7 +55,7 @@ class _HomeRouteState extends State<HomeRoute> {
               },
           child: const Icon(Icons.add),
           tooltip: 'Create'),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
