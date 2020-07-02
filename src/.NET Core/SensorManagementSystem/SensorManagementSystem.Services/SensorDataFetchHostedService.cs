@@ -22,21 +22,17 @@ namespace SensorManagementSystem.Services
 	{
 		private readonly ILogger<SensorDataFetchHostedService> _logger;
 		private readonly IServiceScopeFactory _scopeFactory;
-		private Stopwatch _stopWatch;
 		private static HttpClient _httpClient = new HttpClient();
 
 		public SensorDataFetchHostedService(ILogger<SensorDataFetchHostedService> logger, IServiceScopeFactory scopeFactory)
 		{
 			this._logger = logger;
 			this._scopeFactory = scopeFactory;
-			this._stopWatch = new Stopwatch();
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
 			this._logger.LogInformation("Sensor data fetch service is starting.");
-
-			_stopWatch.Start();
 
 			while (!stoppingToken.IsCancellationRequested)
 			{
@@ -52,17 +48,6 @@ namespace SensorManagementSystem.Services
 					}
 
 					var userSensorEntities = await SaveSensorDataAsync(sensorDataDTOs);
-
-					if (userSensorEntities != null && userSensorEntities.Count > 0)
-					{
-						int minPollingInterval = userSensorEntities.Min(x => x.PollingInterval);
-
-						if (_stopWatch.IsRunning && _stopWatch.Elapsed > TimeSpan.FromSeconds(minPollingInterval))
-						{
-							NotifyHub(userSensorEntities, sensorDataDTOs);
-							_stopWatch.Restart();
-						}
-					}
 				}
 				catch (Exception ex)
 				{
@@ -94,7 +79,7 @@ namespace SensorManagementSystem.Services
 			}
 			else if (response.StatusCode == HttpStatusCode.NotFound)
 			{
-				// Fire signalR notification that the API is down and latest database value is used (if such is present)
+				// TODO: Fire signalR notification that the API is down and latest database value is used (if such is present)
 			}
 
 			return sensorDataDTOs;
@@ -130,29 +115,6 @@ namespace SensorManagementSystem.Services
 				}
 
 				return userSensorEntities;
-			}
-		}
-
-		private void NotifyHub(List<UserSensorEntity> userSensorEntities, List<SensorDataDTO> sensorDataDTOs)
-		{
-			foreach (var userSensorEntity in userSensorEntities)
-			{
-				var matchingSensorDataDTO = sensorDataDTOs
-						.FirstOrDefault(x => x.MeasureType == userSensorEntity.Sensor.SensorProperty.MeasureType && x.PollingInterval == userSensorEntity.Sensor.PollingInterval && x.IsSwitch == userSensorEntity.Sensor.SensorProperty.IsSwitch);
-
-				if (userSensorEntity.IsAlarmOn.HasValue && userSensorEntity.IsAlarmOn.Value)
-				{
-					if (!userSensorEntity.Sensor.SensorProperty.IsSwitch)
-					{
-						double latestValue = double.Parse(matchingSensorDataDTO.Value);
-
-						if (latestValue < userSensorEntity.MinRangeValue || latestValue > userSensorEntity.MaxRangeValue)
-						{
-							// Send notification with SignalR to the hub
-							// NotificationService(Manager).SendAsync();
-						}
-					}
-				}
 			}
 		}
 	}
