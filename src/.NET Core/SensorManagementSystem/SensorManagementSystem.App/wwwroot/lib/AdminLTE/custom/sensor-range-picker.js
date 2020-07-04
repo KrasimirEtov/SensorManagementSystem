@@ -22,7 +22,7 @@
 		from: currentMinValue,
 		type: 'single',
 		step: 0.5,
-		postfix: ' sec',
+		postfix: ' ' + $("#MeasureUnit").val(),
 		prettify: true,
 		hasGrid: true,
 		onChange: function (obj) {
@@ -41,7 +41,7 @@
 		from: currentMaxValue,
 		type: 'single',
 		step: 0.5,
-		postfix: ' sec',
+		postfix: ' ' + $("#MeasureUnit").val(),
 		prettify: true,
 		hasGrid: true,
 		onChange: function (obj) {
