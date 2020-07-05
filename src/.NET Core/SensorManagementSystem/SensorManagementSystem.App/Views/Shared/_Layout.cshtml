@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<!-- Title Page-->
+	<title>@ViewData["Title"] - Sensor Management System</title>
+
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/dist/css/adminlte.min.css">
+	<!-- Google Font: Source Sans Pro -->
+	<link href="~/lib/AdminLTE/SansProFont.css" rel="stylesheet">
+	<link href="~/lib/AdminLTE/custom/my-custom-css.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	<!-- Ion Slider -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/ion-rangeslider/css/ion.rangeSlider.css">
+	<!-- Toastr -->
+	<link rel="stylesheet" href="~/lib/AdminLTE/plugins/toastr/toastr.css">
+	<!-- jQuery -->
+	<script src="~/lib/AdminLTE/plugins/jquery/jquery.min.js"></script>
+	<!-- jquery-validation -->
+	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
+</head>
+<body class="hold-transition layout-top-nav">
+	<div class="wrapper">
+		<!-- Nav bar START -->
+		<partial name="_NavBar" />
+		<!-- Nav bar END -->
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container">
+					<div class="row mb-2">
+
+					</div><!-- /.row -->
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+			<!-- Main content -->
+			<div class="content">
+				<div class="container">
+					@RenderBody()
+				</div><!-- /.container-fluid -->
+			</div>
+			<!-- /.content -->
+			<a id="back-to-top" href="#" class="btn btn-outline-primary back-to-top" role="button" aria-label="Scroll to top">
+				<i class="fas fa-chevron-up"></i>
+			</a>
+		</div>
+		<!-- /.content-wrapper -->
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="float-right d-none d-sm-inline">
+				All rights reserved
+			</div>
+			<!-- Default to the left -->
+			<strong>Sensor Management System - @DateTime.UtcNow.Year</strong>
+		</footer>
+	</div>
+	<!-- ./wrapper -->
+	<!-- REQUIRED SCRIPTS -->
+	<!-- Bootstrap 4 -->
+	<script src="~/lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Select2 -->
+	<script src="~/lib/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+	<!-- Bootstrap Switch -->
+	<script src="~/lib/AdminLTE/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+	<!-- Ion Slider -->
+	<script src="~/lib/AdminLTE/plugins/ion-rangeslider/js/ion.rangeSlider.js"></script>
+	<!-- Toastr -->
+	<script src="~/lib/AdminLTE/plugins/toastr/toastr.min.js"></script>
+	<!-- SignalR -->
+	@if (User.Identity.IsAuthenticated)
+	{
+		<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+		<script src="~/lib/AdminLTE/custom/sensor-store-hub.js"></script>
+	}
+	<!-- AdminLTE App -->
+	<script src="~/lib/AdminLTE/dist/js/adminlte.min.js"></script>
+	<script src="~/lib/AdminLTE/custom/my-custom-scripts.js"></script>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

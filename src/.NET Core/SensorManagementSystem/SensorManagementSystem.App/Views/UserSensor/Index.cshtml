@@ -1,0 +1,97 @@
+﻿@model UserSensorIndexViewModel
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Sensor Measure Type:</label>
+			<select asp-for="MeasureType" asp-items="Model.MeasureTypes"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Privacy status:</label>
+			<select asp-for="IsPublic"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+				<option value="true">Public</option>
+				<option value="false">Private</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Filter by Alarm status:</label>
+			<select asp-for="IsAlarmOn"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+				<option value="true">Alarm On</option>
+				<option value="false">Alarm Off</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<label>Search by Sensor Name:</label>
+		<div class="input-group mb-3 form-group">
+			<input type="text" id="search-filter-input" class="form-control rounded-0">
+			<span class="input-group-append">
+				<button type="button" id="search-filter-button" class="btn btn-info btn-flat">Go!</button>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div id="user-sensor-cards">
+	<partial name="_UserSensorsTable" model="@Model.UserSensors" />
+</div>
+
+<div class="card card-outline card-primary collapsed-card">
+	<div class="card-header">
+		<h3 class="card-title">View all sensors on map</h3>
+
+		<div class="card-tools">
+			<button type="button" class="btn btn-tool" data-card-widget="maximize">
+				<i class="fas fa-expand"></i>
+			</button>
+			<button type="button" class="btn btn-tool" data-card-widget="collapse">
+				<i class="fas fa-plus"></i>
+			</button>
+		</div>
+		<!-- /.card-tools -->
+	</div>
+	<!-- /.card-header -->
+	<div class="card-body">
+		<div id="sensor-map"></div>
+	</div>
+	<!-- /.card-body -->
+</div>
+
+<div class="row">
+	<button id="previous-page-button" type="button" class="btn btn-flat btn-outline-primary"
+			@(Model.UserSensors.HasPreviousPage ? string.Empty : "disabled")>
+		Previous
+	</button>
+	&nbsp;&nbsp;
+	<button id="next-page-button" type="button" class="btn btn-flat btn-outline-primary"
+			@(Model.UserSensors.HasNextPage ? string.Empty : "disabled")>
+		Next
+	</button>
+</div>
+<br />
+
+
+@section Scripts
+{
+	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-table-filter-handler.js"></script>
+	<script src="~/lib/AdminLTE/plugins//justgage/justgage.js"></script>
+	<script src="~/lib/AdminLTE/plugins//justgage/raphael-2.1.4.min.js"></script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-gauge.js"></script>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariable("GoogleMapsApiKey", EnvironmentVariableTarget.User)&callback=initMap">
+	</script>
+	<script src="~/lib/AdminLTE/plugins/markerclusterer/markerclusterer.js"></script>
+	<script src="~/lib/AdminLTE/custom/user-sensors-index-map.js"></script>
+}

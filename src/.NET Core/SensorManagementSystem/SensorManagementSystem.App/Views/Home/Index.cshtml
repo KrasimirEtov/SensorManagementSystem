@@ -1,0 +1,105 @@
+﻿@model HomeIndexViewModel
+
+@{
+	string colSize = User.Identity.IsAuthenticated ? "col-lg-3" : "col-lg-4";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+	<input id="current-user-id" hidden readonly value="@User.GetId()" />
+}
+
+<div class="row">
+	<div class="@colSize col-6">
+		<!-- small card -->
+		<div class="small-box bg-info">
+			<div class="inner">
+				<h3>@Model.SensorsInStoreCount</h3>
+
+				<p>Sensors in Store</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-shopping-cart"></i>
+			</div>
+			<a asp-area="" asp-controller="SensorStore" asp-action="Index" class="small-box-footer">
+				Go to store&nbsp;<i class="fas fa-arrow-circle-right"></i>
+			</a>
+		</div>
+	</div>
+	<!-- ./col -->
+	<div class="@colSize col-6">
+		<!-- small card -->
+		<div class="small-box bg-success">
+			<div class="inner">
+				<h3>@Model.PublicUserSensorsCount</h3>
+
+				<p>Public User Sensors</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-stream"></i>
+			</div>
+			<a id="scroll-to-map" href="#user-sensors-map" class="small-box-footer">
+				View on map&nbsp;<i class="fas fa-arrow-circle-right"></i>
+			</a>
+		</div>
+	</div>
+	<!-- ./col -->
+	<div class="@colSize col-6">
+		<!-- small card -->
+		<div class="small-box bg-warning">
+			<div class="inner">
+				<h3>@Model.UsersCount</h3>
+
+				<p>User Registrations</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-user-plus"></i>
+			</div>
+			@if (!User.Identity.IsAuthenticated)
+			{
+				<a asp-area="Identity" asp-page="/Account/Register" class="small-box-footer">
+					Register now&nbsp;<i class="fas fa-arrow-circle-right"></i>
+				</a>
+			}
+			else
+			{
+				<a href="#" class="small-box-footer">
+					Already Registered&nbsp;<i class="fas fa-arrow-circle-right"></i>
+				</a>
+			}
+		</div>
+	</div>
+	<!-- ./col -->
+	@if (User.Identity.IsAuthenticated)
+	{
+		<div class="@colSize col-6">
+			<!-- small card -->
+			<div class="small-box bg-danger">
+				<div class="inner">
+					<h3>@Model.AuthenticatedUserSensorsCount.Value</h3>
+
+					<p>Sensors bought</p>
+				</div>
+				<div class="icon">
+					<i class="fas fa-chart-pie"></i>
+				</div>
+				<a asp-area="" asp-controller="UserSensor" asp-action="Index" class="small-box-footer">
+					Check out sensors&nbsp;<i class="fas fa-arrow-circle-right"></i>
+				</a>
+			</div>
+		</div>
+	}
+	<!-- ./col -->
+</div>
+<!-- /.row -->
+
+<div id="user-sensors-map"></div>
+<br />
+@section Scripts
+{
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariable("GoogleMapsApiKey", EnvironmentVariableTarget.User)&callback=initMap">
+	</script>
+	<script src="~/lib/AdminLTE/plugins/markerclusterer/markerclusterer.js"></script>
+	<script src="~/lib/AdminLTE/custom/home-index-map.js"></script>
+}

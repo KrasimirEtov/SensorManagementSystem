@@ -1,0 +1,59 @@
+﻿@model SensorStoreViewModel
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Choose Sensor Measure Type:</label>
+			<select asp-for="MeasureType" asp-items="Model.MeasureTypes"
+					class="form-control select2bs4" style="width: 100%;">
+				<option value="null">-- All --</option>
+			</select>
+		</div>
+	</div>
+</div>
+
+<div id="sensor-cards">
+	<partial name="_SensorsTable" model="@Model.Sensors" />
+</div>
+
+@section Scripts
+{
+	<script src="~/lib/AdminLTE/custom/select-dropdown-enabler.js"></script>
+
+	<script>
+		$().ready(function () {
+			$("#nextPageBtn").click(function () {
+				$.ajax({
+					type: "GET",
+					url: '@Url.Action("ReloadSensorsTable", "SensorStore")',
+					dataType: "html",
+					success: function (response) {
+						$("#sensor-cards").html(response);
+					}
+				});
+			})
+		});
+	</script>
+
+	<script>
+		$().ready(function () {
+			$("#MeasureType").change(function () {
+				var measureType = $("#MeasureType").val();
+				var requestUrl = '@Url.Action("ReloadSensorsTable", "SensorStore")';
+
+				if (measureType != 'null') {
+					requestUrl += '?measureType=' + measureType;
+				}
+
+				$.ajax({
+					type: "GET",
+					url: requestUrl,
+					dataType: "html",
+					success: function (response) {
+						$("#sensor-cards").html(response);
+					}
+				});
+			});
+		});
+	</script>
+}
