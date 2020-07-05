@@ -10,30 +10,23 @@ namespace SensorManagementSystem.App.Controllers
 	[ApiController]
 	public class SensorDataController : ControllerBase
 	{
-        private readonly ILogger<SensorDataController> _logger;
-        private readonly ISensorDataService _sensorDataService;
+		private readonly ILogger<SensorDataController> _logger;
+		private readonly ISensorDataService _sensorDataService;
 
-        public SensorDataController(ILogger<SensorDataController> logger, ISensorDataService sensorDataService)
-        {
-            this._logger = logger;
-            this._sensorDataService = sensorDataService;
-        }
+		public SensorDataController(ILogger<SensorDataController> logger, ISensorDataService sensorDataService)
+		{
+			this._logger = logger;
+			this._sensorDataService = sensorDataService;
+		}
 
-        [Route("all")]
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var sensorDataDTOs = await this._sensorDataService
-                .GetAllAsync();
+		[Route("all")]
+		[HttpGet]
+		public async Task<IActionResult> Get()
+		{
+			var sensorDataDTOs = await this._sensorDataService
+				.GetAllAsync();
 
-            if (sensorDataDTOs.Any())
-            {
-                return Ok(sensorDataDTOs);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-    }
+			return Ok(sensorDataDTOs);
+		}
+	}
 }

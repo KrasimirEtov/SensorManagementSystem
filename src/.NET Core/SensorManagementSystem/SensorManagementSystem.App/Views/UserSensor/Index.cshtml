@@ -90,7 +90,7 @@
 	<script src="~/lib/AdminLTE/plugins//justgage/raphael-2.1.4.min.js"></script>
 	<script src="~/lib/AdminLTE/custom/user-sensors-gauge.js"></script>
 	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariable("GoogleMapsApiKey", EnvironmentVariableTarget.User)&callback=initMap">
 	</script>
 	<script src="~/lib/AdminLTE/plugins/markerclusterer/markerclusterer.js"></script>
 	<script src="~/lib/AdminLTE/custom/user-sensors-index-map.js"></script>

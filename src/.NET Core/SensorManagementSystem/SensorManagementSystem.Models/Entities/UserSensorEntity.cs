@@ -88,6 +88,7 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Latest value from the sensor's api
 		/// </summary>
+		[MaxLength(255)]
 		public string Value { get; set; }
 
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SensorManagementSystem.Models.Entities
 {
@@ -18,16 +19,19 @@ namespace SensorManagementSystem.Models.Entities
 		/// <summary>
 		/// Type of the sensor
 		/// </summary>
+		[Required]
 		public string MeasureType { get; set; }
 
 		/// <summary>
 		/// Measure unit of the sensor
 		/// </summary>
+		[Required]
 		public string MeasureUnit { get; set; }
 
 		/// <summary>
 		/// Is sensor a switch or not
 		/// </summary>
+		[Required]
 		public bool IsSwitch { get; set; }
 
 		/// <summary>

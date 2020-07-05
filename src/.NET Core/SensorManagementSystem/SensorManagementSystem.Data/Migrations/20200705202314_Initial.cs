@@ -56,8 +56,8 @@ namespace SensorManagementSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MeasureType = table.Column<string>(nullable: true),
-                    MeasureUnit = table.Column<string>(nullable: true),
+                    MeasureType = table.Column<string>(nullable: false),
+                    MeasureUnit = table.Column<string>(nullable: false),
                     IsSwitch = table.Column<bool>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
@@ -214,7 +214,7 @@ namespace SensorManagementSystem.Data.Migrations
                     IsAlarmOn = table.Column<bool>(nullable: true),
                     Longitude = table.Column<double>(nullable: false),
                     Latitude = table.Column<double>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(maxLength: 255, nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
@@ -277,8 +277,7 @@ namespace SensorManagementSystem.Data.Migrations
                 name: "IX_SensorProperties_MeasureType_MeasureUnit",
                 table: "SensorProperties",
                 columns: new[] { "MeasureType", "MeasureUnit" },
-                unique: true,
-                filter: "[MeasureType] IS NOT NULL AND [MeasureUnit] IS NOT NULL")
+                unique: true)
                 .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(

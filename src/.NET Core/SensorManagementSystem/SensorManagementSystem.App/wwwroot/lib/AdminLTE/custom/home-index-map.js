@@ -6,7 +6,7 @@ function initMap() {
 		minZoom: 4,
 		zoom: 10,
 		center: new google.maps.LatLng(42.654331, 23.353332),
-		maxZoom: 16,
+		maxZoom: 20,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		streetViewControl: false,
 		styles: [

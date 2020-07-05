@@ -12,15 +12,11 @@ namespace SensorManagementSystem.App.Controllers
 	{
 		private readonly ISensorService _sensorService;
 		private readonly ISensorPropertyService _sensorPropertyService;
-		private readonly ICachingService _cachingService;
-		private readonly IMapper _mapper;
 
-		public SensorStoreController(ISensorService sensorService, ISensorPropertyService sensorPropertyService, ICachingService cachingService, IMapper mapper)
+		public SensorStoreController(ISensorService sensorService, ISensorPropertyService sensorPropertyService)
 		{
 			_sensorService = sensorService;
 			_sensorPropertyService = sensorPropertyService;
-			_cachingService = cachingService;
-			_mapper = mapper;
 		}
 
 		public async Task<IActionResult> Index()

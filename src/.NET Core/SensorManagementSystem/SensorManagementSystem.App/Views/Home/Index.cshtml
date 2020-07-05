@@ -98,7 +98,7 @@
 @section Scripts
 {
 	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariable("GoogleMapsApiKey", EnvironmentVariableTarget.User)&callback=initMap">
 	</script>
 	<script src="~/lib/AdminLTE/plugins/markerclusterer/markerclusterer.js"></script>
 	<script src="~/lib/AdminLTE/custom/home-index-map.js"></script>

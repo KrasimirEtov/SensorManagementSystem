@@ -10,7 +10,7 @@ using SensorManagementSystem.Data;
 namespace SensorManagementSystem.Data.Migrations
 {
     [DbContext(typeof(SensorManagementSystemDbContext))]
-    [Migration("20200625150701_Initial")]
+    [Migration("20200705202314_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,9 +202,11 @@ namespace SensorManagementSystem.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MeasureType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MeasureUnit")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -214,7 +216,6 @@ namespace SensorManagementSystem.Data.Migrations
 
                     b.HasIndex("MeasureType", "MeasureUnit")
                         .IsUnique()
-                        .HasFilter("[MeasureType] IS NOT NULL AND [MeasureUnit] IS NOT NULL")
                         .HasAnnotation("SqlServer:Clustered", false);
 
                     b.ToTable("SensorProperties");
@@ -346,7 +347,8 @@ namespace SensorManagementSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 

@@ -98,7 +98,6 @@ namespace SensorManagementSystem.App
 			services.AddTransient<IUserSensorService, UserSensorService>();
 			services.AddTransient<IEmailService, EmailService>();
 			services.AddTransient<INotificationManager, NotificationManager>();
-			services.AddSingleton<ICachingService, MemoryCacheService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -88,7 +88,7 @@ namespace SensorManagementSystem.App.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			await this._sensorService.DeleteAsync(id);
-			await _notificationManager.SendToAuthenticatedUsersAsync("A sensor have been removed from the store!");
+			await _notificationManager.SendToAuthenticatedUsersAsync("A sensor has been removed from the store!");
 
 			return Ok();
 		}

@@ -130,7 +130,7 @@
 	<script src="~/lib/AdminLTE/custom/bootstrap-switch-state-changer.js"></script>
 	<script src="~/lib/AdminLTE/custom/sensor-range-picker.js"></script>
 	<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVyS3NJhTM9WQKFDOkEkzlds-fU_HsuMM&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariable("GoogleMapsApiKey", EnvironmentVariableTarget.User)&callback=initMap">
 	</script>
 	<script src="~/lib/AdminLTE/custom/create-update-map.js"></script>
 	<script src="~/lib/AdminLTE/custom/sensor-submit-form-validate.js"></script>
