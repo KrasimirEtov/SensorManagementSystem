@@ -1,4 +1,4 @@
-# SensorManagementSystem
+# Sensor Management System
 Application for managing sensors - Bachelor's degree final work
 
 # Steps to run the application:
